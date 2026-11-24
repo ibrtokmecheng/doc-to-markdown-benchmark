@@ -1,0 +1,221 @@
+{
+  "schema": "packforai-benchmark-result@1",
+  "tool": "PackForAI",
+  "file": "pub-fhfa-hpi-202509.pdf",
+  "ok": true,
+  "error": null,
+  "input": {
+    "fileName": "pub-fhfa-hpi-202509.pdf",
+    "fileType": "pdf",
+    "bytes": 604691,
+    "sha256": "5295554ca1ca7da36598aa16cb711d72e04e118714b94a81f6e2c714ce92492c"
+  },
+  "outputs": {
+    "document": {
+      "file": "pub-fhfa-hpi-202509.pdf.packforai.document.md",
+      "bytes": 14378,
+      "codePoints": 14327,
+      "sha256": "5edfe4818e9dd59da580cadf2e7bc58d7b817768b69203ce587cc2e31e8b1f84",
+      "tokensO200k": 4339
+    },
+    "compact": {
+      "file": "pub-fhfa-hpi-202509.pdf.packforai.compact.md",
+      "bytes": 13088,
+      "codePoints": 13039,
+      "sha256": "94ed9f31d3f88af72bb252e5cbb184bac602862a7f356b1f3cf7c71cc7a00f19",
+      "tokensO200k": 4208
+    }
+  },
+  "tokenAnalysis": {
+    "tokenizerName": "o200k_base",
+    "tokenizerVersion": "gpt-tokenizer@3.4.0",
+    "originalTokenEstimate": 3991,
+    "optimizedTokenEstimate": 4208,
+    "savingsPercent": -5.4
+  },
+  "textQuality": {
+    "status": "good",
+    "score": 95,
+    "signals": [
+      {
+        "code": "toc_dot_leaders",
+        "severity": "info",
+        "message": "The document contains repeated table-of-contents dot leaders.",
+        "count": 14
+      }
+    ],
+    "warning": null
+  },
+  "processingNotes": [
+    "PDF extraction uses the embedded text layer. Request OCR recovery for scanned or broken-text PDFs.",
+    "Rebuilt 1 table from aligned text positions. Check numbers and cell placement against the original PDF; a wrapped cell stays on its own row.",
+    "Removed 9 page numbers.",
+    "Generated compact.md from the structured PDF text without repeated page headers, footers and table-of-contents lines."
+  ],
+  "ocr": {
+    "requested": false,
+    "status": "not_requested",
+    "provider": "none",
+    "pageCount": null,
+    "costEstimateUsd": null,
+    "reason": "OCR was not requested for this job.",
+    "used": false
+  },
+  "stats": {
+    "pageCount": 13,
+    "sectionCount": 29,
+    "tableCount": 1,
+    "imageCount": null
+  },
+  "elapsedMs": 53.41,
+  "workerGitCommit": "bf80889ba5c7b18d81f39448ce346ecdab41f74e",
+  "nodeVersion": "v24.22.1",
+  "admission": {
+    "rejectedByProduction": false,
+    "freePlanUpload": true,
+    "notes": []
+  },
+  "job": {
+    "jobId": "bench_5295554ca1ca7da36598aa16cb711d72",
+    "userId": "benchmark-local",
+    "documentId": "bench_5295554ca1ca7da36598aa16cb711d72",
+    "fileName": "pub-fhfa-hpi-202509.pdf",
+    "fileType": "pdf",
+    "fileSize": 604691,
+    "uploadPath": "uploads/benchmark-local/bench_5295554ca1ca7da36598aa16cb711d72/original.pdf",
+    "status": "processing",
+    "createdAt": null,
+    "startedAt": null,
+    "completedAt": null,
+    "leaseExpiresAt": null,
+    "attemptCount": 1,
+    "maxAttempts": 3,
+    "processingVersion": "mvp-0.1.0",
+    "ocrRequested": false,
+    "ocrUsed": false,
+    "webhookUrl": null,
+    "webhookSecret": null,
+    "ocr": {
+      "requested": false,
+      "used": false,
+      "provider": "none",
+      "status": "not_requested",
+      "pageCount": null,
+      "costEstimateUsd": null,
+      "reason": "OCR was not requested for this job."
+    },
+    "ocrMonthlyLimit": 0,
+    "ocrPageLimitPerJob": 0,
+    "ocrUsageId": null,
+    "ocrMonthKey": null,
+    "plan": "free",
+    "dailyConversionLimit": 3,
+    "maxActiveJobs": 1,
+    "originalTokenEstimate": null,
+    "optimizedTokenEstimate": null,
+    "savingsPercent": null,
+    "pageCount": null,
+    "sectionCount": null,
+    "tableCount": null,
+    "imageCount": null,
+    "outputPath": null,
+    "zipPath": null,
+    "errorCode": null,
+    "errorMessage": null,
+    "processingNotes": [],
+    "usageLimitId": "benchmark-local_2026-11-24",
+    "retentionExpiresAt": null,
+    "ocrReservedPages": 0
+  },
+  "isolation": {
+    "networkAttempts": [],
+    "consoleOutput": {
+      "lines": [],
+      "total": 0
+    }
+  },
+  "run": {
+    "startedAt": "2026-11-24T17:13:49.474Z",
+    "runner": "aireadydoc/benchmarks/doc-to-markdown/run-packforai.mjs",
+    "runnerSha256": "ff664fce9d010eb447165541167aed1ebded57ac6ac7aebe11460924f8569abd",
+    "inputFolder": "holdout4",
+    "worker": {
+      "processor": "aireadydoc/services/worker/dist/processor.js",
+      "distSha256": "79105ba893ef253c9cec2ffc47cb4feacc60f79c761140eb6fc684cf0afc23da",
+      "distPossiblyStale": [],
+      "gitDirtyPaths": []
+    },
+    "dependencies": {
+      "pdf-parse": {
+        "installed": "1.1.4",
+        "lockfile": "1.1.4"
+      },
+      "mammoth": {
+        "installed": "1.12.0",
+        "lockfile": "1.12.0"
+      },
+      "turndown": {
+        "installed": "7.2.4",
+        "lockfile": "7.2.4"
+      },
+      "@mixmark-io/domino": {
+        "installed": "2.2.0",
+        "lockfile": "2.2.0"
+      },
+      "fast-xml-parser": {
+        "installed": "5.12.0",
+        "lockfile": "5.12.0"
+      },
+      "fflate": {
+        "installed": "0.8.3",
+        "lockfile": "0.8.3"
+      },
+      "gpt-tokenizer": {
+        "installed": "3.4.0",
+        "lockfile": "3.4.0"
+      },
+      "firebase-admin": {
+        "installed": "14.1.0",
+        "lockfile": "14.1.0"
+      },
+      "@google-cloud/firestore": {
+        "installed": "8.6.0",
+        "lockfile": "8.6.0"
+      },
+      "google-auth-library": {
+        "installed": "10.9.0",
+        "lockfile": "10.9.0"
+      }
+    },
+    "runtime": {
+      "nodeVersion": "v24.22.1",
+      "v8": "13.6.233.17-node.58",
+      "icu": "78.3",
+      "unicode": "17.0",
+      "platform": "darwin-arm64",
+      "nodeEnv": "production",
+      "timeZone": "UTC",
+      "locale": "en-US",
+      "tokenizer": "o200k_base via node_modules/gpt-tokenizer/esm/encoding/o200k_base.js"
+    },
+    "productionRuntime": "node:22-slim with NODE_ENV=production (aireadydoc/services/worker/Dockerfile)",
+    "timing": "elapsedMs is the wall time of processInput(job, bytes) in a long-lived conversion process that first converted one small generated file of each type. It excludes reading the file, the Storage download and upload, Firestore updates and queueing.",
+    "warmup": {
+      "ms": 196.584,
+      "results": {
+        "pdf": "ok",
+        "docx": "ok",
+        "pptx": "ok",
+        "xlsx": "ok",
+        "csv": "ok",
+        "json": "ok"
+      },
+      "consoleLines": 3
+    },
+    "fileTimeoutMs": 300000,
+    "conversionProcess": {
+      "pid": 79199,
+      "start": 1
+    }
+  }
+}

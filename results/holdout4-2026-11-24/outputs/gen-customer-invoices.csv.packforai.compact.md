@@ -1,0 +1,41 @@
+# gen-customer-invoices
+
+Source: gen-customer-invoices.csv (CSV)
+
+invoice_no,invoice_date,customer_name,ship_to,sales_rep,net_amount,tax_amount,total_amount,currency,terms,status,notes
+INV-28-2101,2028-01-03,Harbor Point Grocers,"Tampa, FL",Aisha Bello,850.00,59.50,909.50,USD,Net 30,paid,
+INV-28-2104,2028-01-07,Mercado Doña Rosa,"Miami, FL",Kwame Asante,"5,487.53",384.13,"5,871.66",USD,Net 15,paid,
+INV-28-2107,2028-01-11,"The ""Corner"" Deli","Lakeland, FL",Renée Dubois,"10,124.06",708.68,"10,832.74",USD,Net 30,paid,"Short-shipped 3 cases, backorder created"
+INV-28-2110,2028-01-15,"Valle Verde Restaurants, LLC","Orlando, FL",Jonas Lindqvist,"14,761.59","1,033.31","15,794.90",USD,Due on receipt,paid,"Customer asked for ""no substitutions"""
+INV-28-2113,2028-01-15,St. Brendan School District,"Gainesville, FL",Aisha Bello,"19,398.12",0.00,"19,398.12",USD,Net 30,paid,"Delivered in two drops
+Second drop on Friday"
+INV-28-2116,2028-01-19,Søndergaard Foods,"Savannah, GA",Kwame Asante,"1,035.65",72.50,"1,108.15",USD,Net 15,paid,Pallet deposit refunded
+INV-28-2119,2028-01-23,Café Lumière,"Sarasota, FL",Renée Dubois,"5,672.18",397.05,"6,069.23",USD,Net 30,paid,"Dock closes at 2 pm
+Call ahead"
+INV-28-2122,2028-01-27,Harbor Point Grocers,"Tampa, FL",Jonas Lindqvist,"10,309.71",721.68,"11,031.39",USD,Due on receipt,paid,
+INV-28-2125,2028-01-27,Mercado Doña Rosa,"Miami, FL",Aisha Bello,"14,946.24","1,046.24","15,992.48",USD,Net 30,paid,Price adjusted per contract 2027-114; see credit memo
+INV-28-2128,2028-01-31,"The ""Corner"" Deli","Lakeland, FL",Kwame Asante,"19,583.77","1,370.86","20,954.63",USD,Net 15,paid,
+INV-28-2131,2028-02-04,"Valle Verde Restaurants, LLC","Orlando, FL",Renée Dubois,"1,220.30",85.42,"1,305.72",USD,Net 30,paid,
+INV-28-2134,2028-02-08,St. Brendan School District,"Gainesville, FL",Jonas Lindqvist,"5,857.83",0.00,"5,857.83",USD,Due on receipt,paid,"Short-shipped 3 cases, backorder created"
+INV-28-2137,2028-02-08,Søndergaard Foods,"Savannah, GA",Aisha Bello,"10,494.36",734.61,"11,228.97",USD,Net 30,paid,"Customer asked for ""no substitutions"""
+INV-28-2140,2028-02-12,Café Lumière,"Sarasota, FL",Kwame Asante,"15,131.89","1,059.23","16,191.12",USD,Net 15,paid,"Delivered in two drops
+Second drop on Friday"
+INV-28-2143,2028-02-16,Harbor Point Grocers,"Tampa, FL",Renée Dubois,"19,768.42","1,383.79","21,152.21",USD,Net 30,paid,Pallet deposit refunded
+INV-28-2146,2028-02-20,Mercado Doña Rosa,"Miami, FL",Jonas Lindqvist,"1,405.95",98.42,"1,504.37",USD,Due on receipt,paid,"Dock closes at 2 pm
+Call ahead"
+INV-28-2149,2028-02-20,"The ""Corner"" Deli","Lakeland, FL",Aisha Bello,"6,042.48",422.97,"6,465.45",USD,Net 30,paid,
+INV-28-2152,2028-02-24,"Valle Verde Restaurants, LLC","Orlando, FL",Kwame Asante,"10,679.01",747.53,"11,426.54",USD,Net 15,paid,Price adjusted per contract 2027-114; see credit memo
+INV-28-2155,2028-02-28,St. Brendan School District,"Gainesville, FL",Renée Dubois,"15,316.54",0.00,"15,316.54",USD,Net 30,open,
+INV-28-2158,2028-03-03,Søndergaard Foods,"Savannah, GA",Jonas Lindqvist,"19,953.07","1,396.71","21,349.78",USD,Due on receipt,open,
+INV-28-2161,2028-03-03,Café Lumière,"Sarasota, FL",Aisha Bello,"1,590.60",111.34,"1,701.94",USD,Net 30,credited,"Short-shipped 3 cases, backorder created"
+INV-28-2164,2028-03-07,Harbor Point Grocers,"Tampa, FL",Kwame Asante,"6,227.13",435.90,"6,663.03",USD,Net 15,overdue,"Customer asked for ""no substitutions"""
+INV-28-2167,2028-03-11,Mercado Doña Rosa,"Miami, FL",Renée Dubois,"10,864.66",760.53,"11,625.19",USD,Net 30,open,"Delivered in two drops
+Second drop on Friday"
+INV-28-2170,2028-03-15,"The ""Corner"" Deli","Lakeland, FL",Jonas Lindqvist,"15,501.19","1,085.08","16,586.27",USD,Due on receipt,open,Pallet deposit refunded
+INV-28-2173,2028-03-15,"Valle Verde Restaurants, LLC","Orlando, FL",Aisha Bello,"20,138.72","1,409.71","21,548.43",USD,Net 30,open,"Dock closes at 2 pm
+Call ahead"
+INV-28-2176,2028-03-19,St. Brendan School District,"Gainesville, FL",Kwame Asante,"1,775.25",0.00,"1,775.25",USD,Net 15,open,
+INV-28-2179,2028-03-23,Søndergaard Foods,"Savannah, GA",Renée Dubois,"6,412.78",448.89,"6,861.67",USD,Net 30,overdue,Price adjusted per contract 2027-114; see credit memo
+INV-28-2182,2028-03-27,Café Lumière,"Sarasota, FL",Jonas Lindqvist,"11,049.31",773.45,"11,822.76",USD,Due on receipt,open,
+INV-28-2185,2028-03-27,Harbor Point Grocers,"Tampa, FL",Aisha Bello,"15,686.84","1,098.08","16,784.92",USD,Net 30,open,
+INV-28-2188,2028-03-31,Mercado Doña Rosa,"Miami, FL",Kwame Asante,"20,323.37","1,422.64","21,746.01",USD,Net 15,credited,"Short-shipped 3 cases, backorder created"

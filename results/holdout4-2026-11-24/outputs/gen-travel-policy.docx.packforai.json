@@ -1,0 +1,213 @@
+{
+  "schema": "packforai-benchmark-result@1",
+  "tool": "PackForAI",
+  "file": "gen-travel-policy.docx",
+  "ok": true,
+  "error": null,
+  "input": {
+    "fileName": "gen-travel-policy.docx",
+    "fileType": "docx",
+    "bytes": 40299,
+    "sha256": "65947ba1f87be8a4c42faf3c824750fa11f75f2881f329d0feebeea2d318c84e"
+  },
+  "outputs": {
+    "document": {
+      "file": "gen-travel-policy.docx.packforai.document.md",
+      "bytes": 3685,
+      "codePoints": 3684,
+      "sha256": "548e47aa8f4c3f1b2c66d4f87b7e867cb1c244ed58fc3436d48fd33f2cf5e033",
+      "tokensO200k": 923
+    },
+    "compact": {
+      "file": "gen-travel-policy.docx.packforai.compact.md",
+      "bytes": 3637,
+      "codePoints": 3636,
+      "sha256": "0c0dd425b87e148be951bcf02f2de4daf38a7070c70a10ada1285d0f2eb35cc5",
+      "tokensO200k": 895
+    }
+  },
+  "tokenAnalysis": {
+    "tokenizerName": "o200k_base",
+    "tokenizerVersion": "gpt-tokenizer@3.4.0",
+    "originalTokenEstimate": 759,
+    "optimizedTokenEstimate": 895,
+    "savingsPercent": -17.9
+  },
+  "textQuality": {
+    "status": "good",
+    "score": 100,
+    "signals": [],
+    "warning": null
+  },
+  "processingNotes": [
+    "Unrecognised paragraph style: 'Title' (Style ID: Title)",
+    "Unrecognised paragraph style: 'caption' (Style ID: Caption)",
+    "Generated compact.md from the extracted text with whitespace tidied; no lines were removed."
+  ],
+  "ocr": {
+    "requested": false,
+    "status": "not_requested",
+    "provider": "none",
+    "pageCount": null,
+    "costEstimateUsd": null,
+    "reason": "OCR was not requested for this job.",
+    "used": false
+  },
+  "stats": {
+    "pageCount": null,
+    "sectionCount": 10,
+    "tableCount": 3,
+    "imageCount": null
+  },
+  "elapsedMs": 63.78,
+  "workerGitCommit": "bf80889ba5c7b18d81f39448ce346ecdab41f74e",
+  "nodeVersion": "v24.22.1",
+  "admission": {
+    "rejectedByProduction": false,
+    "freePlanUpload": true,
+    "notes": []
+  },
+  "job": {
+    "jobId": "bench_65947ba1f87be8a4c42faf3c824750fa",
+    "userId": "benchmark-local",
+    "documentId": "bench_65947ba1f87be8a4c42faf3c824750fa",
+    "fileName": "gen-travel-policy.docx",
+    "fileType": "docx",
+    "fileSize": 40299,
+    "uploadPath": "uploads/benchmark-local/bench_65947ba1f87be8a4c42faf3c824750fa/original.docx",
+    "status": "processing",
+    "createdAt": null,
+    "startedAt": null,
+    "completedAt": null,
+    "leaseExpiresAt": null,
+    "attemptCount": 1,
+    "maxAttempts": 3,
+    "processingVersion": "mvp-0.1.0",
+    "ocrRequested": false,
+    "ocrUsed": false,
+    "webhookUrl": null,
+    "webhookSecret": null,
+    "ocr": {
+      "requested": false,
+      "used": false,
+      "provider": "none",
+      "status": "not_requested",
+      "pageCount": null,
+      "costEstimateUsd": null,
+      "reason": "OCR was not requested for this job."
+    },
+    "ocrMonthlyLimit": 0,
+    "ocrPageLimitPerJob": 0,
+    "ocrUsageId": null,
+    "ocrMonthKey": null,
+    "plan": "free",
+    "dailyConversionLimit": 3,
+    "maxActiveJobs": 1,
+    "originalTokenEstimate": null,
+    "optimizedTokenEstimate": null,
+    "savingsPercent": null,
+    "pageCount": null,
+    "sectionCount": null,
+    "tableCount": null,
+    "imageCount": null,
+    "outputPath": null,
+    "zipPath": null,
+    "errorCode": null,
+    "errorMessage": null,
+    "processingNotes": [],
+    "usageLimitId": "benchmark-local_2026-11-24",
+    "retentionExpiresAt": null,
+    "ocrReservedPages": 0
+  },
+  "isolation": {
+    "networkAttempts": [],
+    "consoleOutput": {
+      "lines": [],
+      "total": 0
+    }
+  },
+  "run": {
+    "startedAt": "2026-11-24T17:13:49.474Z",
+    "runner": "aireadydoc/benchmarks/doc-to-markdown/run-packforai.mjs",
+    "runnerSha256": "ff664fce9d010eb447165541167aed1ebded57ac6ac7aebe11460924f8569abd",
+    "inputFolder": "holdout4",
+    "worker": {
+      "processor": "aireadydoc/services/worker/dist/processor.js",
+      "distSha256": "79105ba893ef253c9cec2ffc47cb4feacc60f79c761140eb6fc684cf0afc23da",
+      "distPossiblyStale": [],
+      "gitDirtyPaths": []
+    },
+    "dependencies": {
+      "pdf-parse": {
+        "installed": "1.1.4",
+        "lockfile": "1.1.4"
+      },
+      "mammoth": {
+        "installed": "1.12.0",
+        "lockfile": "1.12.0"
+      },
+      "turndown": {
+        "installed": "7.2.4",
+        "lockfile": "7.2.4"
+      },
+      "@mixmark-io/domino": {
+        "installed": "2.2.0",
+        "lockfile": "2.2.0"
+      },
+      "fast-xml-parser": {
+        "installed": "5.12.0",
+        "lockfile": "5.12.0"
+      },
+      "fflate": {
+        "installed": "0.8.3",
+        "lockfile": "0.8.3"
+      },
+      "gpt-tokenizer": {
+        "installed": "3.4.0",
+        "lockfile": "3.4.0"
+      },
+      "firebase-admin": {
+        "installed": "14.1.0",
+        "lockfile": "14.1.0"
+      },
+      "@google-cloud/firestore": {
+        "installed": "8.6.0",
+        "lockfile": "8.6.0"
+      },
+      "google-auth-library": {
+        "installed": "10.9.0",
+        "lockfile": "10.9.0"
+      }
+    },
+    "runtime": {
+      "nodeVersion": "v24.22.1",
+      "v8": "13.6.233.17-node.58",
+      "icu": "78.3",
+      "unicode": "17.0",
+      "platform": "darwin-arm64",
+      "nodeEnv": "production",
+      "timeZone": "UTC",
+      "locale": "en-US",
+      "tokenizer": "o200k_base via node_modules/gpt-tokenizer/esm/encoding/o200k_base.js"
+    },
+    "productionRuntime": "node:22-slim with NODE_ENV=production (aireadydoc/services/worker/Dockerfile)",
+    "timing": "elapsedMs is the wall time of processInput(job, bytes) in a long-lived conversion process that first converted one small generated file of each type. It excludes reading the file, the Storage download and upload, Firestore updates and queueing.",
+    "warmup": {
+      "ms": 196.584,
+      "results": {
+        "pdf": "ok",
+        "docx": "ok",
+        "pptx": "ok",
+        "xlsx": "ok",
+        "csv": "ok",
+        "json": "ok"
+      },
+      "consoleLines": 3
+    },
+    "fileTimeoutMs": 300000,
+    "conversionProcess": {
+      "pid": 79199,
+      "start": 1
+    }
+  }
+}

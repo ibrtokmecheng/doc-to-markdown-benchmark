@@ -1,0 +1,700 @@
+{
+  "file": "pub-fhfa-hpi-202509.pdf",
+  "format": "pdf",
+  "origin": "public",
+  "source_url": "https://www.fhfa.gov/document/d/hpi/fhfa-hpi-monthly-september-2025",
+  "title": "FHFA House Price Index (HPI) Monthly Report, data through July 2025 (released September 30, 2025); pages 1-13 of 23",
+  "publisher": "Federal Housing Finance Agency",
+  "license": "Public domain in the United States: work of the U.S. Government (17 U.S.C. 105).",
+  "sha256": "5295554ca1ca7da36598aa16cb711d72e04e118714b94a81f6e2c714ce92492c",
+  "pages_or_sheets": 13,
+  "stresses": [
+    "monthly statistical release (Word-generated with Acrobat PDFMaker, tagged as served, untagged after the cut) mixing portrait and landscape pages",
+    "cover page, a table of contents with dot leaders and page numbers, and four section divider pages set in very large type ('Tabulating trends', 'Visualizing trends', 'Further background information', 'Appendix')",
+    "a one-page news release with a masthead, a bold headline with a registered-trademark superscript, bold figures inside sentences and an italic footer paragraph",
+    "a landscape page with two data tables (10 census-division columns with headers on two lines, a bold first and last row whose labels are on two lines, italic '(Previous Estimate)' rows, negative percentages)",
+    "two chart pages (a line chart and a bar chart with value labels)",
+    "justified text with a bulleted list and a header-only table whose body cells are check marks",
+    "two release-calendar tables with bold quarterly rows",
+    "page range cut from a longer PDF (pages 14-23, the appendix tables, not kept)"
+  ],
+  "checks": {
+    "must_contain": [
+      "Released on September 30, 2025",
+      "Tabulating trends in house prices",
+      "according to the U.S. Federal Housing (FHFA) seasonally adjusted monthly House Price Index",
+      "House prices rose 2.3 percent from July 2024 to July 2025.",
+      "The previously reported 0.2 percent price decline in June remained unchanged.",
+      "For the nine census divisions, seasonally adjusted monthly home price changes ranged from",
+      "in the East North Central division.",
+      "changes were all positive, ranging from",
+      "percent in the Pacific division to",
+      "The FHFA HPI is a comprehensive collection of publicly available house price indexes that measure changes in",
+      "It incorporates tens of millions of home sales and offers insights about house price changes at the national, census division, state, metro area, county, ZIP code, and census tract levels.",
+      "FHFA uses a fully transparent methodology based upon a weighted",
+      "statistical technique to analyze house price transaction data.",
+      "FHFA releases HPI data and reports quarterly and monthly.",
+      "Additional indexes use other data, including refinances, mortgages insured by the Federal Housing Administration, and real property records.",
+      "All the indexes (including their historic values) and information about future HPI release dates are available on",
+      "The next HPI report will be released October 28, 2025, and will include monthly data through August 2025.",
+      "The Federal Housing Finance Agency regulates Fannie Mae, Freddie Mac, and the 11 Federal Home Loan Banks.",
+      "enterprises provide more than $8.5 trillion in funding for the U.S. mortgage markets and financial institutions.",
+      "Seasonally Adjusted, January 1991 = 100",
+      "While FHFA produces the HPI by statutory mandate (12 U.S.C. 4542), it began in 1995 with predecessor agency, the Office of Federal Housing Enterprise Oversight.",
+      "The initial reports only contained information about regional and national house price movements.",
+      "But sample coverage has expanded with better access to new data sources and technological improvements for processing such information.",
+      "Today, indexes cover all 50 states and over 400 American cities with information extending back to the",
+      "FHFA constructs several indexes for different market geographies and periods.",
+      "This index is the most common choice for press releases, news stories, and social media.",
+      "Data constraints preclude the production of some kinds of indexes in certain geographic areas, but multiple index types (flavors) are generally available.",
+      "Quarterly reports usually contain index flavors such as:",
+      "Tracks changes in transaction prices for conforming, conventional mortgages that are purchased or securitized",
+      "We use this index to adjust the conforming loan limits, which establishes the dollar amount of loans that Fannie Mae and Freddie Mac can acquire.",
+      "data for very small geographic areas like counties, ZIP codes, and census tracts",
+      "Personal property loans are removed from the dataset. This index should be considered developmental.",
+      "The summary table below details the frequency and geography of the available indexes.",
+      "FHFA builds the HPI suite on tens of millions of home sales and offers insights about house price fluctuations at various geographic levels."
+    ],
+    "ordered": [
+      "House Price Index (HPI) Monthly",
+      "Visualizing trends in house prices",
+      "The previously reported 0.2 percent price decline in June remained unchanged",
+      "The next HPI report will be released October 28, 2025",
+      "Seasonally Adjusted, January 1991 = 100",
+      "Today, indexes cover all 50 states and over 400 American cities",
+      "December 2024 and 2024Q4",
+      "September 2026 and 2026Q3"
+    ],
+    "headings": [
+      "FHFA HPI report contents",
+      "Down 0.1 Percent in July; Up 2.3 Percent from Last Year",
+      "Tabulating trends",
+      "Visualizing trends",
+      "Further background information",
+      "Overview of FHFA HPI",
+      "FHFA HPI Release Dates for 2025",
+      "FHFA HPI Release Dates for 2026",
+      "Appendix"
+    ],
+    "tables": [
+      {
+        "name": "Monthly Price Change Estimates for U.S. and Census Divisions (page 5, printed 3; complete: header row and all 12 rows)",
+        "rows": [
+          [
+            "",
+            "U.S.",
+            "Pacific",
+            "Mountain",
+            "West North Central",
+            "West South Central",
+            "East North Central",
+            "East South Central",
+            "New England",
+            "Middle Atlantic",
+            "South Atlantic"
+          ],
+          [
+            "1-Month Change: Jun 25 - Jul 25",
+            "-0.1%",
+            "0.2%",
+            "-0.2%",
+            "-0.2%",
+            "0.2%",
+            "0.3%",
+            "-0.8%",
+            "-0.1%",
+            "-1.2%",
+            "0.0%"
+          ],
+          [
+            "May 25 - Jun 25",
+            "-0.2%",
+            "-0.1%",
+            "-0.3%",
+            "0.4%",
+            "0.1%",
+            "-0.2%",
+            "-0.5%",
+            "-0.8%",
+            "0.8%",
+            "-0.7%"
+          ],
+          [
+            "(Previous Estimate)",
+            "-0.2%",
+            "-0.1%",
+            "-0.3%",
+            "0.3%",
+            "0.2%",
+            "-0.1%",
+            "-0.4%",
+            "-0.8%",
+            "1.1%",
+            "-1.1%"
+          ],
+          [
+            "Apr 25 - May 25",
+            "-0.1%",
+            "-0.5%",
+            "0.4%",
+            "0.2%",
+            "0.3%",
+            "-0.1%",
+            "0.2%",
+            "0.9%",
+            "-0.9%",
+            "-0.1%"
+          ],
+          [
+            "(Previous Estimate)",
+            "-0.1%",
+            "-0.6%",
+            "0.3%",
+            "0.1%",
+            "0.3%",
+            "-0.3%",
+            "0.0%",
+            "0.8%",
+            "-0.8%",
+            "-0.1%"
+          ],
+          [
+            "Mar 25 - Apr 25",
+            "-0.3%",
+            "-0.3%",
+            "-1.0%",
+            "0.2%",
+            "-1.2%",
+            "0.2%",
+            "0.7%",
+            "-0.6%",
+            "1.1%",
+            "-1.1%"
+          ],
+          [
+            "(Previous Estimate)",
+            "-0.3%",
+            "-0.3%",
+            "-1.1%",
+            "0.2%",
+            "-1.2%",
+            "0.2%",
+            "0.8%",
+            "-0.5%",
+            "1.0%",
+            "-1.1%"
+          ],
+          [
+            "Feb 25 - Mar 25",
+            "0.1%",
+            "-0.6%",
+            "-0.6%",
+            "-0.3%",
+            "0.1%",
+            "0.1%",
+            "0.8%",
+            "-0.1%",
+            "0.4%",
+            "0.5%"
+          ],
+          [
+            "(Previous Estimate)",
+            "0.0%",
+            "-0.6%",
+            "-0.6%",
+            "-0.4%",
+            "0.0%",
+            "0.0%",
+            "0.8%",
+            "-0.2%",
+            "0.4%",
+            "0.4%"
+          ],
+          [
+            "Jan 25 - Feb 25",
+            "0.0%",
+            "-0.4%",
+            "-0.9%",
+            "0.3%",
+            "-0.2%",
+            "0.7%",
+            "-0.2%",
+            "0.7%",
+            "0.2%",
+            "0.2%"
+          ],
+          [
+            "(Previous Estimate)",
+            "0.1%",
+            "-0.4%",
+            "-0.8%",
+            "0.3%",
+            "-0.2%",
+            "0.8%",
+            "-0.2%",
+            "0.8%",
+            "0.3%",
+            "0.2%"
+          ],
+          [
+            "12-Month Change: Jul 24 - Jul 25",
+            "2.3%",
+            "0.2%",
+            "1.0%",
+            "3.8%",
+            "1.7%",
+            "4.1%",
+            "2.4%",
+            "3.9%",
+            "5.1%",
+            "0.8%"
+          ]
+        ]
+      },
+      {
+        "name": "Monthly Index Values for Latest 18 Months: U.S. and Census Divisions (page 5, printed 3; complete: header row and all 18 rows)",
+        "rows": [
+          [
+            "",
+            "U.S.",
+            "Pacific",
+            "Mountain",
+            "West North Central",
+            "West South Central",
+            "East North Central",
+            "East South Central",
+            "New England",
+            "Middle Atlantic",
+            "South Atlantic"
+          ],
+          [
+            "July-25",
+            "433.4",
+            "466.3",
+            "600.0",
+            "415.7",
+            "424.7",
+            "367.6",
+            "408.3",
+            "436.6",
+            "397.3",
+            "459.7"
+          ],
+          [
+            "June-25",
+            "433.9",
+            "465.5",
+            "601.2",
+            "416.7",
+            "423.8",
+            "366.4",
+            "411.5",
+            "437.0",
+            "402.3",
+            "459.6"
+          ],
+          [
+            "May-25",
+            "434.6",
+            "466.1",
+            "603.2",
+            "415.0",
+            "423.4",
+            "366.9",
+            "413.5",
+            "440.5",
+            "399.0",
+            "463.1"
+          ],
+          [
+            "April-25",
+            "434.9",
+            "468.5",
+            "601.1",
+            "414.2",
+            "422.0",
+            "367.3",
+            "412.6",
+            "436.5",
+            "402.6",
+            "463.7"
+          ],
+          [
+            "March-25",
+            "436.3",
+            "469.9",
+            "607.4",
+            "413.4",
+            "427.3",
+            "366.5",
+            "409.7",
+            "439.0",
+            "398.2",
+            "468.9"
+          ],
+          [
+            "February-25",
+            "436.1",
+            "472.8",
+            "611.1",
+            "414.9",
+            "427.0",
+            "366.1",
+            "406.5",
+            "439.4",
+            "396.7",
+            "466.6"
+          ],
+          [
+            "January-25",
+            "435.9",
+            "474.8",
+            "616.6",
+            "413.7",
+            "427.9",
+            "363.7",
+            "407.3",
+            "436.3",
+            "396.1",
+            "465.8"
+          ],
+          [
+            "December-24",
+            "434.3",
+            "472.0",
+            "615.4",
+            "411.0",
+            "424.7",
+            "361.2",
+            "406.6",
+            "433.9",
+            "392.3",
+            "468.4"
+          ],
+          [
+            "November-24",
+            "432.3",
+            "470.9",
+            "606.3",
+            "410.9",
+            "423.6",
+            "359.3",
+            "404.6",
+            "431.3",
+            "389.1",
+            "467.3"
+          ],
+          [
+            "October-24",
+            "430.2",
+            "467.2",
+            "602.6",
+            "408.4",
+            "425.3",
+            "358.3",
+            "406.5",
+            "428.1",
+            "386.5",
+            "462.4"
+          ],
+          [
+            "September-24",
+            "428.7",
+            "468.4",
+            "606.4",
+            "407.8",
+            "421.1",
+            "355.3",
+            "405.7",
+            "427.1",
+            "385.1",
+            "460.0"
+          ],
+          [
+            "August-24",
+            "425.9",
+            "466.6",
+            "597.9",
+            "404.8",
+            "420.4",
+            "354.5",
+            "401.8",
+            "420.9",
+            "380.2",
+            "457.3"
+          ],
+          [
+            "July-24",
+            "423.7",
+            "465.4",
+            "593.8",
+            "400.4",
+            "417.7",
+            "353.0",
+            "398.8",
+            "420.0",
+            "378.2",
+            "455.9"
+          ],
+          [
+            "June-24",
+            "422.4",
+            "462.3",
+            "591.9",
+            "398.5",
+            "418.5",
+            "349.7",
+            "398.4",
+            "416.2",
+            "376.1",
+            "457.6"
+          ],
+          [
+            "May-24",
+            "421.8",
+            "462.7",
+            "594.4",
+            "400.0",
+            "418.4",
+            "347.5",
+            "395.2",
+            "416.1",
+            "376.8",
+            "455.9"
+          ],
+          [
+            "April-24",
+            "421.3",
+            "463.9",
+            "593.8",
+            "400.7",
+            "418.4",
+            "346.3",
+            "396.2",
+            "414.4",
+            "374.8",
+            "454.9"
+          ],
+          [
+            "March-24",
+            "419.3",
+            "461.9",
+            "591.4",
+            "397.2",
+            "417.4",
+            "345.2",
+            "391.5",
+            "411.1",
+            "374.3",
+            "452.4"
+          ],
+          [
+            "February-24",
+            "419.2",
+            "465.8",
+            "589.1",
+            "397.6",
+            "418.8",
+            "342.5",
+            "391.2",
+            "414.0",
+            "371.9",
+            "452.4"
+          ]
+        ]
+      },
+      {
+        "name": "Index availability by frequency and geography (page 10, printed 8; complete: header row and 3 rows; the check-mark cells are left empty, not scored)",
+        "rows": [
+          [
+            "",
+            "National",
+            "Census Division",
+            "States",
+            "MSAs or Cities",
+            "ZIP3, Non-metro",
+            "ZIP Codes",
+            "Counties",
+            "Census Tracts"
+          ],
+          [
+            "Monthly",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "Quarterly",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "Annual",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      {
+        "name": "FHFA HPI Release Dates for 2025 (page 11, printed 9; complete: header row and 12 rows)",
+        "rows": [
+          [
+            "Date",
+            "Release Type",
+            "Latest Included Data"
+          ],
+          [
+            "Tuesday, January 28",
+            "Monthly Index",
+            "November 2024"
+          ],
+          [
+            "Tuesday, February 25",
+            "Quarterly Index (with Monthly Tables)",
+            "December 2024 and 2024Q4"
+          ],
+          [
+            "Tuesday, March 25",
+            "Monthly Index",
+            "January 2025"
+          ],
+          [
+            "Tuesday, April 29",
+            "Monthly Index",
+            "February 2025"
+          ],
+          [
+            "Tuesday, May 27",
+            "Quarterly Index (with Monthly Tables)",
+            "March 2025 and 2025Q1"
+          ],
+          [
+            "Tuesday, June 24",
+            "Monthly Index",
+            "April 2025"
+          ],
+          [
+            "Tuesday, July 29",
+            "Monthly Index",
+            "May 2025"
+          ],
+          [
+            "Tuesday, August 26",
+            "Quarterly Index (with Monthly Tables)",
+            "June 2025 and 2025Q2"
+          ],
+          [
+            "Tuesday, September 30",
+            "Monthly Index",
+            "July 2025"
+          ],
+          [
+            "Tuesday, October 28",
+            "Monthly Index",
+            "August 2025"
+          ],
+          [
+            "Tuesday, November 25",
+            "Quarterly Index (with Monthly Tables)",
+            "September 2025 and 2025Q3"
+          ],
+          [
+            "Tuesday, December 30",
+            "Monthly Index",
+            "October 2025"
+          ]
+        ]
+      },
+      {
+        "name": "FHFA HPI Release Dates for 2026 (page 12, printed 10; complete: header row and 12 rows)",
+        "rows": [
+          [
+            "Date",
+            "Release Type",
+            "Latest Included Data"
+          ],
+          [
+            "Tuesday, January 27",
+            "Monthly Index",
+            "November 2025"
+          ],
+          [
+            "Tuesday, February 24",
+            "Quarterly Index (with Monthly Tables)",
+            "December 2025 and 2025Q4"
+          ],
+          [
+            "Tuesday, March 31",
+            "Monthly Index",
+            "January 2026"
+          ],
+          [
+            "Tuesday, April 28",
+            "Monthly Index",
+            "February 2026"
+          ],
+          [
+            "Tuesday, May 26",
+            "Quarterly Index (with Monthly Tables)",
+            "March 2026 and 2026Q1"
+          ],
+          [
+            "Tuesday, June 30",
+            "Monthly Index",
+            "April 2026"
+          ],
+          [
+            "Tuesday, July 28",
+            "Monthly Index",
+            "May 2026"
+          ],
+          [
+            "Tuesday, August 25",
+            "Quarterly Index (with Monthly Tables)",
+            "June 2026 and 2026Q2"
+          ],
+          [
+            "Tuesday, September 29",
+            "Monthly Index",
+            "July 2026"
+          ],
+          [
+            "Tuesday, October 27",
+            "Monthly Index",
+            "August 2026"
+          ],
+          [
+            "Tuesday, November 24",
+            "Quarterly Index (with Monthly Tables)",
+            "September 2026 and 2026Q3"
+          ],
+          [
+            "Tuesday, December 29",
+            "Monthly Index",
+            "October 2026"
+          ]
+        ]
+      }
+    ],
+    "noise": [],
+    "absent": []
+  },
+  "notes": "FHFA HPI Monthly Report for July 2025 data, the HPI release FHFA published on September 30, 2025 (23 pages as served, letter size, Word-generated with Acrobat PDFMaker, tagged; the PDF's creation date is October 9, 2025 and the file now served has Last-Modified April 10, 2026, see holdout4/SELECTION.md), cut to pages 1-13 with pypdf: page 1 cover ('FHFA / House Price Index (HPI) Monthly / Report', 'Data through July 2025', seal, 'Released on September 30, 2025'), page 2 'FHFA HPI report contents' (dot leaders, page numbers), page 3 the news release, page 4 divider 'Tabulating trends', page 5 (landscape) the two data tables, page 6 divider 'Visualizing trends', pages 7-8 (landscape) a line chart and a bar chart, page 9 divider 'Further background information', page 10 'Overview of FHFA HPI', pages 11-12 (landscape) the release calendars for 2025 and 2026, page 13 divider 'Appendix' (the appendix tables start on page 14, not kept). Not checked because they are graphics or may be images: the seal, the charts on pages 7-8 including their titles, legends and value labels, and the check marks of the page-10 table. Headings: the contents title, the news-release headline (listed from 'Down 0.1 Percent', after the registered-trademark superscript), the four divider-page titles (each set over two or three lines; 'Tabulating trends' and 'Visualizing trends' are the divider texts, the contents page says '... in house prices'), and the three page titles of pages 10-12. The cover title is the first ordered anchor, not a heading. Table titles and their subtitles ('Purchase-Only FHFA HPI (Seasonally Adjusted, ...)') are captions, not headings; the table titles also occur in the contents, so they are not phrases either. Tables: all five are complete. Column headers printed on two lines are written joined ('West North Central'); the row labels of the bold first and last rows of the price-change table are on two lines and written joined ('1-Month Change: Jun 25 - Jul 25'). Negative values and the hyphens in the row labels ('Jun 25 - Jul 25', 'July-25', '1-Month', 'Non-metro') are written with ASCII hyphen-minus (assumed; the code point cannot be seen). The page-10 table has an empty top-left cell, eight column headers ('ZIP3, Non-metro' is printed on three lines) and three row labels; its body cells hold check-mark glyphs and are left empty (not scored). Arithmetic checked while typing: every 1-month change of the price-change table recomputed from the index table (July 2025 vs June 2025 down to February vs January 2025) matches within 0.1 point, the 12-month changes match July 2025 vs July 2024 within 0.1 point, and every release date of both calendars is a Tuesday. must_contain: 34 phrases, each printed once, none crossing a page break; one is the table subtitle and one is from the contents page; phrases avoid the registered-trademark sign, every curly quote or apostrophe ('FHFA’s', the quoted index names of the page-10 list), every dash and hyphen ('single-family', 'repeat-sales', 'purchase-only', 'mid-1970s', 'Purchase-Only') and the signed figures of the news release ('-1.2', '+0.3'). Sentences printed twice (the 'Public FHFA HPI releases occur at 9AM ET ...' line and 'All data are freely available ...' under both calendars) are not used. ordered: 8 anchors on pages 1, 2, 3 (twice), 5, 10, 11 and 12. Noise: none; the pages carry only page numbers ('- 3 -'), too short to count, and no running header or footer. Absent: the text has no one-word hyphenation; its only line-end hyphens are in compounds ('12-/month' on page 3, 'single-/family' and 'Purchase-/Only' on page 10), so absent is empty. BLIND PROTOCOL: chosen and answered before any converter or text extractor was run on the file; every check was typed from the rendered pages (pdftoppm at 100-220 dpi, read as images), and the PDF text layer was never read. Consequences: (1) text that may be an image (logos, seals, signatures, chart art) is not checked; (2) invisible text-layer content cannot be known, so noise lists only VISIBLE repeated page furniture; (3) where the exact code point of a glyph cannot be seen (curly vs straight quotes, dash and minus variants), must_contain phrases and ordered anchors avoid it; headings, table cells and absent entries that cannot avoid it are noted per file."
+}

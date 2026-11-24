@@ -13,18 +13,33 @@ held-out set was chosen and answered by a reviewer who never ran either tool, an
 | `corpus/` | First set: 3 public U.S. government PDFs and 6 generated files, with answer files in `corpus/ground-truth/`. PackForAI was developed against this set after run 1. |
 | `holdout/` | First held-out set: 4 public U.S. government PDFs and 5 generated files, chosen and answered blind (`holdout/SELECTION.md`), frozen before either tool ran on them. PackForAI was worked on after that run, so it now counts as development data. |
 | `holdout2/` | Second held-out set: 4 public U.S. government PDFs and 6 generated files, chosen and answered blind the same way (`holdout2/SELECTION.md`). Development data since the PDF reader changed. |
-| `holdout3/` | Third held-out set: 3 public PDFs (Federal Reserve, DOE, FDIC) and 6 generated files, chosen and answered blind the same way (`holdout3/SELECTION.md`; no document met the rule for a fourth, two-column kind). |
+| `holdout3/` | Third held-out set: 3 public PDFs (Federal Reserve, DOE, FDIC) and 6 generated files, chosen and answered blind the same way (`holdout3/SELECTION.md`; no document met the rule for a fourth, two-column kind). Development data since the list and side-heading change. |
+| `holdout4/` | Fourth held-out set: 3 public PDFs (FHFA, FAA, NCUA) and 6 generated files, chosen and answered blind by a reviewer who did not read earlier results (`holdout4/SELECTION.md`). |
 | `score.mjs` | The scorer (version 1.2.0). Rules and the reasons for every change are in `SCORING.md`. Tests: `node --test score.test.mjs`. |
 | `run_markitdown.py` | Runs MarkItDown on a folder (`MarkItDown(enable_plugins=False)`, no LLM, no Azure Document Intelligence). |
 | `run-packforai.mjs` | Runs PackForAI's production conversion code on a folder (free plan, OCR off, network blocked). The engine itself is not part of this kit; see "Reproducing the PackForAI side". |
-| `generate_corpus.py`, `holdout/generate_holdout.py`, `holdout2/generate_holdout2.py`, `holdout3/generate_holdout3.py` | Deterministic generators for the generated files and their answers. |
+| `generate_corpus.py`, `holdout/generate_holdout.py`, `holdout2/generate_holdout2.py`, `holdout3/generate_holdout3.py`, `holdout4/generate_holdout4.py` | Deterministic generators for the generated files and their answers. |
 | `results/run1-2026-11-24/` | First run, before PackForAI's fixes (scored again with 1.2.0: `results-scorer-1.2.0.json`, `summary-scorer-1.2.0.txt`). `verification.json` records the checks of surprising results. |
 | `results/run2-2026-11-24/` | First set again, after the fixes. Not a fair test: PackForAI was tuned on these files. |
 | `results/holdout-2026-11-24/` | First held-out set, each tool run once. `VERIFICATION.md` explains the protocol and the surprising results. |
 | `results/holdout2-2026-11-24/` | Second held-out set, each tool run once, with its own `VERIFICATION.md`. |
 | `results/holdout3-2026-11-24/` | Third held-out set, each tool run once, with its own `VERIFICATION.md`. |
+| `results/holdout4-2026-11-24/` | Fourth held-out set, each tool run once, with its own `VERIFICATION.md`. |
 
 ## Results
+
+Fourth held-out set (9 documents), scorer 1.2.0:
+
+```
+candidate             text  order  heads tblRec   spur  noise absent    tokens
+packforai.document   0.970  0.986  0.853  0.788    741      1      0     37028
+packforai.compact    0.958  0.986  0.853  0.555    739      0      0     36390
+markitdown           0.970  0.986  0.333  0.562     78     16      0     34508
+```
+
+707 of PackForAI's unmatched cells are in the NCUA report, whose large tables it rebuilt poorly. Decimal-numbered
+paragraphs with a hanging indent (FAA advisory circular) are still read as two-column tables. See
+`results/holdout4-2026-11-24/VERIFICATION.md`.
 
 Third held-out set (9 documents), scorer 1.2.0:
 
@@ -92,12 +107,13 @@ were produced; that code is not open source. To check the PackForAI outputs your
 https://packforai.com (or with its API) and save `document.md` as `<file>.packforai.document.md` next to the
 MarkItDown outputs. The outputs in `results/holdout-2026-11-24/` were produced by engine commit `d695968`, those in
 `results/holdout2-2026-11-24/` by engine commit `fc6c6ed`, those in `results/holdout3-2026-11-24/` by engine commit `65dfcb0`
-(current PDF.js, with PDF.js 1.10 supplying the spacing of doubtful lines).
+(current PDF.js, with PDF.js 1.10 supplying the spacing of doubtful lines), those in `results/holdout4-2026-11-24/` by
+engine commit `e7e91a7` (lists with a hanging indent and side headings read as text).
 
 ## Sources and licences
 
 - Public PDFs are works of the U.S. federal government (BEA, CDC, IRS, NIST, Census Bureau, Federal Register,
-  U.S. Senate, Department of Labor, FDA, Treasury, USGS, Federal Reserve Board, Department of Energy, FDIC), in the
+  U.S. Senate, Department of Labor, FDA, Treasury, USGS, Federal Reserve Board, Department of Energy, FDIC, FHFA, FAA, NCUA), in the
   public domain in the United States. Source URLs
   are in each answer file and in the `SELECTION.md` of each held-out set. Two PDFs in each held-out set are page
   ranges cut from the published files.

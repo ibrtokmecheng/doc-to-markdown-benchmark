@@ -1,0 +1,213 @@
+{
+  "schema": "packforai-benchmark-result@1",
+  "tool": "PackForAI",
+  "file": "pub-ncua-qcuds-2025q2.pdf",
+  "ok": true,
+  "error": null,
+  "input": {
+    "fileName": "pub-ncua-qcuds-2025q2.pdf",
+    "fileType": "pdf",
+    "bytes": 403469,
+    "sha256": "05192e89dc5c8fbc4fc256d6ca65ffa6a763a1a1d4a8a1ea192625217f295337"
+  },
+  "outputs": {
+    "document": {
+      "file": "pub-ncua-qcuds-2025q2.pdf.packforai.document.md",
+      "bytes": 54382,
+      "codePoints": 54276,
+      "sha256": "34382a6ea007f0d13d0d15519ae748d5c8cefe440ba68f164b33b4c7b7795506",
+      "tokensO200k": 18334
+    },
+    "compact": {
+      "file": "pub-ncua-qcuds-2025q2.pdf.packforai.compact.md",
+      "bytes": 54366,
+      "codePoints": 54260,
+      "sha256": "413f8b96acdfb9fe502f47105af178c31375a538772fcdb4fcb9781e2b39c9fc",
+      "tokensO200k": 18330
+    }
+  },
+  "tokenAnalysis": {
+    "tokenizerName": "o200k_base",
+    "tokenizerVersion": "gpt-tokenizer@3.4.0",
+    "originalTokenEstimate": 15882,
+    "optimizedTokenEstimate": 18330,
+    "savingsPercent": -15.4
+  },
+  "textQuality": {
+    "status": "good",
+    "score": 100,
+    "signals": [],
+    "warning": null
+  },
+  "processingNotes": [
+    "PDF extraction uses the embedded text layer. Request OCR recovery for scanned or broken-text PDFs.",
+    "Rebuilt 11 tables from aligned text positions. Check numbers and cell placement against the original PDF; a wrapped cell stays on its own row.",
+    "Generated compact.md from the structured PDF text without repeated page headers, footers and table-of-contents lines."
+  ],
+  "ocr": {
+    "requested": false,
+    "status": "not_requested",
+    "provider": "none",
+    "pageCount": null,
+    "costEstimateUsd": null,
+    "reason": "OCR was not requested for this job.",
+    "used": false
+  },
+  "stats": {
+    "pageCount": 14,
+    "sectionCount": 24,
+    "tableCount": 11,
+    "imageCount": null
+  },
+  "elapsedMs": 93.553,
+  "workerGitCommit": "bf80889ba5c7b18d81f39448ce346ecdab41f74e",
+  "nodeVersion": "v24.22.1",
+  "admission": {
+    "rejectedByProduction": false,
+    "freePlanUpload": true,
+    "notes": []
+  },
+  "job": {
+    "jobId": "bench_05192e89dc5c8fbc4fc256d6ca65ffa6",
+    "userId": "benchmark-local",
+    "documentId": "bench_05192e89dc5c8fbc4fc256d6ca65ffa6",
+    "fileName": "pub-ncua-qcuds-2025q2.pdf",
+    "fileType": "pdf",
+    "fileSize": 403469,
+    "uploadPath": "uploads/benchmark-local/bench_05192e89dc5c8fbc4fc256d6ca65ffa6/original.pdf",
+    "status": "processing",
+    "createdAt": null,
+    "startedAt": null,
+    "completedAt": null,
+    "leaseExpiresAt": null,
+    "attemptCount": 1,
+    "maxAttempts": 3,
+    "processingVersion": "mvp-0.1.0",
+    "ocrRequested": false,
+    "ocrUsed": false,
+    "webhookUrl": null,
+    "webhookSecret": null,
+    "ocr": {
+      "requested": false,
+      "used": false,
+      "provider": "none",
+      "status": "not_requested",
+      "pageCount": null,
+      "costEstimateUsd": null,
+      "reason": "OCR was not requested for this job."
+    },
+    "ocrMonthlyLimit": 0,
+    "ocrPageLimitPerJob": 0,
+    "ocrUsageId": null,
+    "ocrMonthKey": null,
+    "plan": "free",
+    "dailyConversionLimit": 3,
+    "maxActiveJobs": 1,
+    "originalTokenEstimate": null,
+    "optimizedTokenEstimate": null,
+    "savingsPercent": null,
+    "pageCount": null,
+    "sectionCount": null,
+    "tableCount": null,
+    "imageCount": null,
+    "outputPath": null,
+    "zipPath": null,
+    "errorCode": null,
+    "errorMessage": null,
+    "processingNotes": [],
+    "usageLimitId": "benchmark-local_2026-11-24",
+    "retentionExpiresAt": null,
+    "ocrReservedPages": 0
+  },
+  "isolation": {
+    "networkAttempts": [],
+    "consoleOutput": {
+      "lines": [],
+      "total": 0
+    }
+  },
+  "run": {
+    "startedAt": "2026-11-24T17:13:49.474Z",
+    "runner": "aireadydoc/benchmarks/doc-to-markdown/run-packforai.mjs",
+    "runnerSha256": "ff664fce9d010eb447165541167aed1ebded57ac6ac7aebe11460924f8569abd",
+    "inputFolder": "holdout4",
+    "worker": {
+      "processor": "aireadydoc/services/worker/dist/processor.js",
+      "distSha256": "79105ba893ef253c9cec2ffc47cb4feacc60f79c761140eb6fc684cf0afc23da",
+      "distPossiblyStale": [],
+      "gitDirtyPaths": []
+    },
+    "dependencies": {
+      "pdf-parse": {
+        "installed": "1.1.4",
+        "lockfile": "1.1.4"
+      },
+      "mammoth": {
+        "installed": "1.12.0",
+        "lockfile": "1.12.0"
+      },
+      "turndown": {
+        "installed": "7.2.4",
+        "lockfile": "7.2.4"
+      },
+      "@mixmark-io/domino": {
+        "installed": "2.2.0",
+        "lockfile": "2.2.0"
+      },
+      "fast-xml-parser": {
+        "installed": "5.12.0",
+        "lockfile": "5.12.0"
+      },
+      "fflate": {
+        "installed": "0.8.3",
+        "lockfile": "0.8.3"
+      },
+      "gpt-tokenizer": {
+        "installed": "3.4.0",
+        "lockfile": "3.4.0"
+      },
+      "firebase-admin": {
+        "installed": "14.1.0",
+        "lockfile": "14.1.0"
+      },
+      "@google-cloud/firestore": {
+        "installed": "8.6.0",
+        "lockfile": "8.6.0"
+      },
+      "google-auth-library": {
+        "installed": "10.9.0",
+        "lockfile": "10.9.0"
+      }
+    },
+    "runtime": {
+      "nodeVersion": "v24.22.1",
+      "v8": "13.6.233.17-node.58",
+      "icu": "78.3",
+      "unicode": "17.0",
+      "platform": "darwin-arm64",
+      "nodeEnv": "production",
+      "timeZone": "UTC",
+      "locale": "en-US",
+      "tokenizer": "o200k_base via node_modules/gpt-tokenizer/esm/encoding/o200k_base.js"
+    },
+    "productionRuntime": "node:22-slim with NODE_ENV=production (aireadydoc/services/worker/Dockerfile)",
+    "timing": "elapsedMs is the wall time of processInput(job, bytes) in a long-lived conversion process that first converted one small generated file of each type. It excludes reading the file, the Storage download and upload, Firestore updates and queueing.",
+    "warmup": {
+      "ms": 196.584,
+      "results": {
+        "pdf": "ok",
+        "docx": "ok",
+        "pptx": "ok",
+        "xlsx": "ok",
+        "csv": "ok",
+        "json": "ok"
+      },
+      "consoleLines": 3
+    },
+    "fileTimeoutMs": 300000,
+    "conversionProcess": {
+      "pid": 79199,
+      "start": 1
+    }
+  }
+}

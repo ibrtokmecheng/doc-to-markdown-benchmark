@@ -1,0 +1,1475 @@
+Futures Commission Merchant /
+Retail Foreign Exchange Dealer
+
+Registered As
+
+DSRO
+
+As of
+Date
+
+Adjusted Net
+Capital
+
+Net Capital
+Requirement
+
+Excess  Net
+Capital
+
+Customers' Assets
+in Seg
+
+Customers' Seg
+Required 4d(a)(2)
+
+Excess/Deficient
+Funds in Seg
+
+Target Residual
+Interest in Seg
+
+Funds in Separate
+Section 30.7
+Accounts
+
+Customer Amount
+Pt. 30 Required
+
+(a)
+
+(b)
+
+(c)
+
+(d)
+
+(e)
+
+(f)
+
+(g)
+
+(h)
+
+(i)
+
+(j)
+
+Excess/Deficient
+Funds in Separate
+Section 30.7
+Accounts
+(k)
+
+Target Residual
+Interest in Section
+30.7
+
+Funds in Separate
+Cleared Swap
+Segregation
+
+Customer Amount
+Cleared Swap Seg
+Required
+
+(l)
+
+(m)
+
+(n)
+
+Excess/Deficient
+Funds in Cleared
+Swap Seg
+Accounts
+(o)
+
+Target Residual
+Interest in
+Cleared Swap Seg
+
+Total Amount of
+Retail Forex
+Obligation
+
+(p)
+
+(q)
+
+SELECTED FCM FINANCIAL DATA AS OF
+April 30, 2025
+FROM REPORTS FILED BY
+May 30, 2025
+
+CBOT
+CBOT
+CME
+NFA
+NFA
+NYME
+NFA
+CBOT
+CBOT
+CBOT
+NFA
+CBOT
+CBOT/NFA
+CME
+NFA
+NFA
+CME
+CBOT
+CME
+CME
+NFA
+NFA
+NFA
+CME
+CBOT/NFA
+CME
+CME
+CME
+CME
+NFA
+CEI/NFA
+NFA
+CBOT
+CME/NFA
+NFA
+NFA
+NFA
+NFA
+CME
+CME/NFA
+CME
+CBOT
+NFA
+CBOT
+NFA
+CME
+CBOT
+CME
+CME
+NFA
+NYME
+CME
+CME
+CME
+CME
+NFA
+CME
+NFA
+NFA
+CBOT
+NFA
+CBOT/NFA
+CME
+
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+04/30/2025
+
+917,317,033
+431,390,648
+38,010,666
+17,523,128
+456,834,393
+6,468,164,178
+1,615,112
+2,540,195,121
+19,423,073,479
+221,339,929
+378,919,597
+88,051,288
+18,843,312,577
+457,898,588
+36,081,865
+112,178,071
+1,353,057,595
+3,067,574,958
+18,564,912
+29,735,288
+68,944,703
+2,313,533
+67,257,041
+31,603,852
+22,631,812,081
+109,785,912
+1,525,325,946
+9,977,594,277
+21,655,643
+1,478,887,451
+24,616,208,549
+11,443,456
+459,496,440
+704,588,219
+13,939,671
+118,780,965
+17,275,320
+2,350,675
+1,437,905,297
+17,538,349,323
+59,948,325
+588,677,552
+13,046,078
+2,985,788,818
+54,971,052
+125,155,258
+116,427,375
+2,425,014,953
+382,414,808
+41,715,973
+486,131,485
+1,234,853,355
+5,765,294,601
+451,979,930
+46,389,576
+61,331,223
+204,673,595
+24,044,968
+1,073,526,210
+4,157,865,982
+178,310,439
+232,250,967
+9,464,390,647
+
+272,311,391
+308,895,823
+21,810,448
+1,000,000
+36,534,208
+2,920,245,836
+1,000,000
+1,426,976,071
+4,907,153,609
+2,698,181
+50,934,619
+11,786,245
+5,282,041,760
+61,982,603
+2,022,779
+344,427
+1,500,000
+333,723,650
+3,294,547
+4,281,995
+4,322,563
+1,000,000
+30,054,578
+20,083,170
+5,812,122,236
+15,412,852
+595,421,566
+1,123,695,818
+3,678,655
+122,883,156
+7,205,441,691
+1,000,000
+364,005,248
+404,198,708
+1,005,246
+1,000,000
+3,999,921
+1,000,000
+527,726,746
+5,269,923,590
+22,091,388
+12,183,640
+1,000,000
+161,614,104
+27,085,348
+54,073,603
+29,090,517
+698,935,401
+249,017,416
+3,390,771
+247,285,742
+119,560,771
+2,190,041,572
+237,325,015
+20,215,810
+21,491,740
+9,250,387
+20,000,000
+121,507,348
+1,126,162,650
+7,916,604
+44,241,206
+2,000,400,225
+
+645,005,642
+122,494,825
+16,200,218
+16,523,128
+420,300,185
+3,547,918,342
+615,112
+1,113,219,050
+14,515,919,870
+218,641,748
+327,984,978
+76,265,043
+13,561,270,817
+395,915,985
+34,059,086
+111,833,644
+1,351,557,595
+2,733,851,308
+15,270,365
+25,453,293
+64,622,140
+1,313,533
+37,202,463
+11,520,682
+16,819,689,845
+94,373,060
+929,904,380
+8,853,898,459
+17,976,988
+1,356,004,295
+17,410,766,858
+10,443,456
+95,491,192
+300,389,511
+12,934,425
+117,780,965
+13,275,399
+1,350,675
+910,178,551
+12,268,425,733
+37,856,937
+576,493,912
+12,046,078
+2,824,174,714
+27,885,704
+71,081,655
+87,336,858
+1,726,079,552
+133,397,392
+38,325,202
+238,845,743
+1,115,292,584
+3,575,253,029
+214,654,915
+26,173,766
+39,839,483
+195,423,208
+4,044,968
+952,018,862
+3,031,703,332
+170,393,835
+188,009,761
+7,463,990,422
+
+4,708,595,873
+7,355,755,252
+662,773,326
+94,029,746
+140,281,193
+17,165,186,881
+694,206
+10,144,720,002
+31,314,302,275
+5,524,051
+859,252,112
+139,765,970
+21,863,395,750
+951,906,281
+84,021,301
+0
+140,307
+3,731,018,937
+75,314,661
+289,651,818
+132,694,001
+0
+0
+278,055,046
+41,998,982,104
+396,826,944
+5,708,666,509
+8,959,659,211
+137,212,710
+0
+66,668,435,918
+76,250
+4,107,118,438
+7,954,350,771
+361,803,605
+0
+41,289,186
+0
+8,859,743,762
+34,439,508,153
+516,822,259
+7,505,030
+281,178,851
+229,908,695
+0
+999,782,325
+798,384,083
+5,242,544,461
+6,114,358,089
+60,549,463
+3,476,114,537
+0
+23,423,836,725
+5,659,519,278
+618,062,713
+0
+855,702,004
+0
+269,755,098
+8,579,423,095
+30,384,124
+1,561,227,287
+8,844,497,977
+
+4,062,707,493
+7,150,476,493
+648,289,416
+76,301,762
+112,935,908
+16,462,047,957
+152,017
+9,452,599,164
+30,397,577,950
+0
+692,413,568
+71,936,401
+21,285,767,459
+924,776,270
+50,737,605
+0
+0
+3,578,436,509
+68,766,301
+278,088,897
+67,821,579
+0
+0
+261,092,236
+41,022,692,731
+373,072,331
+5,569,142,079
+8,752,959,437
+120,731,314
+0
+64,349,510,716
+30,095
+3,954,069,206
+7,824,060,038
+337,070,046
+0
+23,378,029
+0
+8,527,864,772
+33,923,998,162
+467,954,611
+0
+262,496,573
+177,875,303
+0
+950,216,964
+710,505,065
+4,709,571,089
+5,828,462,895
+45,638,206
+3,365,134,917
+0
+22,927,023,807
+5,579,481,176
+598,663,081
+0
+808,424,803
+0
+180,099,910
+8,277,214,574
+23,257,633
+1,522,079,194
+8,180,247,533
+
+645,888,380
+205,278,759
+14,483,910
+17,727,984
+27,345,285
+703,138,924
+542,189
+692,120,838
+916,724,325
+5,524,051
+166,838,544
+67,829,569
+577,628,291
+27,130,011
+33,283,696
+0
+140,307
+152,582,428
+6,548,360
+11,562,921
+64,872,422
+0
+0
+16,962,810
+976,289,373
+23,754,613
+139,524,430
+206,699,774
+16,481,396
+0
+2,318,925,202
+46,155
+153,049,232
+130,290,733
+24,733,559
+0
+17,911,157
+0
+331,878,990
+515,509,991
+48,867,648
+7,505,030
+18,682,278
+52,033,392
+0
+49,565,361
+87,879,018
+532,973,372
+285,895,194
+14,911,257
+110,979,620
+0
+496,812,918
+80,038,102
+19,399,632
+0
+47,277,201
+0
+89,655,188
+302,208,521
+7,126,491
+39,148,093
+664,250,444
+
+350,000,000
+120,000,000
+7,500,000
+900,000
+15,000,000
+360,000,000
+100,000
+570,000,000
+525,000,000
+3,000,000
+100,000,000
+24,300,000
+396,900,000
+4,000,000
+15,000,000
+0
+1
+100,000,000
+2,500,000
+2,000,000
+11,000,000
+0
+0
+5,600,000
+775,000,000
+8,900,000
+118,000,000
+155,000,000
+1,600,000
+0
+1,480,038,746
+20,000
+85,000,000
+75,000,000
+18,000,000
+0
+5,138,000
+0
+150,000,000
+235,000,000
+3,500,000
+5,000,000
+4,000,000
+15,000,000
+0
+17,000,000
+5,100,000
+320,000,000
+50,000,000
+3,500,000
+85,000,000
+0
+200,000,000
+50,000,000
+2,000,000
+0
+9,000,000
+0
+35,000,000
+150,000,000
+1,395,458
+25,000,000
+125,000,000
+
+176,782,119
+335,491,792
+94,173,419
+1,910,214
+0
+4,965,695,466
+0
+1,912,682,418
+5,585,304,439
+0
+0
+1,633,378
+4,300,047,017
+175,218
+0
+0
+474,972
+1,267,052,894
+2,352,834
+4,141,421
+0
+0
+0
+15,542,359
+9,864,190,826
+0
+483,780,187
+746,367,162
+533,393
+0
+6,853,239,041
+40,010
+437,147,298
+294,693,127
+2,655,938
+0
+0
+0
+1,638,454,280
+8,804,138,747
+361,249
+0
+3,161,123
+1,250,000
+0
+33,771,078
+1,570,747
+793,330,551
+238,798,345
+53
+1,002,289
+0
+8,497,030,180
+233,262,800
+39,417,159
+0
+22,543,012
+0
+38,727,856
+2,020,857,038
+0
+13,558,009
+410,515,726
+
+140,985,665
+289,183,716
+89,513,554
+1,446,160
+0
+4,681,644,912
+0
+1,295,252,146
+5,190,398,730
+0
+0
+0
+3,845,192,479
+0
+0
+0
+0
+1,167,382,899
+886,752
+2,936,570
+0
+0
+0
+12,552,741
+9,257,436,634
+0
+307,304,325
+625,779,550
+69,531
+0
+6,394,202,879
+0
+404,784,833
+269,211,779
+0
+0
+0
+0
+1,491,639,147
+8,587,043,982
+1,086
+0
+1,696,121
+0
+0
+25,338,858
+514,567
+604,362,871
+205,148,121
+0
+0
+0
+8,092,242,818
+220,656,274
+26,061,872
+0
+17,906,939
+0
+1,169,634
+1,892,309,986
+0
+10,430,887
+247,283,188
+
+35,796,454
+46,308,076
+4,659,865
+464,054
+0
+284,050,554
+0
+617,430,272
+394,905,709
+0
+0
+1,633,378
+454,854,538
+175,218
+0
+0
+474,972
+99,669,995
+1,466,082
+1,204,851
+0
+0
+0
+2,989,618
+606,754,192
+0
+176,475,862
+120,587,612
+463,862
+0
+459,036,162
+40,010
+32,362,465
+25,481,348
+2,655,938
+0
+0
+0
+146,815,133
+217,094,765
+360,163
+0
+1,465,002
+1,250,000
+0
+8,432,220
+1,056,180
+188,967,680
+33,650,224
+53
+1,002,289
+0
+404,787,362
+12,606,526
+13,355,287
+0
+4,636,073
+0
+37,558,222
+128,547,052
+0
+3,127,122
+163,232,538
+
+15,000,000
+20,000,000
+1,000,000
+150,000
+0
+100,000,000
+0
+210,000,000
+150,000,000
+0
+0
+200,000
+161,000,000
+100,000
+0
+0
+1
+50,000,000
+1,000,000
+200,000
+0
+0
+0
+460,000
+475,000,000
+0
+15,000,000
+80,000,000
+150,000
+0
+255,768,115
+20,000
+7,000,000
+8,000,000
+1,000,000
+0
+0
+0
+70,000,000
+140,000,000
+100,000
+0
+400,000
+1,000,000
+0
+1,000,000
+100,000
+40,000,000
+20,000,000
+1
+1,000,000
+0
+200,000,000
+6,000,000
+300,000
+0
+800,000
+0
+15,000,000
+75,000,000
+0
+1,000,000
+25,000,000
+
+0
+11,031,485
+0
+0
+0
+18,958,323,134
+0
+3,794,012,160
+20,874,149,262
+0
+0
+545,473
+32,703,002,638
+0
+0
+0
+0
+5,588,032
+0
+0
+0
+0
+0
+0
+22,727,418,451
+0
+2,085,643,691
+19,561,330
+0
+0
+22,141,634,414
+0
+659,776
+49,248,623
+0
+0
+0
+0
+22,651,667
+30,383,245,201
+0
+0
+0
+0
+0
+0
+0
+2,533,836,356
+0
+21,084,610
+0
+0
+2,109,483,757
+0
+0
+0
+0
+0
+0
+1,676,056,182
+1,548,919
+0
+17,605,263,034
+
+0
+0
+0
+0
+0
+18,271,306,256
+0
+3,323,152,146
+19,978,780,363
+0
+0
+0
+32,032,225,519
+0
+0
+0
+0
+15,309
+0
+0
+0
+0
+0
+0
+21,925,740,948
+0
+1,936,319,726
+16,024,816
+0
+0
+21,027,604,312
+0
+0
+27,316,269
+0
+0
+0
+0
+0
+30,062,924,294
+0
+0
+0
+0
+0
+0
+0
+2,086,228,397
+0
+10,788,991
+0
+0
+1,883,798,336
+0
+0
+0
+0
+0
+0
+1,450,355,722
+1
+0
+16,836,680,978
+
+0
+11,031,485
+0
+0
+0
+687,016,878
+0
+470,860,014
+895,368,899
+0
+0
+545,473
+670,777,119
+0
+0
+0
+0
+5,572,723
+0
+0
+0
+0
+0
+0
+801,677,503
+0
+149,323,965
+3,536,514
+0
+0
+1,114,030,102
+0
+659,776
+21,932,354
+0
+0
+0
+0
+22,651,667
+320,320,907
+0
+0
+0
+0
+0
+0
+0
+447,607,959
+0
+10,295,619
+0
+0
+225,685,421
+0
+0
+0
+0
+0
+0
+225,700,460
+1,548,918
+0
+768,582,056
+
+0
+8,000,000
+0
+0
+0
+150,000,000
+0
+160,000,000
+150,000,000
+0
+0
+120,000
+463,400,000
+0
+0
+0
+0
+1,000,000
+0
+0
+0
+0
+0
+0
+350,000,000
+0
+82,000,000
+2,000,000
+0
+0
+567,745,316
+0
+250,000
+2,000,000
+0
+0
+0
+0
+10,000,000
+112,000,000
+0
+0
+0
+0
+0
+0
+0
+160,000,000
+0
+1,000,000
+0
+0
+80,000,000
+0
+0
+0
+0
+0
+0
+125,000,000
+250,000
+0
+455,000,000
+
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+62,769,134
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+211,091,554
+0
+0
+0
+0
+33,067,044
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+146,135,575
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+39,834,808
+0
+2,584,703
+0
+0
+0
+0
+0
+
+347,200,308,644 335,035,851,275
+
+12,164,457,369
+
+6,824,992,205
+
+60,137,857,184
+
+55,399,972,206
+
+4,737,884,978
+
+2,147,748,117 177,723,988,195 170,869,262,383
+
+6,854,725,812
+
+2,879,765,316
+
+495,482,818
+
+1 ABN AMRO CLEARING USA LLC
+2 ADM INVESTOR SERVICES INC
+3 ADVANTAGE FUTURES LLC
+4 AMP GLOBAL CLEARING LLC
+5 APEX CLEARING CORPORATION
+6 BARCLAYS CAPITAL INC
+7 BITNOMIAL CLEARING LLC
+8 BNP PARIBAS SECURITIES CORP
+9 BOFA SECURITIES INC
+
+10 CANTOR FITZGERALD & CO
+11 CHARLES SCHWAB FUTURES AND FOREX LLC
+12 CHS HEDGING LLC
+13 CITIGROUP GLOBAL MARKETS INC
+14 CLEAR STREET LLC
+15 COINBASE FINANCIAL MARKETS INC
+16 CURVATURE SECURITIES LLC
+17 DAIWA CAPITAL MARKETS AMERICA INC
+18 DEUTSCHE BANK SECURITIES INC
+19 DIRECT ACCESS USA LLC
+20 DORMAN TRADING LLC
+21 ETRADE FUTURES LLC
+22 F&O FINANCIAL LLC
+23 GAIN CAPITAL GROUP LLC
+24 GH FINANCIALS LLC
+25 GOLDMAN SACHS & CO LLC
+26 HIDDEN ROAD PARTNERS CIV US LLC
+27 HSBC SECURITIES USA INC
+28 INTERACTIVE BROKERS LLC
+29 IRONBEAM INC
+30 JEFFERIES LLC
+31 JP MORGAN SECURITIES LLC
+32 LIME TRADING CORP
+33 MACQUARIE FUTURES USA LLC
+34 MAREX CAPITAL MARKETS INC
+35 MCVEAN TRADING & INVESTMENTS LLC
+36 MFI FUNDING LLC
+37 MID CO COMMODITIES INC
+38 MINT BROKERS
+39 MIZUHO SECURITIES USA LLC
+40 MORGAN STANLEY & CO LLC
+41 NANHUA USA LLC
+42 NATWEST MARKETS SECURITIES INC
+43 NINJATRADER CLEARING LLC
+44 NOMURA SECURITIES INTERNATIONAL INC
+45 OANDA CORPORATION
+46 PHILLIP CAPITAL INC
+47 PLUS500US FINANCIAL SERVICES, LLC
+48 RBC CAPITAL MARKETS LLC
+49 RJ OBRIEN ASSOCIATES LLC
+50 ROBINHOOD DERIVATIVES LLC
+51 SANTANDER US CAPITAL MARKETS LLC
+52 SCOTIA CAPITAL USA INC
+53 SG AMERICAS SECURITIES LLC
+54 STONEX FINANCIAL INC
+55 STRAITS FINANCIAL LLC
+56 TASTYFX LLC
+57 TRADESTATION SECURITIES INC
+58 TRADING.COM MARKETS INC
+59 UBS FINANCIAL SERVICES INC
+60 UBS SECURITIES LLC
+61 WEBULL FINANCIAL LLC
+62 WEDBUSH SECURITIES INC
+63 WELLS FARGO SECURITIES LLC
+
+Totals
+
+March Web Page Update
+
+Additions
+None
+
+Deletions
+None
+
+Name Changes
+None
+
+April Web Page Update
+
+FCM BD
+FCM
+FCM
+FCM
+FCM BD
+FCM BD
+FCM
+FCM BD
+FCM BD
+FCM BD
+FCM
+FCM
+FCM BD SD
+FCM BD
+FCM
+FCM BD
+FCM BD
+FCM BD
+FCM
+FCM
+FCM
+FCM
+FCM RFED
+FCM
+FCM BD SD
+FCM
+FCM BD
+FCM BD
+FCM
+FCM BD
+FCM BD SD
+FCM BD
+FCM
+FCM BD SD
+FCM
+FCM
+FCM
+FCM BD
+FCM BD
+FCM BD SD
+FCM
+FCM BD
+FCM
+FCM BD
+FCMRFD
+FCM BD
+FCM
+FCM BD
+FCM
+FCM
+FCM BD
+FCM BD
+FCM BD
+FCM BD
+FCM
+RFED
+FCM BD
+RFED
+FCM BD
+FCM BD
+FCM BD
+FCM BD SD
+FCM BD
+
+63
+
+63
+
+SELECTED FCM FINANCIAL DATA AS OF
+April 30, 2025
+FROM REPORTS FILED BY
+May 30, 2025
+
+(a):  FCM:  Futures Commission Merchant that is registered with the Commodity Futures Trading Commission.
+        BD:  The FCM is also registered with the Securities and Exchange Commission as a securities broker or dealer.
+        RFED:  Retail Foreign Exchange Dealer that is registered with the Commodity Futures Trading Commission.
+        FCMRFD:  The FCM is also registered with the Commodity Futures Trading Commission as a Retail Foreign Exchange Dealer.
+        SD:  The FCM or RFED is also registered with the Commodity Futures Trading Commission as a provisionally registered swap dealer.
+
+(b):  DSRO: Designated Self-Regulatory Organization.  FCM/RFED firms that are dually registered as SDs have two DSROs listed if they have a different DSRO for the FCM/RFED and the SD.  The DSRO for the FCM/RFED is listed first and the DSRO for the SD is listed second.
+
+(c):  A firm's net capital requirement is the greater of:
+
+•  FCM minimum dollar amount ($1,000,000); or
+•  risk based capital requirement, the sum of 8% of total customer risk maintenance margin and 8% of total non-customer risk maintenance margin; or
+•  the amount of capital required by a registered futures association (currently NFA is the only such association); or
+•  for securities brokers and dealers, the amount of net capital required by Rule 15c3-1(a) of the Securities and Exchange Commission; or
+•  minimum dollar amount for FCM’s offering or engaged in retail forex transactions and RFEDs ($20,000,000); or
+•  minimum dollar amount for FCM’s offering or engaged in retail forex transactions and RFEDs ($20,000,000) plus five percent of the FCM’s or RFED’s total retail forex obligation in excess of $10,000,000.
+
+(d):  Excess net capital is adjusted net capital, less the firm's net capital requirement.
+
+(e):  This represents the total amount of money, securities, and property held in segregated accounts for futures and options customers in compliance with Section 4d(a)(2) of the Commodity Exchange Act.
+
+(f):  This represents the total amount of funds that an FCM is required to segregate on behalf of customers who are trading on a designated contract market.  This is the sum of all accounts that contain a net liquidating equity.
+
+(g):  Excess/Deficient funds in segregation is customer assets in segregation, less the customer segregation requirement.
+
+(h):  This represents the targeted excess of proprietary funds deposited into customer segregated accounts above the customer segregation requirement.  This target amount is set by the firm.
+
+(i):  This represents the total amount of money, securities, and property held in secured accounts for futures and options customers who trade on commodity exchanges located outside the United States in compliance with Part 30 of the Commission's regulations.
+
+(j):  This represents the amount of funds an FCM is required to set aside for customers who trade on commodity exchanges located outside of the United States.
+
+(k):  Excess/Deficient funds in separate Section 30.7 accounts is funds in separate Section 30.7 accounts, less the customer amount Part 30 requirement.
+
+(l):  This represents the targeted excess of proprietary funds deposited into separate Section 30.7 accounts above the customer amount Part 30 requirement.  This target amount is set by the firm.
+
+(m):  This represents the total amount of money, securities, and property held in cleared swap customer accounts for cleared swap customers in compliance with Section 4d(f) of the Commodity Exchange Act.
+
+(n):  This represents the amount of funds an FCM is required to segregate for customers who trade cleared swaps.
+
+(o):  Excess/Deficient funds in cleared swap customer accounts is funds in separate cleared swap segregation accounts, less the cleared swap customer segregation requirement.
+
+(p):   This represents the targeted excess of proprietary funds deposited into separate cleared swap segregation accounts above the cleared swap customer segregation requirement.  This target amount is set by the firm.
+
+(q):  This represents the total amount of funds at an FCM, RFED, or FCMRFD that would be obtained by combining all money, securities and property deposited by a retail forex customer into a retail forex account or accounts, adjusted for the realized and unrealized net profit or loss.
+

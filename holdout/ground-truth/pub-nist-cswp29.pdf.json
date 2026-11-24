@@ -1,0 +1,83 @@
+{
+  "file": "pub-nist-cswp29.pdf",
+  "format": "pdf",
+  "origin": "public",
+  "source_url": "https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.29.pdf",
+  "title": "The NIST Cybersecurity Framework (CSF) 2.0 (NIST CSWP 29, February 26, 2024); pages 1-14 of 32: cover, front matter and sections 1-4",
+  "publisher": "National Institute of Standards and Technology, U.S. Department of Commerce",
+  "license": "Public domain in the United States: work of the U.S. Government (17 U.S.C. 105).",
+  "sha256": "aab529d97459f129af2c8900f5717bda5f3189830eaceb0c6f8996017ab4fc88",
+  "pages_or_sheets": 14,
+  "stresses": [
+    "single-column technical publication: cover page, front matter with roman page numbers, table of contents and list of figures with dot leaders, numbered section headings (1., 2., 3.1., ...)",
+    "running header on every page after the cover ('NIST CSWP 29' / 'February 26, 2024' left, the title right)",
+    "bulleted lists with bold or bold-italic lead-ins, a numbered list with bold lead-ins",
+    "small-capital words (GOVERN, IDENTIFY, ...), italic definitions, em dashes",
+    "framed text boxes, figures with captions (wheel diagram, structure chart, step list, tier chart)",
+    "underlined hyperlinks, an e-mail address, one footnote",
+    "page range cut from a longer PDF (untagged after the cut)"
+  ],
+  "checks": {
+    "must_contain": [
+      "The CSF does not prescribe how outcomes should be achieved.",
+      "cybersecurity; Cybersecurity Framework (CSF); cybersecurity risk governance; cybersecurity risk management; enterprise risk management; Profiles; Tiers.",
+      "Individuals responsible for developing and leading cybersecurity programs are the primary audience for the CSF.",
+      "Unless otherwise noted, documents cited, referenced, or excerpted in this publication are not wholly incorporated into this publication.",
+      "The CSF is the result of a multi-year collaborative effort across industry, academia, and government in the United States and around the world.",
+      "Ideally, the CSF will be used to address cybersecurity risks alongside other risks of the enterprise",
+      "Building on previous versions, CSF 2.0 contains new features that highlight the importance of governance and supply chains.",
+      "This document is version 2.0 of the NIST Cybersecurity Framework",
+      "which are a mechanism for describing an organization",
+      "The CSF is designed to be used by organizations of all sizes and sectors, including industry, government, academia, and nonprofit organizations",
+      "Appendix C is a glossary of CSF terminology.",
+      "These outcomes are not a checklist of actions to perform",
+      "While many cybersecurity risk management activities focus on preventing negative events from occurring",
+      "Each Function is named after a verb that summarizes its contents.",
+      "including information technology (IT), the Internet of Things (IoT), and operational technology (OT)",
+      "This section defines the concepts of CSF Profiles and Tiers.",
+      "A Community Profile is a baseline of CSF outcomes that is created and published to address shared interests and goals among a number of organizations.",
+      "Given the importance of continual improvement, an organization can repeat these steps as often as needed.",
+      "Partial (Tier 1), Risk Informed (Tier 2), Repeatable (Tier 3), and Adaptive (Tier 4)",
+      "For the purposes of this document, the terms",
+      "Informative References are mappings that indicate relationships between the Core and various standards, guidelines, regulations, and other content.",
+      "Verbs used to express Examples include share, document, develop, perform, monitor, analyze, assess, and exercise.",
+      "Suggestions for new Informative References for CSF 2.0 can always be shared with NIST at"
+    ],
+    "ordered": [
+      "provides guidance to industry, government agencies, and other organizations",
+      "is designed to help organizations of all sizes and sectors",
+      "It includes the following components",
+      "Figure 2 shows the CSF Functions as a wheel",
+      "The Functions should be addressed concurrently",
+      "Every Organizational Profile includes one or both of the following",
+      "Tiers should complement an organization",
+      "NIST and other organizations have produced a suite of online resources"
+    ],
+    "headings": [
+      "Abstract",
+      "Keywords",
+      "Audience",
+      "Supplemental Content",
+      "Note to Readers",
+      "Acknowledgments",
+      "Table of Contents",
+      "List of Figures",
+      "Preface",
+      "1. Cybersecurity Framework (CSF) Overview",
+      "2. Introduction to the CSF Core",
+      "3. Introduction to CSF Profiles and Tiers",
+      "3.1. CSF Profiles",
+      "3.2. CSF Tiers",
+      "4. Introduction to Online Resources That Supplement the CSF"
+    ],
+    "tables": [],
+    "noise": [
+      {
+        "text": "NIST CSWP 29",
+        "max": 1
+      }
+    ],
+    "absent": []
+  },
+  "notes": "NIST CSWP 29 exactly as served (32 pages), cut to pages 1-14 with pypdf (see holdout/SELECTION.md): page 1 cover (artwork, title 'The NIST Cybersecurity Framework (CSF) 2.0', institute name, DOI line, date, NIST logo), pages 2-5 front matter with roman folios i-iv (Abstract, Keywords, Audience, Supplemental Content, Note to Readers; Acknowledgments; Table of Contents and List of Figures; Preface), pages 6-14 sections 1-4 (printed pages 1-9). Section 5 starts on printed page 10 (PDF page 15) and is not in the file; the table of contents on page 4 still lists it and Appendices A-C. The cover is not checked at all (it may be partly or wholly an image). Headings: the blue bold front-matter headings and the numbered section headings, as printed with their numbers. The table of contents repeats the section titles with dot leaders and page numbers; those lines are not headings, and no ordered anchor or must_contain phrase uses a section title, so a converter that writes the contents as text is not penalised. Figure captions ('Fig. 1. CSF Core structure' ...) are not headings, and text inside figures is not checked. The file has no tables (the step list and tier chart are figures), so tables is empty. must_contain: 23 phrases, each printed once in pages 1-14, none containing an em dash, quotation mark or apostrophe (the text uses typographic ones throughout) and none crossing a page break; 'which are a mechanism for describing an organization' stops before the possessive. 'Appendix A is the CSF Core' is printed twice (pages 7 and 8) and is not used. ordered: 8 body-text anchors on pages 2, 5, 6, 9, 10, 11, 13 and 14. Noise (visible furniture): every page after the cover carries the running header 'NIST CSWP 29' / 'February 26, 2024' / 'The NIST Cybersecurity Framework (CSF) 2.0' (13 times); 'NIST CSWP 29' is printed nowhere else (the DOI is written 'NIST.CSWP.29'), so a faithful conversion has at most 1. The date and the title are not counted because they are also legitimate cover or abstract text. The text is ragged-right; its only line-end hyphens are in compounds ('high-/level', 'one-size-fits-/all', 'sector-'), so absent is empty. BLIND PROTOCOL: chosen and answered before any converter or text extractor was run on the file; every check was typed from the rendered pages (pdftoppm at 150-300 dpi, read as images), and the PDF text layer was never read. Consequences: (1) text that may be an image (logos, mastheads, cover art, chart labels) is not checked; (2) invisible text-layer content cannot be known, so noise lists only VISIBLE repeated page furniture; (3) where the exact code point of a glyph cannot be seen (curly vs straight quotes, dash and minus variants, the '>=' sign), must_contain phrases and ordered anchors avoid it; headings, table cells and absent entries that cannot avoid it are noted per file."
+}

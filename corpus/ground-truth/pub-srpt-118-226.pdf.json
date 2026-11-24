@@ -1,0 +1,85 @@
+{
+  "file": "pub-srpt-118-226.pdf",
+  "format": "pdf",
+  "origin": "public",
+  "source_url": "https://www.govinfo.gov/content/pkg/CRPT-118srpt226/pdf/CRPT-118srpt226.pdf",
+  "title": "Financial Management Risk Reduction Act (Senate Report 118-226, to accompany S. 4716)",
+  "publisher": "U.S. Senate Committee on Homeland Security and Governmental Affairs; printed by the U.S. Government Publishing Office (govinfo)",
+  "license": "Public domain in the United States: work of the U.S. Government (17 U.S.C. 105); congressional committee reports are not subject to copyright.",
+  "sha256": "663b6c46088d7063906f695464004433938d4c03c826846c7495e3f737da58fd",
+  "pages_or_sheets": 10,
+  "stresses": [
+    "footnotes at the foot of the page; on PDF page 4 the text layer stores the footnotes before the body text",
+    "Roman-numbered section headings set in small capitals, italic subsection headings and statute headings",
+    "frequent line-end hyphenation in justified text",
+    "an image-only cost-estimate summary box without a text layer",
+    "a small numeric table with a spanner header and dot leaders",
+    "invisible GPO production slug text in the text layer of every page",
+    "statute text with italic insertions and bold brackets that the text layer maps to other glyphs"
+  ],
+  "checks": {
+    "must_contain": [
+      "COMMITTEE ON HOMELAND SECURITY AND GOVERNMENTAL AFFAIRS UNITED STATES SENATE",
+      "WILLIAM E. HENDERSON III, Minority Staff Director",
+      "to improve the single audit requirements, having considered the same, reports favorably thereon",
+      "The Act also requires agencies to identify recipients who should have undergone audits but did not",
+      "it estimated that only 49% of all sampled audits were acceptable",
+      "A Historical Evaluation of the Single Audit: Thirty Years from Initial Legislation to Uniform Guidance",
+      "Report on National Single Audit Sampling Project (June 2007)",
+      "between 2017 and 2021 ($1.17 trillion) were linked to audit findings that were both severe and persistent",
+      "Consistent with Committee Rule 3(G), the Committee reports the bill with a technical amendment by mutual agreement of the Chairman and Ranking Member.",
+      "the Committee has considered the regulatory impact of this bill and determined that the bill will have no regulatory impact within the meaning of the rules",
+      "The CBO staff contact for this estimate is Matthew Pickford.",
+      "The Director shall designate a Federal clearinghouse to",
+      "the Federal agencies designated under paragraph (1) shall complete a Government-wide analysis of single audit quality"
+    ],
+    "ordered": [
+      "reports favorably thereon",
+      "consolidated audit rather than audits",
+      "took over hosting the single audit data",
+      "Consistent with Committee Rule 3(G)",
+      "Matthew Pickford",
+      "The Director shall designate a Federal clearinghouse",
+      "Comptroller General of the United States shall complete"
+    ],
+    "headings": [
+      "Financial Management Risk Reduction Act",
+      "Contents",
+      "I. Purpose and Summary",
+      "II. Background and Need for the Legislation",
+      "III. Legislative History",
+      "IV. Section-by-Section Analysis of the Bill, as Reported",
+      "V. Evaluation of Regulatory Impact",
+      "VI. Congressional Budget Office Cost Estimate",
+      "VII. Changes in Existing Law Made by the Bill, as Reported",
+      "Section 1. Short title",
+      "Section 2. Single audit improvements",
+      "Section 3. No additional funds",
+      "UNITED STATES CODE",
+      "TITLE 10—MONEY AND FINANCE",
+      "Subtitle V—General Assistance Administration",
+      "CHAPTER 75—REQUIREMENTS FOR SINGLE AUDITS",
+      "SEC. 7504. FEDERAL AGENCY RESPONSIBILITIES AND RELATIONS WITH NON FEDERAL ENTITIES"
+    ],
+    "tables": [
+      {
+        "name": "Table 1.—Estimated Increases in Spending Subject to Appropriation Under S. 4716 (PDF page 8, printed page 6)",
+        "rows": [
+          ["", "2024", "2025", "2026", "2027", "2028", "2029", "2024–2029"],
+          ["Estimated Authorization", "0", "5", "7", "7", "6", "5", "30"],
+          ["Estimated Outlays", "0", "5", "7", "7", "6", "5", "30"]
+        ]
+      }
+    ],
+    "noise": [
+      { "text": "VerDate Sep 11 2014", "max": 1 }
+    ],
+    "absent": [
+      "require- ments",
+      "per- sistent",
+      "effec- tiveness",
+      "chal- lenges"
+    ]
+  },
+  "notes": "Senate committee report PDF exactly as served by govinfo (10 pages: PDF page 1 is the cover, page 2 the committee roster with printed folio '(II)', page 3 is report page 1, and PDF pages 4-10 carry printed page numbers 2-8). Ground truth was built from the rendered pages (each page read as an image, the CBO table re-checked at 200 dpi); pdftotext was used only to check characters. Headings and names printed in small capitals match case-insensitively, so they are written in ordinary case where the page uses small caps. All ordered anchors are body text (PDF pages 3, 4, 5, 6, 8, 9 and 10), none is footnote text, so where a converter places footnotes (after the page body, before it, or at the end of the document) does not change order_score; the anchors test reading order across pages. The text layer of PDF page 4 stores footnotes 1-9 before the page's body text; footnote text is checked only by must_contain (footnotes 2 and 6 on PDF page 4). Line-end hyphens are written joined where the page breaks a word ('require-ments', 'au-dits', 'find-ings', 'des-ignated'); compounds keep their hyphen ('Government-wide', 'grant-by-grant'). The absent entries are split forms a converter leaves when it keeps a line-end hyphen and joins lines with a space (PDF page 3 'require- ments', PDF page 4 'per- sistent', 'effec- tiveness' and 'chal- lenges'). The 'Contents' heading is set in small capitals; the table of contents repeats the Roman-numbered section titles with page numbers, so no ordered anchor uses a section title. The cost-estimate summary box at the top of PDF page 7 ('S. 4716, Financial Management Risk Reduction Act ... * = between zero and $500,000.') is an embedded image with no text layer and is not checked. The cover page and report page 1 both print the title, 'Calendar No. 519' and 'Report 118-226' as legitimate content; they are not running headers. The only visible running header is the page number, too short to count, so noise lists GPO's production slug 'VerDate Sep 11 2014 ... Jkt 049010 ... SR226', set horizontally along the bottom edge, which is in the text layer of all 10 pages but not visible on the rendered page (the only noise entry, and it is invisible: it exists only in the text layer): a faithful conversion has 0, and max 1 is used as the lenient running-header/footer limit. A second invisible slug, 'jgilmore on DSK126QN23PROD with REPORTS', is set rotated in the left margin of every page; it is not checked because extractors emit rotated text inconsistently (MarkItDown 0.1.9 emits it reversed, e.g. 'DORP32NQ621KSD'), so a count would penalize only the converters that read it forwards. Other hidden text-layer strings ('E:\\Seals\\Congress.#13' on the cover, 'Insert offset folio 9 here SR226.001' on PDF page 7) are not checked. In the statute text on PDF page 9 the bold brackets marking omitted law are printed as brackets but come out of the text layer as 'ø' and '¿', and the closing mark on PDF page 10 is a circle that comes out as 'Æ'; no check depends on these glyphs. The CBO table (Table 1, PDF page 8) is covered completely except for its spanner: the header row is the year row (empty stub cell, then 2024 to 2029 and '2024–2029'), followed by both body rows ('Estimated Authorization' and 'Estimated Outlays'). The spanner 'By fiscal year, millions of dollars—' (em dash), printed centred over all seven year columns, is not a table row: a one-header-row Markdown table has no objectively right column for a spanning cell, and as the first expected row it would steer the scorer's header-based column pairing. It is not a must_contain phrase either, because the image-only summary box on PDF page 7 prints 'By Fiscal Year, Millions of Dollars', which an OCR step would match case-insensitively. The last column header is printed on two lines as '2024–' / '2029' (en dash) and is written joined, like '2025–2029' in the text; row labels are written without their dot leaders. 'TITLE 10—MONEY AND FINANCE' is printed as shown, although the amended section is in title 31. The heading 'UNITED STATES CODE' (PDF page 9) is a short string that also occurs in the cover line 'TO AMEND SECTION 7504 OF TITLE 31, UNITED STATES CODE, ...'; it is kept because it is printed as a bold display heading. AUDIT 2026-11-24: re-read all 10 pages as images (Table 1 and the SEC. 7504 heading at 220 dpi) and checked every item; sha256 unchanged. Changes: (1) must_contain 'GOVERNMENTAL AFFAIRS UNITED STATES SENATE TO ACCOMPANY S. 4716' -> 'COMMITTEE ON HOMELAND SECURITY AND GOVERNMENTAL AFFAIRS UNITED STATES SENATE', because the old phrase ran across three differently styled cover lines (large caps, small-caps 'TO ACCOMPANY', larger 'S. 4716') where a converter may legitimately start a new heading; the new phrase is one same-styled block that occurs only on the cover. (2) ordered anchor 'Thirty Years from Initial Legislation' removed: it is footnote 2 text, and its position relative to body text depends on where a converter places footnotes, which is a convention, not an objective reading order (7 body-text anchors remain). (3) Table 1: the spanner row ['', 'By fiscal year, millions of dollars—', '', ...] removed and the year row made the header row: the spanner's column in a Markdown table is a convention (it is printed centred over all seven year columns, its middle near the 2027 column, not over 2024), and as row 0 it decided the scorer's header-based column pairing, so a converter that placed it under its centre would have had every column shifted. (4) notes updated to match. All other items were verified against the rendered pages and kept: must_contain phrases are continuous text in reading order, at least 6 words and unique, the line-end hyphen joins ('require-ments', 'au-dits', 'find-ings', 'des-ignated') are certain single words, and no phrase crosses a link (the PDF has no link annotations; URLs are plain text); the headings are all display headings (centred small-caps Roman-numbered titles and 'Contents', italic 'Section n.' lines set on their own, bold statute headings); the four absent split forms are true line-end breaks of single words that never occur legitimately; no check contains the file name or depends on converter-added text (the PDF Title metadata is empty)."
+}

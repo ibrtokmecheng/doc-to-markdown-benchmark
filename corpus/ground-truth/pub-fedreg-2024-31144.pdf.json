@@ -1,0 +1,105 @@
+{
+  "file": "pub-fedreg-2024-31144.pdf",
+  "format": "pdf",
+  "origin": "public",
+  "source_url": "https://www.govinfo.gov/content/pkg/FR-2024-12-30/pdf/2024-31144.pdf",
+  "title": "Section 8e Import Inspection Fee Structure (final rule, 89 FR 106231, FR Doc. 2024-31144)",
+  "publisher": "Office of the Federal Register / U.S. Government Publishing Office (govinfo); issuing agency: Agricultural Marketing Service, U.S. Department of Agriculture",
+  "license": "Public domain in the United States: work of the U.S. Government (17 U.S.C. 105). Federal Register documents are published by the Office of the Federal Register and GPO without copyright.",
+  "sha256": "3da04fb2262958ff7a371f070217c272447c5e27196e74e65dc0361aa8586ad9",
+  "pages_or_sheets": 4,
+  "stresses": [
+    "three-column reading order, including sentences that continue from the foot of one column to the top of the next",
+    "running page header on pages 2-4 (page number, Federal Register volume/issue/date, section name)",
+    "invisible GPO production slug text in the text layer of every page (not visible on the rendered page)",
+    "full-width tables placed between column blocks",
+    "table cells followed by dot leaders",
+    "line-end hyphenation in table footnotes, a redesignation table and body text",
+    "superscript footnote markers in table headers",
+    "page 4 ends with the start of the next, unrelated Federal Register document (Nuclear Regulatory Commission)"
+  ],
+  "checks": {
+    "must_contain": [
+      "is revising the regulations governing the inspection and certification for fresh fruits, vegetables, and other products",
+      "This final rule falls within a category of regulatory actions that the Office of Management and Budget (OMB) has exempted from review under Executive Order 12866.",
+      "proposed changes to Section 8e import inspection charges and revisions to the fee structure of the Specialty Crop Inspection Division (Division).",
+      "AMS notes that 40,000 pounds is generally recognized as the standard weight of the measurement",
+      "All non-8e inspection fees remain unchanged by this rule.",
+      "applicants importing typical 40,000-pound loads comprising one lot will see no change in inspection fees under this new rule.",
+      "Column 3 shows the cost savings for additional lots.",
+      "the $317.50 inspection fee will be determined by multiplying the proposed per-pound rate ($0.00635) by 50,000 pounds.",
+      "The purpose of the RFA is to fit regulatory actions to the scale of businesses subject to such actions",
+      "The last row of column 3 shows that the total number of inspections for the three-year period was 611,475.",
+      "Twenty-three percent of the lots would have been subject to higher fees.",
+      "Just over 75 percent of the inspected lots were for avocadoes.",
+      "AMS received one comment from the Texas International Produce Association (TIPA) in full support of implementing this rule",
+      "divide the current per-lot inspection fee for a full carlot (whole lot) by 40,000"
+    ],
+    "ordered": [
+      "Effective January 29, 2025",
+      "exhausted prior to any judicial challenge",
+      "One comment in support of the proposal was received",
+      "subject to the annual updated",
+      "Column 3 shows the cost savings for additional lots",
+      "Final Regulatory Flexibility Analysis",
+      "Twenty-three percent of the lots",
+      "Associate Administrator, Agricultural Marketing Service"
+    ],
+    "headings": [
+      "Section 8e Import Inspection Fee Structure",
+      "Executive Orders 12866, 13563, and 14094",
+      "Executive Order 13175",
+      "Executive Order 12988",
+      "Background",
+      "Final Regulatory Flexibility Analysis",
+      "Comments",
+      "List of Subjects in 7 CFR Part 51",
+      "PART 51—FRESH FRUITS, VEGETABLES, AND OTHER PRODUCTS (INSPECTION, CERTIFICATION, AND STANDARDS)",
+      "Charges for fees, rates, and expenses",
+      "51.39 through 51.62 [Redesignated as",
+      "Charges for fees and rates for 8e import inspection"
+    ],
+    "tables": [
+      {
+        "name": "Table 1—SCI Sec. 8e Inspection Fees for Standard 40,000 Pound Lot: Comparison of FY 2025 Fee to New Fee Structure (page 2)",
+        "rows": [
+          ["Number of lots", "FY 2025 fee", "New fee¹", "Reduced cost to importer applicant"],
+          ["", "(1)", "(2)", "(3)"],
+          ["1", "$254", "$254", "$0."],
+          ["2", "$370", "$297", "$58."],
+          ["3", "$486", "$355", "$116."],
+          ["4", "$602", "$413", "$174."],
+          ["5", "$718", "$471", "$232."],
+          ["Each additional sublot", "Plus $116", "Plus $58", "$58 savings per additional sublot."]
+        ]
+      },
+      {
+        "name": "Table 3—8e Commodities Imported: Number of Inspections, Categorized by Size of Lot Inspected, Using 40,000-Pound Standard Lot Size Threshold (page 3)",
+        "rows": [
+          ["", "≤40,000 lbs. per lot", ">40,000 lbs. per lot", "Total inspections", "Pct of total inspections (percent)", "Cumulative percent"],
+          ["", "1", "2", "3", "4", "5"],
+          ["Avocados", "395,812", "64,139", "459,951", "75.2", "75.2"],
+          ["Onions", "17,026", "51,918", "68,944", "11.3", "86.5"],
+          ["Grapes", "35,434", "5,445", "40,879", "6.7", "93.2"],
+          ["Oranges", "9,955", "8,219", "18,174", "3.0", "96.2"],
+          ["Kiwifruit", "8,208", "7,358", "15,566", "2.5", "98.7"],
+          ["Tomatoes", "3,925", "33", "3,958", "0.6", "99.3"],
+          ["Grapefruit", "2,314", "1,051", "3,365", "0.6", "99.90"],
+          ["Filberts", "240", "109", "349", "0.1", "99.95"],
+          ["Potatoes", "193", "96", "289", "0.05", "100.0"],
+          ["9 commodities", "473,107", "138,368", "611,475", "", ""]
+        ]
+      }
+    ],
+    "noise": [
+      { "text": "Vol. 89, No. 249", "max": 1 },
+      { "text": "Jkt 265001", "max": 1 }
+    ],
+    "absent": [
+      "in- spection",
+      "Agricul- tural",
+      "Destina- tion"
+    ]
+  },
+  "notes": "Federal Register PDF exactly as served by govinfo (4 pages, Federal Register pages 106231-106234, three text columns per page). Ground truth was built from the rendered pages (each page read as an image, tables re-checked at 200 dpi); pdftotext was used only to check the exact characters of strings. Reading order: page 1 starts with the masthead and the boxed section note in column 1, then column 1, column 2, column 3; tables span the full width between column blocks. Several must_contain phrases deliberately cross a column boundary on the same page: 'revisions to the / fee structure' (page 1, column 2 to column 3), '$317.50 inspection fee will be / determined' (page 2, column 1 to column 2 below Table 1) and 'subject / to such actions' (page 2, column 1 to column 2 at the foot of the page). No phrase crosses a page boundary. Line-end hyphens are written joined: '40,000-pound' and 'per-pound' are true compounds and keep their hyphen (both are printed unbroken elsewhere in the document); the absent entries are the split forms a converter leaves when it keeps a line-end hyphen and joins the lines with a space, listed only where the joined word is one unhyphenated word on the page ('in- spection' and 'Agricul- tural' in the Table 1 and Table 3 footnotes, 'Destina- tion' in the redesignation table on page 4). Every line-end hyphen in the body text of this document falls inside a true compound ('per-pound', '40,000-pound'), so no body-text split form is listed as absent. Headings are the document title (the SUBJECT line) plus the section headings and the CFR part and section headings of the amendatory text; the agency, sub-agency, CFR, docket and RIN lines of the preamble are bold labels and are not listed. The two section-symbol headings are given without the leading '§'/'§§' because the text layer has no space after the section sign while the page shows a thin space; each listed string is an exact substring of the printed heading. In '51.39 through 51.62 [Redesignated as' the page shows a wide space before '[', which the text layer encodes as an 8-point positioning gap with no space character. Table captions are not headings. Noise: 'Vol. 89, No. 249' is VISIBLE: it is printed once in the page-1 masthead (legitimate) and again in the running header of pages 2-4, so a faithful conversion has 1. 'Jkt 265001' is INVISIBLE: it belongs to GPO's production slug ('VerDate Sep<11>2014 ... Jkt 265001 ... 30DER1', set horizontally along the bottom edge in white), which exists in the text layer of all 4 pages but is not visible on the rendered page, so a faithful conversion has 0; max 1 is used as the lenient running-header/footer limit, and 'Jkt 265001' is used instead of 'VerDate Sep<11>2014' because converters may escape the angle brackets. A second invisible slug, 'ddrumheller on DSK120RN23PROD with RULES1', is set rotated (also in white) in the left margin; it is not checked because extractors emit rotated text inconsistently (forwards, reversed or split), so a count would penalize only the converters that read it forwards. Tables: both listed tables are complete, every header and body row as printed (Table 1: 8 rows including the '(1)'-'(3)' column-number row; Table 3: 12 rows including the '1'-'5' column-number row); Table 2, Table 4 and the redesignation table on page 4 are not listed. Table 1: the 'New fee' header carries a superscript footnote marker, written as '¹' (NFKC-normalizes to '1'); the row-1 'Reduced cost' value is printed '$0.' with a period, as are the other values in that column. Dot leaders after cells are not part of cell text; the last two cells of the '9 commodities' row in Table 3 hold only dot leaders and are empty. Table 1's footnote prints '$0.00605' where the body says '$0.00635'; this inconsistency is in the source and no check depends on it. Page 4, column 3 ends with the first part of an unrelated Nuclear Regulatory Commission final rule ('Non-Power Production or Utilization Facility License Renewal'), which is part of this PDF as published; it is not listed among the headings or checks. AUDIT 2026-11-24: removed absent entry 'per- pound' because 'per-pound' is a true compound (printed unbroken elsewhere), so its line-end split is not a one-word hyphenation artifact (policy 6); replaced a note that cited one converter's output for the rotated slug with a tool-neutral reason; noted that 'Vol. 89, No. 249' is visible and 'Jkt 265001' invisible (white text), that both tables are complete, and the gap before '[Redesignated as'. Re-verified every other item against the rendered pages (Tables 1 and 3 and the page-4 headings at 200 dpi) and the text layer: no change needed; must_contain phrases are continuous in reading order, 9-26 words, occur once, cross no link and only the line-end hyphen of the certain compound '40,000-pound'; no item contains the file name or converter-added text; no ordered anchor is footnote text; all headings are bold stand-alone lines; sha256 unchanged."
+}

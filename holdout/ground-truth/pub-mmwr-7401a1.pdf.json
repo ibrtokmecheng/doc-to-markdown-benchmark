@@ -1,0 +1,188 @@
+{
+  "file": "pub-mmwr-7401a1.pdf",
+  "format": "pdf",
+  "origin": "public",
+  "source_url": "https://www.cdc.gov/mmwr/volumes/74/wr/pdfs/mm7401a1-H.pdf",
+  "title": "Expanded Recommendations for Use of Pneumococcal Conjugate Vaccines Among Adults Aged ≥50 Years: Recommendations of the Advisory Committee on Immunization Practices — United States, 2024 (MMWR Morb Mortal Wkly Rep 2025;74(1), article a1, January 9, 2025)",
+  "publisher": "Centers for Disease Control and Prevention (CDC), U.S. Department of Health and Human Services",
+  "license": "Public domain in the United States: work of the U.S. Government (17 U.S.C. 105). MMWR states that all material in the MMWR Series is in the public domain.",
+  "sha256": "2d7963de37d11f0931a5900287508f12172a744cfec92b8ca63578360bbe3a9e",
+  "pages_or_sheets": 8,
+  "stresses": [
+    "two-column justified scientific report with full-width title block, masthead and an issue 'INSIDE' box",
+    "frequent line-end hyphenation in justified columns",
+    "symbol footnotes (*, †, §, ¶, **, ††, §§, ¶¶) at the foot of columns, superscript reference numbers in italics",
+    "full-width clinical guidance TABLE (page 5) with long wrapped cells and row groups whose label is printed once per group",
+    "shaded 'Summary' box and a framed BOX with bullets placed inside the column flow",
+    "a FIGURE drawn as a grid of coloured cells (serotype coverage) with text column headers",
+    "running header and footer on pages 2-8, editorial-board box on page 2, numbered reference list"
+  ],
+  "checks": {
+    "must_contain": [
+      "the Advisory Committee on Immunization Practices (ACIP) recommended use of a pneumococcal conjugate vaccine (PCV) for all adults aged",
+      "This report summarizes evidence considered for these recommendations and provides updated clinical guidance for use of PCV.",
+      "Streptococcus pneumoniae (pneumococcus) is a common bacterial cause of respiratory tract infections, bacteremia, and meningitis.",
+      "older adults experience higher pneumococcal disease rates",
+      "cochlear implant; congenital or acquired asplenia; diabetes mellitus; generalized malignancy",
+      "Additional recommendations are applicable for use of PCV20 or PCV21 for adults who commenced their pneumococcal",
+      "The approval of PCV21, which was specifically developed to target pneumococcal serotypes that commonly cause disease in adults (Figure)",
+      "Postlicensure safety data on PCV20 from the Vaccine Adverse Event Reporting System (VAERS)",
+      "has been estimated to result in approximately 225,000 U.S. adult hospitalizations",
+      "However, 2022 Behavioral Risk Factor Surveillance System data showed that only 37% of adults",
+      "PCV20 met noninferiority criteria for all PCV13 serotypes compared with PCV13 and for six of seven non-PCV13 serotypes",
+      "At least one of the following conditions, according to the 2020 National Health Interview Survey",
+      "the overall reporting rate remained low (0.7 cases per million doses distributed)",
+      "All three models used quality-adjusted life-year (QALY) as the primary health outcome.",
+      "These cases were based on claims without chart confirmation.",
+      "On October 23, 2024, the Advisory Committee on Immunization Practices recommended a single dose of PCV for all adults aged",
+      "The recommendation was supported by several factors",
+      "In many U.S. settings, PCV21 is expected to cover more circulating pneumococcal strains than do other recommended PCVs.",
+      "Clinical guidance for implementing pneumococcal vaccine recommendations for adults aged",
+      "For adults who have received PCV15 but have not completed their recommended pneumococcal vaccine series with PPSV23",
+      "PCV21 is recommended to complete the series as previously recommended.",
+      "routine administration of a pneumococcal vaccine with other age-appropriate doses of vaccines at the same visit is recommended",
+      "Because PCVs are conjugated to CRM197, a nontoxic genetically altered diphtheria toxin",
+      "Adverse events occurring after administration of any vaccine should be reported to VAERS.",
+      "PCV21 contains eight pneumococcal serotypes that are not included in previously recommended pneumococcal vaccines",
+      "This clinical guidance will be reviewed and updated as pneumococcal disease epidemiology evolves.",
+      "to determine the need for a booster to ensure that older adults continue to be protected",
+      "All authors have completed and submitted the International Committee of Medical Journal Editors form for disclosure of potential conflicts of interest.",
+      "Kroger A, Bahta L, Long S, Sanchez P. General best practice guidelines for immunization."
+    ],
+    "ordered": [
+      "Before October 2024, the Advisory Committee on Immunization Practices",
+      "persons with underlying conditions or factors that increase their risk",
+      "In June 2024, ACIP recommended PCV21 as an option for adults",
+      "the ACIP Pneumococcal Vaccines Work Group considered PCV use",
+      "Primary analysis of CMS data through May 2024",
+      "Ease of implementing consistent age-based recommendations for all PCVs was also considered",
+      "Vaccination providers should consult the vaccine package insert",
+      "CDC and ACIP will continue to assess safety and public health impact"
+    ],
+    "headings": [
+      "Expanded Recommendations for Use of Pneumococcal Conjugate Vaccines",
+      "Abstract",
+      "Introduction",
+      "Methods",
+      "Rationale and Evidence",
+      "Pneumococcal Disease Incidence in Adults Aged",
+      "Racial Disparities in Pneumococcal Disease Incidence and Vaccination Coverage",
+      "PCV Immunogenicity and Safety from Clinical Trials",
+      "PCV20 Postlicensure Safety Data",
+      "Economic Analysis",
+      "Recommendations for Use of PCV",
+      "Selection of PCV in Populations with High Proportions of Serotype 4 Pneumococcal Disease",
+      "PPSV23 Use in PCV13-Experienced Adults Who Have Not Completed the Recommended Vaccination Series",
+      "Coadministration with Other Vaccines",
+      "Contraindications and Precautions",
+      "Reporting of Vaccine Adverse Events",
+      "Future Research and Monitoring Priorities",
+      "Acknowledgments",
+      "ACIP Pneumococcal Vaccines Work Group",
+      "References"
+    ],
+    "tables": [
+      {
+        "name": "TABLE. Clinical guidance for implementing pneumococcal vaccine recommendations for adults aged ≥19 years — United States, October 2024 (page 5; complete: header row and all 14 body rows)",
+        "rows": [
+          [
+            "Risk or age group",
+            "Vaccine received previously",
+            "Options for vaccination"
+          ],
+          [
+            "Adults aged ≥50 years",
+            "None or PCV7 only at any age",
+            "A single dose of PCV21, PCV20, or PCV15. If PCV15 is administered, a single dose of PPSV23* should be administered ≥1 year after the PCV15 dose. A minimum interval of 8 weeks can be considered if PCV15 is used in adults with an immunocompromising condition,† cochlear implant, or CSF leak."
+          ],
+          [
+            "",
+            "PPSV23 only",
+            "A single dose of PCV21, PCV20, or PCV15 ≥1 year after the last PPSV23 dose."
+          ],
+          [
+            "",
+            "PCV13 only",
+            "A single dose of PCV21 or PCV20 ≥1 year after the PCV13 dose."
+          ],
+          [
+            "",
+            "PCV13 at any age and PPSV23 at age <65 years",
+            "A single dose of PCV21 or PCV20 ≥5 years after the last pneumococcal vaccine dose."
+          ],
+          [
+            "",
+            "PCV13 at any age and PPSV23 at age ≥65 years",
+            "Shared clinical decision-making is recommended regarding administration of either a single dose of PCV21 or PCV20 for any adult aged ≥65 years who has completed the recommended vaccination series with both PCV13 and PPSV23 (i.e., PPSV23 administered at age ≥65 years) but PCV21, PCV20, or PCV15 not yet received. If a decision to administer PCV21 or PCV20 is made, a single dose is recommended ≥5 years after the last pneumococcal vaccine dose."
+          ],
+          [
+            "Adults aged 19–49 years with an immunocompromising condition,† a CSF leak, or a cochlear implant",
+            "None or PCV7 only at any age",
+            "A single dose of PCV21, PCV20, or PCV15. If PCV15 is used, administer a single dose of PPSV23* ≥8 weeks after the PCV15 dose."
+          ],
+          [
+            "",
+            "PPSV23 only",
+            "A single dose of PCV21, PCV20, or PCV15 ≥1 year after the last PPSV23 dose."
+          ],
+          [
+            "",
+            "PCV13 only",
+            "A single dose of PCV21 or PCV20 administered ≥1 year after the PCV13 dose."
+          ],
+          [
+            "",
+            "PCV13 and 1 dose of PPSV23",
+            "A single dose of PCV21 or PCV20 ≥5 years after the last pneumococcal vaccine dose. The pneumococcal vaccination series is complete, and it need not be followed by additional pneumococcal vaccine doses."
+          ],
+          [
+            "",
+            "PCV13 and 2 doses of PPSV23",
+            "The pneumococcal vaccination recommendations should be reviewed again when the person turns age 50 years. Alternatively, a single dose of either PCV21 or PCV20 should be administered ≥5 years after the last pneumococcal vaccine dose. If PCV21 or PCV20 is used, the series is complete, and it need not be followed by additional pneumococcal vaccine doses."
+          ],
+          [
+            "Adults aged 19–49 years with chronic medical conditions§",
+            "None or PCV7 only at any age",
+            "A single dose of PCV21, PCV20, or PCV15. If PCV15 is administered, a single dose of PPSV23* should be administered ≥1 year after the PCV15 dose."
+          ],
+          [
+            "",
+            "PPSV23 only",
+            "A single dose of PCV21, PCV20, or PCV15 ≥1 year after the last PPSV23 dose."
+          ],
+          [
+            "",
+            "PCV13 only",
+            "A single dose of PCV21 or PCV20 ≥1 year after the PCV13 dose."
+          ],
+          [
+            "",
+            "PCV13 and 1 dose of PPSV23",
+            "The pneumococcal vaccination recommendations should be reviewed again when the person reaches age 50 years."
+          ]
+        ]
+      }
+    ],
+    "noise": [
+      {
+        "text": "Morbidity and Mortality Weekly Report",
+        "max": 1
+      },
+      {
+        "text": "January 9, 2025 | Vol. 74 | No. 1",
+        "max": 1
+      }
+    ],
+    "absent": [
+      "conju- gate",
+      "trans- mission",
+      "unpub- lished",
+      "annu- ally",
+      "recommenda- tion",
+      "diag- nostic",
+      "assump- tions",
+      "experi- encing"
+    ]
+  },
+  "notes": "MMWR article reprint PDF exactly as served (8 pages, US Letter, two columns). Page 1: issue masthead ('U.S. Centers for Disease Control and Prevention', 'MMWR' logo, 'Morbidity and Mortality Weekly Report', 'Weekly / Vol. 74 / No. 1', 'January 9, 2025'), title, authors, Abstract and Introduction in two columns, footnote *, an 'INSIDE' box listing other articles of the issue, a Continuing Education box and the HHS/CDC logo block. Pages 2-6: body, FIGURE (page 2), editorial-board box (page 2), Summary box (page 4), TABLE (page 5), BOX (page 6), acknowledgments, work group, author affiliations and disclosures. Pages 7-8: References 1-33. Headings: the first line of the title (the title is 3 lines; the listed string is the part on line 1), the blue centred section headings (Abstract, Introduction, Methods, Rationale and Evidence, Recommendations for Use of PCV, Acknowledgments, ACIP Pneumococcal Vaccines Work Group, References) and the bold run-over subsection headings; 'Pneumococcal Disease Incidence in Adults Aged' is the printed heading without its final '≥19 Years' (the ≥ sign's code point cannot be seen). The 'Summary' box labels, the FIGURE/TABLE/BOX captions and the 'INSIDE' items are not headings. ordered: 8 body-text anchors on pages 1 (left, right), 2, 3, 4 (left, right), 5 and 6; none from a footnote, box, figure, table or reference, so footnote placement does not change order_score. must_contain: 29 phrases, each printed once, none crossing a column or page break or a hyphenated line end; 4 are footnotes or table notes (footnote *, footnote **, footnote §§, TABLE footnote *), 1 is from the Summary box, 2 from the BOX, 1 from References. TABLE: complete. The first column labels a row group and is printed once, on the group's first row; the other rows of the group have an empty first cell (empty expected cells are not scored, so repeating the label costs precision only). Cells are written as printed, wrapped lines joined with a space; footnote markers are kept ('PPSV23*' normalizes to 'ppsv23'; '†' and '§' stay). Most cells contain '≥', and two labels contain an en dash ('19–49'); these are written as the visible characters U+2265 and U+2013, an assumption the blind protocol could not verify against the text layer. The FIGURE (page 2) is a grid of coloured cells whose meaning is in the colour, so it is not a table check. Noise (visible furniture): the running header 'Morbidity and Mortality Weekly Report' tops pages 2-8 and the same words are the page-1 masthead, so a faithful conversion has at most 1; the footer 'U.S. Department of Health and Human Services | Centers for Disease Control and Prevention | MMWR | January 9, 2025 | Vol. 74 | No. 1' is on pages 2-8 (7 times; page 1 has the logo block instead), checked through its last segment, max 1 (the '|' separators normalize to spaces; 'U.S. Department of Health and Human Services' is not used because the page-2 editorial box also prints it). Absent: split forms of eight one-word line-end hyphenations in body text (page 1 'conju-/gate', 'trans-/mission'; page 3 'unpub-/lished', 'annu-/ally', 'recommenda-/tion'; page 4 'diag-/nostic', 'assump-/tions', 'experi-/encing'); compounds broken at a line end ('PCV-/naïve', 'non-/Black', 'non-/Hispanic', 'double-/blind', 'placebo-/controlled', 'toxoid–/containing') are not listed. BLIND PROTOCOL: chosen and answered before any converter or text extractor was run on the file; every check was typed from the rendered pages (pdftoppm at 150-300 dpi, read as images), and the PDF text layer was never read. Consequences: (1) text that may be an image (logos, mastheads, cover art, chart labels) is not checked; (2) invisible text-layer content cannot be known, so noise lists only VISIBLE repeated page furniture; (3) where the exact code point of a glyph cannot be seen (curly vs straight quotes, dash and minus variants, the '>=' sign), must_contain phrases and ordered anchors avoid it; headings, table cells and absent entries that cannot avoid it are noted per file."
+}

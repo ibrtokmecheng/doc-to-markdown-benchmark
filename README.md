@@ -1,0 +1,70 @@
+# Document-to-Markdown benchmark: PackForAI vs Microsoft MarkItDown
+
+A small, reproducible benchmark of how well two converters keep a document's content and structure when they
+turn it into Markdown for language models. Write-up: https://packforai.com/blog/packforai-vs-markitdown-benchmark
+
+We make PackForAI. To keep the comparison checkable, the answer files were written before either tool ran, the
+held-out set was chosen and answered by a reviewer who never ran either tool, and every raw output is included.
+
+## What is here
+
+| Path | Contents |
+|---|---|
+| `corpus/` | First set: 3 public U.S. government PDFs and 6 generated files, with answer files in `corpus/ground-truth/`. PackForAI was developed against this set after run 1. |
+| `holdout/` | Held-out set: 4 public U.S. government PDFs and 5 generated files, chosen and answered blind (`holdout/SELECTION.md`), frozen before either tool ran on them. |
+| `score.mjs` | The scorer (version 1.2.0). Rules and the reasons for every change are in `SCORING.md`. Tests: `node --test score.test.mjs`. |
+| `run_markitdown.py` | Runs MarkItDown on a folder (`MarkItDown(enable_plugins=False)`, no LLM, no Azure Document Intelligence). |
+| `run-packforai.mjs` | Runs PackForAI's production conversion code on a folder (free plan, OCR off, network blocked). The engine itself is not part of this kit; see "Reproducing the PackForAI side". |
+| `generate_corpus.py`, `holdout/generate_holdout.py` | Deterministic generators for the generated files and their answers. |
+| `results/run1-2026-11-24/` | First run, before PackForAI's fixes (scored again with 1.2.0: `results-scorer-1.2.0.json`, `summary-scorer-1.2.0.txt`). `verification.json` records the checks of surprising results. |
+| `results/run2-2026-11-24/` | First set again, after the fixes. Not a fair test: PackForAI was tuned on these files. |
+| `results/holdout-2026-11-24/` | Held-out set, each tool run once. `VERIFICATION.md` explains the protocol and the surprising results. |
+
+## Results
+
+Held-out set (9 documents), scorer 1.2.0, PackForAI `document.md`:
+
+```
+candidate             text  order  heads tblRec   spur  noise absent    tokens
+packforai.document   1.000  1.000  0.875  0.643    115      2      1     38070
+packforai.compact    0.988  1.000  0.875  0.328    115      0      1     37548
+markitdown           0.965  0.986  0.333  0.426    182     30      9     41845
+```
+
+- `text`: share of checked phrases present. `order`: share of ordered anchors in the right order.
+- `heads`: share of headings output as Markdown headings. `tblRec`: share of table cells recovered in place.
+- `spur`: table cells that match no answer cell. `noise`: repeated page furniture beyond its first copy.
+- `absent`: leftovers that must not appear (split words such as `conju- gate`, hidden text-layer stamps).
+- `tokens`: o200k_base (gpt-tokenizer), special-token strings counted as ordinary text.
+
+PackForAI's compact.md writes spreadsheet tables as CSV text, which the scorer's CSV reader does not accept when
+it holds thousands separators or semicolons; its table score understates it. See `results/holdout-2026-11-24/VERIFICATION.md`.
+
+## Running it
+
+Requirements: Node.js 20+, Python 3.12 with `markitdown==0.1.9`, and for the generators `uv`.
+
+```sh
+# MarkItDown
+python -I run_markitdown.py holdout out/
+# score (writes JSON to stdout and a summary to stderr)
+node score.mjs holdout out/ > results.json
+```
+
+The scorer scores `<file>.packforai.document.md`, `<file>.packforai.compact.md` and `<file>.markitdown.md` for every
+answer file it finds; a missing output is reported, not guessed.
+
+### Reproducing the PackForAI side
+
+`run-packforai.mjs` calls PackForAI's conversion code directly and is included to show exactly how the outputs
+were produced; that code is not open source. To check the PackForAI outputs yourself, convert the same files at
+https://packforai.com (or with its API) and save `document.md` as `<file>.packforai.document.md` next to the
+MarkItDown outputs. The outputs in `results/` were produced by engine commit `d695968`.
+
+## Sources and licences
+
+- Public PDFs are works of the U.S. federal government (BEA, CDC, IRS, NIST, Census Bureau, Federal Register,
+  U.S. Senate), in the public domain in the United States. Source URLs are in each answer file and in
+  `holdout/SELECTION.md`. Two held-out PDFs are page ranges cut from the published files.
+- Generated documents, answer files and outputs: CC0 1.0. Scripts: MIT.
+- MarkItDown is Microsoft's open-source project (MIT). Its outputs are included as produced.

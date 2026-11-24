@@ -1,0 +1,212 @@
+{
+  "schema": "packforai-benchmark-result@1",
+  "tool": "PackForAI",
+  "file": "gen-steering-deck.pptx",
+  "ok": true,
+  "error": null,
+  "input": {
+    "fileName": "gen-steering-deck.pptx",
+    "fileType": "pptx",
+    "bytes": 40457,
+    "sha256": "1b13bcd69c39203c82a4187ff2b436f0b6c833725754f18d8f9aca3e4c2737bd"
+  },
+  "outputs": {
+    "document": {
+      "file": "gen-steering-deck.pptx.packforai.document.md",
+      "bytes": 1973,
+      "codePoints": 1973,
+      "sha256": "cea190a3ef07265820abd914dbc382512feeb8e60f589f1c7e3d156fe3f78f15",
+      "tokensO200k": 497
+    },
+    "compact": {
+      "file": "gen-steering-deck.pptx.packforai.compact.md",
+      "bytes": 1951,
+      "codePoints": 1951,
+      "sha256": "7f79003be59077d23ede19cad967eb8632a371fa8ba89aaebe9efb6c72bb0a55",
+      "tokensO200k": 488
+    }
+  },
+  "tokenAnalysis": {
+    "tokenizerName": "o200k_base",
+    "tokenizerVersion": "gpt-tokenizer@3.4.0",
+    "originalTokenEstimate": 416,
+    "optimizedTokenEstimate": 488,
+    "savingsPercent": -17.3
+  },
+  "textQuality": {
+    "status": "good",
+    "score": 100,
+    "signals": [],
+    "warning": null
+  },
+  "processingNotes": [
+    "PPTX extraction keeps slide order, one line per text paragraph with its list level, tables as Markdown tables and each slide's own speaker notes. Complex visual layouts are best effort.",
+    "Generated compact.md from the extracted text with whitespace tidied; no lines were removed."
+  ],
+  "ocr": {
+    "requested": false,
+    "status": "not_requested",
+    "provider": "none",
+    "pageCount": null,
+    "costEstimateUsd": null,
+    "reason": "OCR was not requested for this job.",
+    "used": false
+  },
+  "stats": {
+    "pageCount": 6,
+    "sectionCount": 6,
+    "tableCount": 1,
+    "imageCount": null
+  },
+  "elapsedMs": 4.239,
+  "workerGitCommit": "d6959689f71ac2fb72d0eebff8b56046b9026258",
+  "nodeVersion": "v24.22.1",
+  "admission": {
+    "rejectedByProduction": false,
+    "freePlanUpload": true,
+    "notes": []
+  },
+  "job": {
+    "jobId": "bench_1b13bcd69c39203c82a4187ff2b436f0",
+    "userId": "benchmark-local",
+    "documentId": "bench_1b13bcd69c39203c82a4187ff2b436f0",
+    "fileName": "gen-steering-deck.pptx",
+    "fileType": "pptx",
+    "fileSize": 40457,
+    "uploadPath": "uploads/benchmark-local/bench_1b13bcd69c39203c82a4187ff2b436f0/original.pptx",
+    "status": "processing",
+    "createdAt": null,
+    "startedAt": null,
+    "completedAt": null,
+    "leaseExpiresAt": null,
+    "attemptCount": 1,
+    "maxAttempts": 3,
+    "processingVersion": "mvp-0.1.0",
+    "ocrRequested": false,
+    "ocrUsed": false,
+    "webhookUrl": null,
+    "webhookSecret": null,
+    "ocr": {
+      "requested": false,
+      "used": false,
+      "provider": "none",
+      "status": "not_requested",
+      "pageCount": null,
+      "costEstimateUsd": null,
+      "reason": "OCR was not requested for this job."
+    },
+    "ocrMonthlyLimit": 0,
+    "ocrPageLimitPerJob": 0,
+    "ocrUsageId": null,
+    "ocrMonthKey": null,
+    "plan": "free",
+    "dailyConversionLimit": 3,
+    "maxActiveJobs": 1,
+    "originalTokenEstimate": null,
+    "optimizedTokenEstimate": null,
+    "savingsPercent": null,
+    "pageCount": null,
+    "sectionCount": null,
+    "tableCount": null,
+    "imageCount": null,
+    "outputPath": null,
+    "zipPath": null,
+    "errorCode": null,
+    "errorMessage": null,
+    "processingNotes": [],
+    "usageLimitId": "benchmark-local_2026-11-24",
+    "retentionExpiresAt": null,
+    "ocrReservedPages": 0
+  },
+  "isolation": {
+    "networkAttempts": [],
+    "consoleOutput": {
+      "lines": [],
+      "total": 0
+    }
+  },
+  "run": {
+    "startedAt": "2026-11-24T09:54:41.460Z",
+    "runner": "aireadydoc/benchmarks/doc-to-markdown/run-packforai.mjs",
+    "runnerSha256": "ff664fce9d010eb447165541167aed1ebded57ac6ac7aebe11460924f8569abd",
+    "inputFolder": "holdout",
+    "worker": {
+      "processor": "aireadydoc/services/worker/dist/processor.js",
+      "distSha256": "20b8b7eb58cda930618d0b21c08e1ad437e934486ed79fcc5dea95dbf8f54211",
+      "distPossiblyStale": [],
+      "gitDirtyPaths": []
+    },
+    "dependencies": {
+      "pdf-parse": {
+        "installed": "1.1.4",
+        "lockfile": "1.1.4"
+      },
+      "mammoth": {
+        "installed": "1.12.0",
+        "lockfile": "1.12.0"
+      },
+      "turndown": {
+        "installed": "7.2.4",
+        "lockfile": "7.2.4"
+      },
+      "@mixmark-io/domino": {
+        "installed": "2.2.0",
+        "lockfile": "2.2.0"
+      },
+      "fast-xml-parser": {
+        "installed": "5.12.0",
+        "lockfile": "5.12.0"
+      },
+      "fflate": {
+        "installed": "0.8.3",
+        "lockfile": "0.8.3"
+      },
+      "gpt-tokenizer": {
+        "installed": "3.4.0",
+        "lockfile": "3.4.0"
+      },
+      "firebase-admin": {
+        "installed": "14.1.0",
+        "lockfile": "14.1.0"
+      },
+      "@google-cloud/firestore": {
+        "installed": "8.6.0",
+        "lockfile": "8.6.0"
+      },
+      "google-auth-library": {
+        "installed": "10.9.0",
+        "lockfile": "10.9.0"
+      }
+    },
+    "runtime": {
+      "nodeVersion": "v24.22.1",
+      "v8": "13.6.233.17-node.58",
+      "icu": "78.3",
+      "unicode": "17.0",
+      "platform": "darwin-arm64",
+      "nodeEnv": "production",
+      "timeZone": "UTC",
+      "locale": "en-US",
+      "tokenizer": "o200k_base via node_modules/gpt-tokenizer/esm/encoding/o200k_base.js"
+    },
+    "productionRuntime": "node:22-slim with NODE_ENV=production (aireadydoc/services/worker/Dockerfile)",
+    "timing": "elapsedMs is the wall time of processInput(job, bytes) in a long-lived conversion process that first converted one small generated file of each type. It excludes reading the file, the Storage download and upload, Firestore updates and queueing.",
+    "warmup": {
+      "ms": 102.589,
+      "results": {
+        "pdf": "ok",
+        "docx": "ok",
+        "pptx": "ok",
+        "xlsx": "ok",
+        "csv": "ok",
+        "json": "ok"
+      },
+      "consoleLines": 0
+    },
+    "fileTimeoutMs": 300000,
+    "conversionProcess": {
+      "pid": 96096,
+      "start": 1
+    }
+  }
+}

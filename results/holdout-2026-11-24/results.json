@@ -1,0 +1,3889 @@
+{
+  "benchmark": "doc-to-markdown: PackForAI vs Microsoft MarkItDown",
+  "scorer": {
+    "file": "score.mjs",
+    "version": "1.2.0"
+  },
+  "runtime": {
+    "node": "24.22.1",
+    "unicode": "17.0",
+    "icu": "78.3"
+  },
+  "tokenizer": {
+    "name": "o200k_base",
+    "package": "gpt-tokenizer",
+    "version": "3.4.0",
+    "import": "import { countTokens } from 'gpt-tokenizer/encoding/o200k_base'",
+    "resolved_package_dir": "../../../node_modules/gpt-tokenizer",
+    "counted_text": "each output file exactly as stored, decoded as UTF-8 (no normalization; line endings and any BOM are kept)",
+    "special_tokens": "strings such as '<|endoftext|>' are counted as ordinary text: countTokens(text, { disallowedSpecial: new Set() }), like tiktoken's disallowed_special=()"
+  },
+  "normalization": {
+    "steps": [
+      "1. Unicode NFKC: text.normalize('NFKC') (ligatures, full-width forms and no-break spaces become plain characters)",
+      "2. Case-insensitive: String.prototype.toLowerCase() (locale-independent Unicode default lowercase mapping)",
+      "3. Markdown emphasis and escape characters are deleted: every '*', '_', '\\' and '`'",
+      "4. Table pipes: every '|' becomes a space, so '|a|b|' and '| a | b |' both read 'a b'",
+      "5. NFKC again, so a deletion cannot leave an unnormalized sequence (e.g. 'e', '*', combining acute)",
+      "6. Whitespace: every run of JavaScript \\s characters (Unicode White_Space incl. line breaks, tabs, NBSP, U+FEFF) becomes one space; the ends are trimmed"
+    ],
+    "applied_to": "the candidate output and every ground-truth string (must_contain phrases, ordered anchors, headings, table cells, noise texts, absent strings) before they are compared",
+    "text_and_order_only": "after steps 1-6, for must_contain phrases and ordered anchors (on both sides) a hyphen-minus between a letter or digit and a letter loses the space that follows it: /([\\p{L}\\p{N}])- (?=\\p{L})/gu -> '$1-', so a compound broken at a line end ('per-' + line break + 'pound', '40,000-' + line break + 'pound') reads 'per-pound', '40,000-pound'. A split word ('regu-' + line break + 'lation') becomes 'regu-lation', which still differs from 'regulation'. Not applied to headings, table cells, noise or absent strings.",
+    "table_cells_only": "after steps 1-6, a table cell (expected or parsed) that is a number written with comma thousands separators loses those commas: the whole cell must match /^(?:[a-z]{3} ?)?[(+\\-\\u2212]?[$€£¥]?[(+\\-\\u2212]?\\d{1,3}(?:,\\d{3})+(?:\\.\\d+)?%?\\)?\\.?$/u (optional three-letter currency code, sign, parenthesis and currency symbol; groups of exactly 3 digits; optional decimals, '%', ')' and a final '.'); signs, decimals, currency and parentheses are kept, so '1,849,906' = '1849906' and '$7,560.00' = '$7560.00' but '$7,560.00' != '7560'.",
+    "matching": "must_contain, ordered and noise match as substrings of the normalized output (no word-boundary rule); absent strings use the word-boundary and split-word rule of absent_violations; table cells must be equal after normalization",
+    "not_unified": "nothing else is unified: curly vs straight quotes, dash and hyphen variants, soft hyphens (U+00AD), zero-width characters, HTML entities, <br> and CSV's doubled quotes outside parsed CSV tables stay distinct; other Markdown syntax ('#', '-', '>', list numbers, link brackets) stays in the text"
+  },
+  "metric_definitions": {
+    "text_recall": "found / total over checks.must_contain; a phrase is found when its normalized text is a substring of the normalized output, both normalized with the compound-hyphen rule (normalization.text_and_order_only). null when must_contain is empty.",
+    "order_score": "Each anchor's position is the first occurrence of its normalized text in the normalized output (both with the compound-hyphen rule of normalization.text_and_order_only). order_score = length of the longest strictly increasing subsequence of the positions of the anchors that were found, taken in ground-truth order, divided by the number of anchors; a missing anchor counts as not in order. not_in_order lists the found anchors outside one such longest subsequence (when several tie, the one patience sorting reconstructs, which ends at the smallest position; ties never change the score). null when ordered is empty.",
+    "heading_recall": "Heading lines are CommonMark ATX headings outside fenced code blocks: up to 3 spaces of indentation, 1-6 '#', then a space, a tab or the end of the line; an optional closing run of '#' is dropped. Setext (underlined) headings, bold lines and HTML headings do not count. An expected heading is found when its normalized text is a substring of the normalized text of a heading line; each heading line can satisfy at most one expected heading (maximum one-to-one matching). heading_recall = found / total; null when headings is empty.",
+    "table_recall": "The headline table metric. Pipe tables are parsed like GFM tables, outside fenced code blocks: a header line followed by a delimiter line (cells of the form :?-+:?, at least one unescaped '|', the same cell count as the header line), then body lines until a blank line, a line without an unescaped '|', an ATX heading or a code fence (one deliberate difference from GFM: a non-blank line without a '|' right after a table ends it instead of becoming a one-cell row); body rows are padded with empty cells or cut to the header width; '\\|' does not split cells. CSV blocks are parsed as tables too (RFC 4180: comma-separated, a field holding a comma, quote or line break is quoted, a doubled quote inside quotes is one quote): (1) a fenced code block whose info string starts with 'csv', with at least 2 records and a header of at least 2 fields (rows padded or cut to the header width; a block with an unterminated quote or a stray quote is not a table); (2) outside code fences, a paragraph (a run of non-blank lines that are not ATX headings, fences or pipe-table lines) whose lines, after at most one leading caption line, are all one-line CSV records with the same field count of at least 2, at least 2 records in all; a record must not start with a Markdown block marker ('>', '- ', '* ', '+ ', '1. ', '1) '), and no unquoted field may start or end with whitespace (so prose with ', ' never qualifies). The caption line is not part of the table. Parsed tables of both kinds are used in document order. Cells are compared after normalization.table_cells_only (comma thousands separators dropped from whole-cell numbers on both sides). A column of a parsed table that is empty in every row, header included, is padding: each parsed table is scored as written and again with such columns dropped, and the variant with more matching cells is kept (as written on a tie); column indices reported always refer to the table as written. For each expected table, every parsed table is scored: (a) columns are paired by equal non-empty normalized header text, one-to-one, left to right; (b) each other expected column is paired by position, keeping the column offset of the nearest header-paired column (looking left first, then right; offset 0 when no column was paired by header), if that column exists and is free; (c) expected columns still unpaired take the remaining free columns left to right; (d) rows, header rows included, are aligned in order by dynamic programming to maximize the number of matching cells. A matching cell is an aligned pair of cells with equal, non-empty normalized text; an aligned row pair whose only matching cell is a number (a cell without a letter) does not count, unless it is the only non-empty cell of the expected row (a lone shared '5' or '2024', such as a table-of-contents page number, is no evidence that two rows correspond; a lone row label such as 'Bob' still counts). Cells that are empty after normalization are not counted on either side. recall R = matching cells / non-empty expected cells; precision P = matching cells / non-empty cells of the parsed table; F1 = 2PR / (P + R), 0 when P + R = 0. Separately for each expected table, the parsed table with the highest recall is picked; ties on recall go to the higher precision, then to the earliest table in the output. A parsed table with no matching cell is never picked: when no parsed table has a matching cell (or the output has none), R = P = F1 = 0 and no table is named. table_recall = mean R over expected tables. null when tables is empty.",
+    "table_precision": "Secondary. Mean P over expected tables, each P taken from the same parsed table that table_recall picked. Precision is secondary because an expected table can be partial: it may list only some rows of a larger source table, so a complete, faithful conversion carries correct cells beyond the expected ones, and they lower precision. null when tables is empty.",
+    "table_f1": "Secondary. Mean F1 over expected tables, each F1 computed on the same parsed table that table_recall picked (so it is not the best F1 over all parsed tables). Secondary for the same reason as table_precision. null when tables is empty.",
+    "spurious_table_cells": "Secondary; does not change table_recall. The number of non-empty cells inside parsed tables (pipe and CSV) that sit on no ground-truth table cell. Every parsed table is aligned with every expected table by the table_recall rules (column pairing, empty-column variant, row alignment; a row pair is aligned only when it has matching cells that count under rule (d)). A parsed cell sits on a ground-truth cell when, for at least one expected table, its row is aligned to an expected row, its column is paired with an expected column and that expected cell is non-empty; such a cell is not spurious even when its text differs (a wrong value lowers recall and precision instead). Everything else counts: tables built from prose, rows no expected row aligns with (titles, captions, stray text), placeholder header cells ('Column 2', 'Unnamed: 1') and filler such as 'NaN' where the expected cell is empty. Rows of a real table that the ground truth does not list also count, so compare tools on the same file. tables.per_output_table gives the figure for each parsed table. null when tables is empty.",
+    "noise_excess": "For each noise entry, count the non-overlapping occurrences of its normalized text in the normalized output; excess = max(0, count - max). noise_excess = sum of the excesses. null when noise is empty.",
+    "absent_violations": "Number of absent entries present in the output (each entry counts once). Entry and output are normalized (steps 1-6, no compound-hyphen rule). An entry is present when (a) its normalized text occurs in the normalized output and, if it starts with a letter or digit, the occurrence does not start inside a word (no letter or digit right before it); or (b) the entry is a split word '<prefix>- <rest>' (prefix ending in a letter or digit, rest starting with a letter) and the output, read line by line (each line normalized, blank lines skipped), has '<prefix>-' starting a word and followed by a space or the end of the line, with '<rest>' starting a word later on that line or on one of the next 2 lines. Rule (b) catches a line-end hyphen whose two halves were pulled apart by text from another column; absent.found_split lists the entries found only that way. null when absent is empty.",
+    "size": "chars = Unicode code points of the output file as stored; bytes = its UTF-8 bytes; tokens = o200k_base tokens of the same text (see tokenizer). A missing output is empty: 0 / 0 / 0.",
+    "aggregates": "Macro averages: for each candidate, the mean of each per-file score over the files where that check applies (n). Missing outputs are scored as empty text and included. For tables, table_recall is the headline number (the tblRec column of the stderr summary); table_precision and table_f1 are kept beside it as secondary fields. spurious_table_cells (the spur column), noise_excess and absent_violations give their total and mean per file; chars and tokens give totals and means. complete_files = files where every candidate produced an output; tokens.total_on_complete_files sums tokens over those files only, and tokens.ratio_vs_markitdown_on_complete_files divides it by markitdown's sum on the same files.",
+    "rounding": "Non-integer numbers in the report are rounded to 6 decimal places when written; means are computed from unrounded values."
+  },
+  "candidates": [
+    {
+      "key": "packforai.document",
+      "output_suffix": ".packforai.document.md"
+    },
+    {
+      "key": "packforai.compact",
+      "output_suffix": ".packforai.compact.md"
+    },
+    {
+      "key": "markitdown",
+      "output_suffix": ".markitdown.md"
+    }
+  ],
+  "files": [
+    {
+      "file": "gen-opex-tracker.xlsx",
+      "format": "xlsx",
+      "origin": "generated",
+      "title": "Northbank Precision Ltd - Operating Budget vs Actual, H1 2026",
+      "publisher": null,
+      "source_url": null,
+      "license": "Synthetic document written for the held-out benchmark set and generated by holdout/generate_holdout.py; no third-party material. All organisations, people, addresses, e-mail domains and figures are fictitious.",
+      "pages_or_sheets": 3,
+      "stresses": [
+        "three visible worksheets (Summary, Invoices, Assumptions)",
+        "merged title row A1:F1, an italic note row and a blank row above the Summary table",
+        "16 formula cells saved with their computed (cached) values, as Excel saves them",
+        "currency format with negatives in parentheses: \"£\"#,##0;(\"£\"#,##0)",
+        "currency with two decimals \"£\"#,##0.00, percent 0.0%, date d mmm yyyy, #,##0, 0.0000, 0.0",
+        "autofilter and frozen header row on the Invoices sheet",
+        "empty cells inside a table (Days Overdue)"
+      ],
+      "notes": "Expected cells are the text Excel shows in an en-US locale: whole pounds as '£1,842,000' and negative variances as '(£14,380)' (format \"£\"#,##0;(\"£\"#,##0)), invoice amounts as '£9,169.37', percentages rounded to one decimal ('-3.5%'), dates as '2 Mar 2026' (d mmm yyyy), the EUR to GBP rate as '0.8571', the overtime premium as '1.5' and the headcount as '214'. Grouping separators, decimal marks and month names follow the viewer's locale, so (as in the corpus) must_contain lists only text cells and the three sheet names, and number and date display is measured by the tables. The Summary sheet's Variance and Variance % columns and its Total row are formulas (16 cells, e.g. D5 '=C5-B5', E5 '=D5/B5', B11 '=SUM(B5:B10)'); each is saved with its computed value, exactly as Excel stores a calculated workbook, so the expected cell is the computed value, not the formula text. Status is a typed text cell (|variance| < 0.5% reads 'On budget'). The Summary table starts at its header row 4; the merged title (row 1) and the note (row 2) are checked by must_contain and ordered, not as table rows, and row 3 is blank. Days Overdue is empty unless an invoice is overdue at 30 June 2026; empty expected cells are not scored. Sheet names are tab labels: checked by must_contain and by sheet order in ordered, not as headings. No hidden sheets, comments, charts or print headers/footers: noise and absent are empty. Generated by holdout/generate_holdout.py with python-docx 1.2.0, openpyxl 3.1.5, python-pptx 1.0.2, lxml 6.1.3, Python 3.14.6; no converter was run on the file before these answers were frozen.",
+      "ground_truth_file": "gen-opex-tracker.xlsx.json",
+      "ground_truth_sha256": "ab3760e8d72abfbbd5a99182369dbf0ba93bcfb31622da1f8e6a602bb4f2facc",
+      "source": {
+        "found": true,
+        "path": "gen-opex-tracker.xlsx",
+        "sha256_matches": true
+      },
+      "check_counts": {
+        "must_contain": 16,
+        "ordered": 7,
+        "headings": 0,
+        "tables": 3,
+        "noise": 0,
+        "absent": 0
+      },
+      "candidates": {
+        "packforai.document": {
+          "output_file": "gen-opex-tracker.xlsx.packforai.document.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "6b4d414fd2b1c3dc546ea2136d52b518f62255f0d518d234ad008aa840cded5d",
+          "size": {
+            "chars": 2829,
+            "bytes": 2866,
+            "tokens": 1091
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 16,
+            "total": 16,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 7,
+            "total": 7,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": null,
+            "found": 0,
+            "total": 0,
+            "missing": []
+          },
+          "tables": {
+            "recall": 0.886742,
+            "precision": 0.886742,
+            "f1": 0.886742,
+            "spurious_cells": 0,
+            "tables_in_output": 3,
+            "csv_tables_in_output": 0,
+            "per_table": [
+              {
+                "name": "Summary (header row 4 to the Total row 11; title, note and blank row above it not included)",
+                "recall": 1,
+                "precision": 1,
+                "f1": 1,
+                "matching_cells": 48,
+                "expected_cells": 48,
+                "candidate_cells": 48,
+                "matched_table_index": 0,
+                "matched_table_line": 12,
+                "matched_table_kind": "pipe",
+                "column_map": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "dropped_empty_columns": []
+              },
+              {
+                "name": "Invoices (all 17 rows)",
+                "recall": 0.703704,
+                "precision": 0.703704,
+                "f1": 0.703704,
+                "matching_cells": 76,
+                "expected_cells": 108,
+                "candidate_cells": 108,
+                "matched_table_index": 1,
+                "matched_table_line": 24,
+                "matched_table_kind": "pipe",
+                "column_map": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6
+                ],
+                "dropped_empty_columns": []
+              },
+              {
+                "name": "Assumptions (all 8 rows)",
+                "recall": 0.956522,
+                "precision": 0.956522,
+                "f1": 0.956522,
+                "matching_cells": 22,
+                "expected_cells": 23,
+                "candidate_cells": 23,
+                "matched_table_index": 2,
+                "matched_table_line": 45,
+                "matched_table_kind": "pipe",
+                "column_map": [
+                  0,
+                  1,
+                  2
+                ],
+                "dropped_empty_columns": []
+              }
+            ],
+            "per_output_table": [
+              {
+                "line": 12,
+                "kind": "pipe",
+                "rows": 8,
+                "columns": 6,
+                "cells": 48,
+                "spurious_cells": 0
+              },
+              {
+                "line": 24,
+                "kind": "pipe",
+                "rows": 17,
+                "columns": 7,
+                "cells": 108,
+                "spurious_cells": 0
+              },
+              {
+                "line": 45,
+                "kind": "pipe",
+                "rows": 8,
+                "columns": 3,
+                "cells": 23,
+                "spurious_cells": 0
+              }
+            ]
+          },
+          "noise": {
+            "excess": null,
+            "per_entry": []
+          },
+          "absent": {
+            "violations": null,
+            "found": [],
+            "found_split": []
+          }
+        },
+        "packforai.compact": {
+          "output_file": "gen-opex-tracker.xlsx.packforai.compact.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "3f0274c9a3a7236e62389d8faec31d6b70924d3d9a6fb71453fd91cb4bd6b4c8",
+          "size": {
+            "chars": 2309,
+            "bytes": 2346,
+            "tokens": 934
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 16,
+            "total": 16,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 7,
+            "total": 7,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": null,
+            "found": 0,
+            "total": 0,
+            "missing": []
+          },
+          "tables": {
+            "recall": 0,
+            "precision": 0,
+            "f1": 0,
+            "spurious_cells": 0,
+            "tables_in_output": 0,
+            "csv_tables_in_output": 0,
+            "per_table": [
+              {
+                "name": "Summary (header row 4 to the Total row 11; title, note and blank row above it not included)",
+                "recall": 0,
+                "precision": 0,
+                "f1": 0,
+                "matching_cells": 0,
+                "expected_cells": 48,
+                "candidate_cells": null,
+                "matched_table_index": null,
+                "matched_table_line": null,
+                "matched_table_kind": null,
+                "column_map": null,
+                "dropped_empty_columns": null
+              },
+              {
+                "name": "Invoices (all 17 rows)",
+                "recall": 0,
+                "precision": 0,
+                "f1": 0,
+                "matching_cells": 0,
+                "expected_cells": 108,
+                "candidate_cells": null,
+                "matched_table_index": null,
+                "matched_table_line": null,
+                "matched_table_kind": null,
+                "column_map": null,
+                "dropped_empty_columns": null
+              },
+              {
+                "name": "Assumptions (all 8 rows)",
+                "recall": 0,
+                "precision": 0,
+                "f1": 0,
+                "matching_cells": 0,
+                "expected_cells": 23,
+                "candidate_cells": null,
+                "matched_table_index": null,
+                "matched_table_line": null,
+                "matched_table_kind": null,
+                "column_map": null,
+                "dropped_empty_columns": null
+              }
+            ],
+            "per_output_table": []
+          },
+          "noise": {
+            "excess": null,
+            "per_entry": []
+          },
+          "absent": {
+            "violations": null,
+            "found": [],
+            "found_split": []
+          }
+        },
+        "markitdown": {
+          "output_file": "gen-opex-tracker.xlsx.markitdown.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "58d2bf0d6aded6bcebf596c51d012628080aaa8bf75742dc516dedae15020366",
+          "size": {
+            "chars": 2885,
+            "bytes": 2885,
+            "tokens": 1113
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 16,
+            "total": 16,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 7,
+            "total": 7,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": null,
+            "found": 0,
+            "total": 0,
+            "missing": []
+          },
+          "tables": {
+            "recall": 0.598497,
+            "precision": 0.53285,
+            "f1": 0.562174,
+            "spurious_cells": 30,
+            "tables_in_output": 3,
+            "csv_tables_in_output": 0,
+            "per_table": [
+              {
+                "name": "Summary (header row 4 to the Total row 11; title, note and blank row above it not included)",
+                "recall": 0.416667,
+                "precision": 0.30303,
+                "f1": 0.350877,
+                "matching_cells": 20,
+                "expected_cells": 48,
+                "candidate_cells": 66,
+                "matched_table_index": 0,
+                "matched_table_line": 2,
+                "matched_table_kind": "pipe",
+                "column_map": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "dropped_empty_columns": []
+              },
+              {
+                "name": "Invoices (all 17 rows)",
+                "recall": 0.509259,
+                "precision": 0.462185,
+                "f1": 0.484581,
+                "matching_cells": 55,
+                "expected_cells": 108,
+                "candidate_cells": 119,
+                "matched_table_index": 1,
+                "matched_table_line": 16,
+                "matched_table_kind": "pipe",
+                "column_map": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6
+                ],
+                "dropped_empty_columns": []
+              },
+              {
+                "name": "Assumptions (all 8 rows)",
+                "recall": 0.869565,
+                "precision": 0.833333,
+                "f1": 0.851064,
+                "matching_cells": 20,
+                "expected_cells": 23,
+                "candidate_cells": 24,
+                "matched_table_index": 2,
+                "matched_table_line": 36,
+                "matched_table_kind": "pipe",
+                "column_map": [
+                  0,
+                  1,
+                  2
+                ],
+                "dropped_empty_columns": []
+              }
+            ],
+            "per_output_table": [
+              {
+                "line": 2,
+                "kind": "pipe",
+                "rows": 11,
+                "columns": 6,
+                "cells": 66,
+                "spurious_cells": 18
+              },
+              {
+                "line": 16,
+                "kind": "pipe",
+                "rows": 17,
+                "columns": 7,
+                "cells": 119,
+                "spurious_cells": 11
+              },
+              {
+                "line": 36,
+                "kind": "pipe",
+                "rows": 8,
+                "columns": 3,
+                "cells": 24,
+                "spurious_cells": 1
+              }
+            ]
+          },
+          "noise": {
+            "excess": null,
+            "per_entry": []
+          },
+          "absent": {
+            "violations": null,
+            "found": [],
+            "found_split": []
+          }
+        }
+      }
+    },
+    {
+      "file": "gen-purchase-orders.json",
+      "format": "json",
+      "origin": "generated",
+      "title": "Open purchase orders export, May 2026",
+      "publisher": null,
+      "source_url": null,
+      "license": "Synthetic document written for the held-out benchmark set and generated by holdout/generate_holdout.py; no third-party material. All organisations, people, addresses, e-mail domains and figures are fictitious.",
+      "pages_or_sheets": null,
+      "stresses": [
+        "three levels of nesting (purchase_orders > lines > delivery; supplier > contact/address)",
+        "arrays of objects of different lengths (1-3 lines per order)",
+        "null values (phone, dock, notes), booleans and empty arrays",
+        "non-ASCII strings kept as UTF-8 (Ø, ü, ö)",
+        "escaped double quotes inside a string value",
+        "decimal amounts as JSON numbers, ISO 8601 dates and timestamps"
+      ],
+      "notes": "UTF-8 JSON (non-ASCII written as-is, not \\u-escaped), 2-space indent, key order as written; no Markdown structure is expected, so headings and tables are empty. must_contain items are whole keys or scalar values that never occur inside another key or value (numbers as JSON writes them, e.g. the net total of the second order and the gross total of the first). Matching deletes backslashes and underscores, so Gasket set \"Type B\", nitrile also matches its escaped JSON form and po_number matches ponumber. ordered follows document order: export.system, the purchase order numbers of orders 1, 3, 5 and 6, then the summary key line_count. Totals are consistent: net = sum of line amounts, VAT 20% on GBP orders and 0% on EUR orders (reverse charge), gross = net + VAT, and summary.gross_by_currency sums the gross totals. E-mail domains are .example domains. Generated by holdout/generate_holdout.py with python-docx 1.2.0, openpyxl 3.1.5, python-pptx 1.0.2, lxml 6.1.3, Python 3.14.6; no converter was run on the file before these answers were frozen.",
+      "ground_truth_file": "gen-purchase-orders.json.json",
+      "ground_truth_sha256": "e609a812eb6e57188dbbac11157e69d446544c380fb20c3acc6762f1a290bb72",
+      "source": {
+        "found": true,
+        "path": "gen-purchase-orders.json",
+        "sha256_matches": true
+      },
+      "check_counts": {
+        "must_contain": 19,
+        "ordered": 6,
+        "headings": 0,
+        "tables": 0,
+        "noise": 0,
+        "absent": 0
+      },
+      "candidates": {
+        "packforai.document": {
+          "output_file": "gen-purchase-orders.json.packforai.document.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "1a4ff351caae1e2302483e4635a36932d6596e72deded8ec9b8650cfac763728",
+          "size": {
+            "chars": 10233,
+            "bytes": 10241,
+            "tokens": 2986
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 19,
+            "total": 19,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 6,
+            "total": 6,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": null,
+            "found": 0,
+            "total": 0,
+            "missing": []
+          },
+          "tables": {
+            "recall": null,
+            "precision": null,
+            "f1": null,
+            "spurious_cells": null,
+            "tables_in_output": 0,
+            "csv_tables_in_output": 0,
+            "per_table": [],
+            "per_output_table": []
+          },
+          "noise": {
+            "excess": null,
+            "per_entry": []
+          },
+          "absent": {
+            "violations": null,
+            "found": [],
+            "found_split": []
+          }
+        },
+        "packforai.compact": {
+          "output_file": "gen-purchase-orders.json.packforai.compact.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "8808817bf57ed6bdc91c82987fee4bf412d33e7b78de64757ebf7f18e77b0817",
+          "size": {
+            "chars": 10193,
+            "bytes": 10201,
+            "tokens": 2976
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 19,
+            "total": 19,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 6,
+            "total": 6,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": null,
+            "found": 0,
+            "total": 0,
+            "missing": []
+          },
+          "tables": {
+            "recall": null,
+            "precision": null,
+            "f1": null,
+            "spurious_cells": null,
+            "tables_in_output": 0,
+            "csv_tables_in_output": 0,
+            "per_table": [],
+            "per_output_table": []
+          },
+          "noise": {
+            "excess": null,
+            "per_entry": []
+          },
+          "absent": {
+            "violations": null,
+            "found": [],
+            "found_split": []
+          }
+        },
+        "markitdown": {
+          "output_file": "gen-purchase-orders.json.markitdown.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "e6322704d7efecd7d0870c4440d2f32d694d2598a2b729fae4d434f75fad61cd",
+          "size": {
+            "chars": 10117,
+            "bytes": 10125,
+            "tokens": 2955
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 19,
+            "total": 19,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 6,
+            "total": 6,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": null,
+            "found": 0,
+            "total": 0,
+            "missing": []
+          },
+          "tables": {
+            "recall": null,
+            "precision": null,
+            "f1": null,
+            "spurious_cells": null,
+            "tables_in_output": 0,
+            "csv_tables_in_output": 0,
+            "per_table": [],
+            "per_output_table": []
+          },
+          "noise": {
+            "excess": null,
+            "per_entry": []
+          },
+          "absent": {
+            "violations": null,
+            "found": [],
+            "found_split": []
+          }
+        }
+      }
+    },
+    {
+      "file": "gen-quality-review.docx",
+      "format": "docx",
+      "origin": "generated",
+      "title": "Supplier Quality Review, First Half 2026",
+      "publisher": null,
+      "source_url": null,
+      "license": "Synthetic document written for the held-out benchmark set and generated by holdout/generate_holdout.py; no third-party material. All organisations, people, addresses, e-mail domains and figures are fictitious.",
+      "pages_or_sheets": null,
+      "stresses": [
+        "Heading 1 / Heading 2 hierarchy under a Title-style document title",
+        "three-level bulleted list (one multilevel list, levels 0-2)",
+        "decimal numbered list with lower-letter sub-items (levels 0-1)",
+        "table with two header rows: two cells merged vertically (vMerge) and two group headers merged horizontally (gridSpan 2)",
+        "second table with currency values (GBP with thousands separators)",
+        "three Word footnotes (footnotes part, superscript reference marks in body paragraphs)",
+        "external hyperlink at the end of a paragraph",
+        "inline bold and italic runs inside sentences",
+        "page header text"
+      ],
+      "notes": "Table 1 has two header rows. Row 1: 'Supplier' (merged down over both header rows), 'On-time delivery (%)' merged across the Q1/Q2 columns, 'Defect rate (ppm)' merged across its Q1/Q2 columns, 'Rating' (merged down). Row 2: the quarter labels. In the expected grid a merged cell's text is in its top-left grid position and the positions it also covers are empty strings (empty cells are not scored), as in the corpus. Table 2 is a plain 4x5 table; its currency values are text in the Word table, written exactly as typed ('£18,240'). The three footnotes are real Word footnotes (word/footnotes.xml); their full texts are must_contain phrases, so a conversion that drops footnotes loses three phrases, while where it places them (inline, after the paragraph or at the end) does not matter: no ordered anchor is footnote text. The hyperlink text 'quality dashboard' ends the last paragraph and is not part of any phrase, so writing the link as Markdown link syntax does not change any check. The page header 'Internal use only' is not checked (it is stored once in the header part; including it once or leaving it out are both faithful). The document title uses Word's Title style, not a Heading style; as in the corpus it is the first ordered anchor and not listed in headings. Bold and italic runs fall inside must_contain phrases; normalization deletes '*' and '_', so emphasis markup does not matter but the sentence must stay intact. Figures are consistent: the averages in the text equal the means of Table 1's columns and Table 2's totals equal its row and column sums (checked by the generator). No hidden text, comments, tracked changes or line-end hyphens: noise and absent are empty. Generated by holdout/generate_holdout.py with python-docx 1.2.0, openpyxl 3.1.5, python-pptx 1.0.2, lxml 6.1.3, Python 3.14.6; no converter was run on the file before these answers were frozen.",
+      "ground_truth_file": "gen-quality-review.docx.json",
+      "ground_truth_sha256": "b7860798fcf93a64d6465310892bd040e3957559d0a87b59fb958aa769d00bb2",
+      "source": {
+        "found": true,
+        "path": "gen-quality-review.docx",
+        "sha256_matches": true
+      },
+      "check_counts": {
+        "must_contain": 26,
+        "ordered": 7,
+        "headings": 7,
+        "tables": 2,
+        "noise": 0,
+        "absent": 0
+      },
+      "candidates": {
+        "packforai.document": {
+          "output_file": "gen-quality-review.docx.packforai.document.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "46a966bffd8b28fc818f540fa491c3420023e0605c21a0b22d8992c3dfa04979",
+          "size": {
+            "chars": 3520,
+            "bytes": 3539,
+            "tokens": 947
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 26,
+            "total": 26,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 7,
+            "total": 7,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": 1,
+            "found": 7,
+            "total": 7,
+            "missing": []
+          },
+          "tables": {
+            "recall": 0.931818,
+            "precision": 0.952381,
+            "f1": 0.94186,
+            "spurious_cells": 2,
+            "tables_in_output": 2,
+            "csv_tables_in_output": 0,
+            "per_table": [
+              {
+                "name": "Table 1. On-time delivery and defect rate by supplier (two header rows; 'Supplier' and 'Rating' merged vertically, both group headers merged horizontally)",
+                "recall": 0.863636,
+                "precision": 0.904762,
+                "f1": 0.883721,
+                "matching_cells": 38,
+                "expected_cells": 44,
+                "candidate_cells": 42,
+                "matched_table_index": 0,
+                "matched_table_line": 24,
+                "matched_table_kind": "pipe",
+                "column_map": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "dropped_empty_columns": []
+              },
+              {
+                "name": "Table 2. Cost of poor quality by plant (GBP)",
+                "recall": 1,
+                "precision": 1,
+                "f1": 1,
+                "matching_cells": 20,
+                "expected_cells": 20,
+                "candidate_cells": 20,
+                "matched_table_index": 1,
+                "matched_table_line": 59,
+                "matched_table_kind": "pipe",
+                "column_map": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ],
+                "dropped_empty_columns": []
+              }
+            ],
+            "per_output_table": [
+              {
+                "line": 24,
+                "kind": "pipe",
+                "rows": 7,
+                "columns": 6,
+                "cells": 42,
+                "spurious_cells": 2
+              },
+              {
+                "line": 59,
+                "kind": "pipe",
+                "rows": 4,
+                "columns": 5,
+                "cells": 20,
+                "spurious_cells": 0
+              }
+            ]
+          },
+          "noise": {
+            "excess": null,
+            "per_entry": []
+          },
+          "absent": {
+            "violations": null,
+            "found": [],
+            "found_split": []
+          }
+        },
+        "packforai.compact": {
+          "output_file": "gen-quality-review.docx.packforai.compact.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "b4597fdc7f95add30b4fd9b5197893d53d315df8301dd59f9aff9e60f0a6ed31",
+          "size": {
+            "chars": 3482,
+            "bytes": 3501,
+            "tokens": 928
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 26,
+            "total": 26,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 7,
+            "total": 7,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": 1,
+            "found": 7,
+            "total": 7,
+            "missing": []
+          },
+          "tables": {
+            "recall": 0.931818,
+            "precision": 0.952381,
+            "f1": 0.94186,
+            "spurious_cells": 2,
+            "tables_in_output": 2,
+            "csv_tables_in_output": 0,
+            "per_table": [
+              {
+                "name": "Table 1. On-time delivery and defect rate by supplier (two header rows; 'Supplier' and 'Rating' merged vertically, both group headers merged horizontally)",
+                "recall": 0.863636,
+                "precision": 0.904762,
+                "f1": 0.883721,
+                "matching_cells": 38,
+                "expected_cells": 44,
+                "candidate_cells": 42,
+                "matched_table_index": 0,
+                "matched_table_line": 23,
+                "matched_table_kind": "pipe",
+                "column_map": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "dropped_empty_columns": []
+              },
+              {
+                "name": "Table 2. Cost of poor quality by plant (GBP)",
+                "recall": 1,
+                "precision": 1,
+                "f1": 1,
+                "matching_cells": 20,
+                "expected_cells": 20,
+                "candidate_cells": 20,
+                "matched_table_index": 1,
+                "matched_table_line": 58,
+                "matched_table_kind": "pipe",
+                "column_map": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ],
+                "dropped_empty_columns": []
+              }
+            ],
+            "per_output_table": [
+              {
+                "line": 23,
+                "kind": "pipe",
+                "rows": 7,
+                "columns": 6,
+                "cells": 42,
+                "spurious_cells": 2
+              },
+              {
+                "line": 58,
+                "kind": "pipe",
+                "rows": 4,
+                "columns": 5,
+                "cells": 20,
+                "spurious_cells": 0
+              }
+            ]
+          },
+          "noise": {
+            "excess": null,
+            "per_entry": []
+          },
+          "absent": {
+            "violations": null,
+            "found": [],
+            "found_split": []
+          }
+        },
+        "markitdown": {
+          "output_file": "gen-quality-review.docx.markitdown.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "253500cbe5147e7efdd048647bf14090b082d06c0cea31126ede5757b2718990",
+          "size": {
+            "chars": 3429,
+            "bytes": 3448,
+            "tokens": 936
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 26,
+            "total": 26,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 7,
+            "total": 7,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": 1,
+            "found": 7,
+            "total": 7,
+            "missing": []
+          },
+          "tables": {
+            "recall": 0.954545,
+            "precision": 0.954545,
+            "f1": 0.954545,
+            "spurious_cells": 4,
+            "tables_in_output": 2,
+            "csv_tables_in_output": 0,
+            "per_table": [
+              {
+                "name": "Table 1. On-time delivery and defect rate by supplier (two header rows; 'Supplier' and 'Rating' merged vertically, both group headers merged horizontally)",
+                "recall": 0.909091,
+                "precision": 0.909091,
+                "f1": 0.909091,
+                "matching_cells": 40,
+                "expected_cells": 44,
+                "candidate_cells": 44,
+                "matched_table_index": 0,
+                "matched_table_line": 19,
+                "matched_table_kind": "pipe",
+                "column_map": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "dropped_empty_columns": []
+              },
+              {
+                "name": "Table 2. Cost of poor quality by plant (GBP)",
+                "recall": 1,
+                "precision": 1,
+                "f1": 1,
+                "matching_cells": 20,
+                "expected_cells": 20,
+                "candidate_cells": 20,
+                "matched_table_index": 1,
+                "matched_table_line": 55,
+                "matched_table_kind": "pipe",
+                "column_map": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ],
+                "dropped_empty_columns": []
+              }
+            ],
+            "per_output_table": [
+              {
+                "line": 19,
+                "kind": "pipe",
+                "rows": 8,
+                "columns": 6,
+                "cells": 44,
+                "spurious_cells": 4
+              },
+              {
+                "line": 55,
+                "kind": "pipe",
+                "rows": 4,
+                "columns": 5,
+                "cells": 20,
+                "spurious_cells": 0
+              }
+            ]
+          },
+          "noise": {
+            "excess": null,
+            "per_entry": []
+          },
+          "absent": {
+            "violations": null,
+            "found": [],
+            "found_split": []
+          }
+        }
+      }
+    },
+    {
+      "file": "gen-steering-deck.pptx",
+      "format": "pptx",
+      "origin": "generated",
+      "title": "Customer Portal Migration",
+      "publisher": null,
+      "source_url": null,
+      "license": "Synthetic document written for the held-out benchmark set and generated by holdout/generate_holdout.py; no third-party material. All organisations, people, addresses, e-mail domains and figures are fictitious.",
+      "pages_or_sheets": 6,
+      "stresses": [
+        "slide titles (title placeholders) as headings",
+        "title slide with a subtitle",
+        "two-level bullets on slide 3",
+        "native 6x5 table on slide 4 with two header rows: one header merged across two columns and three headers merged down over both header rows",
+        "Two Content slide (slide 5): left and right placeholders, read left then right",
+        "speaker notes on slides 3, 4 and 5"
+      ],
+      "notes": "Six slides from python-pptx's default 4:3 template: 1 Title Slide, 2/3/6 Title and Content, 4 Title Only with a native table, 5 Two Content. In the slide 4 table 'Budget (EUR thousands)' spans the Approved and Spent to date columns, and 'Workstream', 'Milestone' and 'Status' span both header rows; a merged cell's text is in its top-left grid position and the positions it covers are empty strings (not scored), as in the corpus. Speaker notes (slides 3, 4 and 5) are authored text stored in the file; their full text is in must_contain (3 phrases) and never an ordered anchor, so where a converter puts them does not change order_score. The Two Content slide's ordered anchors take the left placeholder first, then the right one (shape order in the file and visual left-to-right order agree). headings are the six slide titles. must_contain keeps every slide paragraph of at least 6 words; the 4 shorter ones (Progress since the last meeting; Budget and milestones; Risks and decisions needed; Next steps) are not phrases. No footers, slide numbers, dates, hidden slides or comments: noise and absent are empty. Generated by holdout/generate_holdout.py with python-docx 1.2.0, openpyxl 3.1.5, python-pptx 1.0.2, lxml 6.1.3, Python 3.14.6; no converter was run on the file before these answers were frozen.",
+      "ground_truth_file": "gen-steering-deck.pptx.json",
+      "ground_truth_sha256": "d976fcef84efec0c0b13faca33417f774b13d81ffc32223fd4b4a8f303232faf",
+      "source": {
+        "found": true,
+        "path": "gen-steering-deck.pptx",
+        "sha256_matches": true
+      },
+      "check_counts": {
+        "must_contain": 17,
+        "ordered": 6,
+        "headings": 6,
+        "tables": 1,
+        "noise": 0,
+        "absent": 0
+      },
+      "candidates": {
+        "packforai.document": {
+          "output_file": "gen-steering-deck.pptx.packforai.document.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "cea190a3ef07265820abd914dbc382512feeb8e60f589f1c7e3d156fe3f78f15",
+          "size": {
+            "chars": 1973,
+            "bytes": 1973,
+            "tokens": 497
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 17,
+            "total": 17,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 6,
+            "total": 6,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": 1,
+            "found": 6,
+            "total": 6,
+            "missing": []
+          },
+          "tables": {
+            "recall": 1,
+            "precision": 1,
+            "f1": 1,
+            "spurious_cells": 0,
+            "tables_in_output": 1,
+            "csv_tables_in_output": 0,
+            "per_table": [
+              {
+                "name": "Slide 4: Budget and Milestones (two header rows; merged header cells)",
+                "recall": 1,
+                "precision": 1,
+                "f1": 1,
+                "matching_cells": 24,
+                "expected_cells": 24,
+                "candidate_cells": 24,
+                "matched_table_index": 0,
+                "matched_table_line": 29,
+                "matched_table_kind": "pipe",
+                "column_map": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ],
+                "dropped_empty_columns": []
+              }
+            ],
+            "per_output_table": [
+              {
+                "line": 29,
+                "kind": "pipe",
+                "rows": 6,
+                "columns": 5,
+                "cells": 24,
+                "spurious_cells": 0
+              }
+            ]
+          },
+          "noise": {
+            "excess": null,
+            "per_entry": []
+          },
+          "absent": {
+            "violations": null,
+            "found": [],
+            "found_split": []
+          }
+        },
+        "packforai.compact": {
+          "output_file": "gen-steering-deck.pptx.packforai.compact.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "7f79003be59077d23ede19cad967eb8632a371fa8ba89aaebe9efb6c72bb0a55",
+          "size": {
+            "chars": 1951,
+            "bytes": 1951,
+            "tokens": 488
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 17,
+            "total": 17,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 6,
+            "total": 6,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": 1,
+            "found": 6,
+            "total": 6,
+            "missing": []
+          },
+          "tables": {
+            "recall": 1,
+            "precision": 1,
+            "f1": 1,
+            "spurious_cells": 0,
+            "tables_in_output": 1,
+            "csv_tables_in_output": 0,
+            "per_table": [
+              {
+                "name": "Slide 4: Budget and Milestones (two header rows; merged header cells)",
+                "recall": 1,
+                "precision": 1,
+                "f1": 1,
+                "matching_cells": 24,
+                "expected_cells": 24,
+                "candidate_cells": 24,
+                "matched_table_index": 0,
+                "matched_table_line": 28,
+                "matched_table_kind": "pipe",
+                "column_map": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ],
+                "dropped_empty_columns": []
+              }
+            ],
+            "per_output_table": [
+              {
+                "line": 28,
+                "kind": "pipe",
+                "rows": 6,
+                "columns": 5,
+                "cells": 24,
+                "spurious_cells": 0
+              }
+            ]
+          },
+          "noise": {
+            "excess": null,
+            "per_entry": []
+          },
+          "absent": {
+            "violations": null,
+            "found": [],
+            "found_split": []
+          }
+        },
+        "markitdown": {
+          "output_file": "gen-steering-deck.pptx.markitdown.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "b03623ec1bc708b0d55b631cf5ef7abc8222689ea936fefdb98fa2e9cf752c69",
+          "size": {
+            "chars": 1912,
+            "bytes": 1912,
+            "tokens": 466
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 17,
+            "total": 17,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 6,
+            "total": 6,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": 1,
+            "found": 6,
+            "total": 6,
+            "missing": []
+          },
+          "tables": {
+            "recall": 1,
+            "precision": 1,
+            "f1": 1,
+            "spurious_cells": 0,
+            "tables_in_output": 1,
+            "csv_tables_in_output": 0,
+            "per_table": [
+              {
+                "name": "Slide 4: Budget and Milestones (two header rows; merged header cells)",
+                "recall": 1,
+                "precision": 1,
+                "f1": 1,
+                "matching_cells": 24,
+                "expected_cells": 24,
+                "candidate_cells": 24,
+                "matched_table_index": 0,
+                "matched_table_line": 25,
+                "matched_table_kind": "pipe",
+                "column_map": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ],
+                "dropped_empty_columns": []
+              }
+            ],
+            "per_output_table": [
+              {
+                "line": 25,
+                "kind": "pipe",
+                "rows": 6,
+                "columns": 5,
+                "cells": 24,
+                "spurious_cells": 0
+              }
+            ]
+          },
+          "noise": {
+            "excess": null,
+            "per_entry": []
+          },
+          "absent": {
+            "violations": null,
+            "found": [],
+            "found_split": []
+          }
+        }
+      }
+    },
+    {
+      "file": "gen-stock-export.csv",
+      "format": "csv",
+      "origin": "generated",
+      "title": "Stock on hand export, three warehouses, September 2026",
+      "publisher": null,
+      "source_url": null,
+      "license": "Synthetic document written for the held-out benchmark set and generated by holdout/generate_holdout.py; no third-party material. All organisations, people, addresses, e-mail domains and figures are fictitious.",
+      "pages_or_sheets": null,
+      "stresses": [
+        "semicolon-delimited CSV (European list separator)",
+        "decimal comma in quantities and amounts (3,85; 1234,56), no thousands separators",
+        "dates as dd.mm.yyyy",
+        "UTF-8 with byte order mark, CRLF line endings",
+        "quoted fields containing semicolons or doubled double quotes",
+        "non-ASCII text (ü, ö, é, Ø, Ł, ó, ź, °)",
+        "commas inside unquoted fields (not a delimiter in this file)",
+        "empty fields (remarks)"
+      ],
+      "notes": "UTF-8 with BOM, ';' as delimiter, RFC 4180-style quoting with ';' as the separator (only fields holding ';' or '\"' are quoted; inner quotes are doubled), CRLF line ends: what a spreadsheet in a European locale writes as 'CSV UTF-8'. Commas inside fields ('Hex bolt M8 x 40, zinc plated', decimal values such as '3,85') are ordinary characters here, not delimiters. Expected cell and phrase text is the parsed field value: quotes unescaped (Atelier \"Le Rivet\" SAS), decimal commas and dd.mm.yyyy dates kept as written, the BOM not part of the first header name. The expected table is the whole file (header + 36 rows, 11 columns); empty remarks are empty strings and are not scored. Bin codes are unique per row, so the ordered anchors are the bins of rows 1, 12, 19, 25 and 36. must_contain items are whole fields that never occur inside another field. A CSV has no headings, page furniture or hyphenation: headings, noise and absent are empty. Generated by holdout/generate_holdout.py with python-docx 1.2.0, openpyxl 3.1.5, python-pptx 1.0.2, lxml 6.1.3, Python 3.14.6; no converter was run on the file before these answers were frozen.",
+      "ground_truth_file": "gen-stock-export.csv.json",
+      "ground_truth_sha256": "b7948f1cad8e686092c92911be8df61c0a1366d36fa765409eb28e3bb2dbf917",
+      "source": {
+        "found": true,
+        "path": "gen-stock-export.csv",
+        "sha256_matches": true
+      },
+      "check_counts": {
+        "must_contain": 19,
+        "ordered": 5,
+        "headings": 0,
+        "tables": 1,
+        "noise": 0,
+        "absent": 0
+      },
+      "candidates": {
+        "packforai.document": {
+          "output_file": "gen-stock-export.csv.packforai.document.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "fcc949c8a0fbbf94d83df21ea7ee00f54dc8060746e89c9f1f32af6b362219a6",
+          "size": {
+            "chars": 5474,
+            "bytes": 5524,
+            "tokens": 2333
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 19,
+            "total": 19,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 5,
+            "total": 5,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": null,
+            "found": 0,
+            "total": 0,
+            "missing": []
+          },
+          "tables": {
+            "recall": 1,
+            "precision": 1,
+            "f1": 1,
+            "spurious_cells": 0,
+            "tables_in_output": 1,
+            "csv_tables_in_output": 0,
+            "per_table": [
+              {
+                "name": "Stock lines: header row and all 36 data rows",
+                "recall": 1,
+                "precision": 1,
+                "f1": 1,
+                "matching_cells": 385,
+                "expected_cells": 385,
+                "candidate_cells": 385,
+                "matched_table_index": 0,
+                "matched_table_line": 8,
+                "matched_table_kind": "pipe",
+                "column_map": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10
+                ],
+                "dropped_empty_columns": []
+              }
+            ],
+            "per_output_table": [
+              {
+                "line": 8,
+                "kind": "pipe",
+                "rows": 37,
+                "columns": 11,
+                "cells": 385,
+                "spurious_cells": 0
+              }
+            ]
+          },
+          "noise": {
+            "excess": null,
+            "per_entry": []
+          },
+          "absent": {
+            "violations": null,
+            "found": [],
+            "found_split": []
+          }
+        },
+        "packforai.compact": {
+          "output_file": "gen-stock-export.csv.packforai.compact.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "defb467dfa283eb71677a080f2899b9451261e3e838fa690ed646bd7d0ce55ed",
+          "size": {
+            "chars": 4543,
+            "bytes": 4593,
+            "tokens": 2136
+          },
+          "text_recall": {
+            "score": 0.894737,
+            "found": 17,
+            "total": 19,
+            "missing": [
+              "Atelier \"Le Rivet\" SAS",
+              "Label as \"HAZMAT\" before dispatch"
+            ]
+          },
+          "order": {
+            "score": 1,
+            "in_order": 5,
+            "total": 5,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": null,
+            "found": 0,
+            "total": 0,
+            "missing": []
+          },
+          "tables": {
+            "recall": 0,
+            "precision": 0,
+            "f1": 0,
+            "spurious_cells": 0,
+            "tables_in_output": 0,
+            "csv_tables_in_output": 0,
+            "per_table": [
+              {
+                "name": "Stock lines: header row and all 36 data rows",
+                "recall": 0,
+                "precision": 0,
+                "f1": 0,
+                "matching_cells": 0,
+                "expected_cells": 385,
+                "candidate_cells": null,
+                "matched_table_index": null,
+                "matched_table_line": null,
+                "matched_table_kind": null,
+                "column_map": null,
+                "dropped_empty_columns": null
+              }
+            ],
+            "per_output_table": []
+          },
+          "noise": {
+            "excess": null,
+            "per_entry": []
+          },
+          "absent": {
+            "violations": null,
+            "found": [],
+            "found_split": []
+          }
+        },
+        "markitdown": {
+          "output_file": "gen-stock-export.csv.markitdown.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "1f693eebb064b5eaa91064743ea9191163a490ff77c326b8972d0f42479430bf",
+          "size": {
+            "chars": 5002,
+            "bytes": 5052,
+            "tokens": 2389
+          },
+          "text_recall": {
+            "score": 0.684211,
+            "found": 13,
+            "total": 19,
+            "missing": [
+              "Atelier \"Le Rivet\" SAS",
+              "Aluminium bar 6082, Ø 40 mm",
+              "Nitrile gloves, size L (box of 100)",
+              "Label as \"HAZMAT\" before dispatch",
+              "1,68",
+              "3865,92"
+            ]
+          },
+          "order": {
+            "score": 1,
+            "in_order": 5,
+            "total": 5,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": null,
+            "found": 0,
+            "total": 0,
+            "missing": []
+          },
+          "tables": {
+            "recall": 0,
+            "precision": 0,
+            "f1": 0,
+            "spurious_cells": 145,
+            "tables_in_output": 1,
+            "csv_tables_in_output": 0,
+            "per_table": [
+              {
+                "name": "Stock lines: header row and all 36 data rows",
+                "recall": 0,
+                "precision": 0,
+                "f1": 0,
+                "matching_cells": 0,
+                "expected_cells": 385,
+                "candidate_cells": null,
+                "matched_table_index": null,
+                "matched_table_line": null,
+                "matched_table_kind": null,
+                "column_map": null,
+                "dropped_empty_columns": null
+              }
+            ],
+            "per_output_table": [
+              {
+                "line": 1,
+                "kind": "pipe",
+                "rows": 37,
+                "columns": 5,
+                "cells": 145,
+                "spurious_cells": 145
+              }
+            ]
+          },
+          "noise": {
+            "excess": null,
+            "per_entry": []
+          },
+          "absent": {
+            "violations": null,
+            "found": [],
+            "found_split": []
+          }
+        }
+      }
+    },
+    {
+      "file": "pub-bea-gdp4q24-adv.pdf",
+      "format": "pdf",
+      "origin": "public",
+      "title": "Gross Domestic Product, 4th Quarter and Year 2024 (Advance Estimate) (news release BEA 25-02, January 30, 2025); pages 1-7 of 17",
+      "publisher": "U.S. Bureau of Economic Analysis, U.S. Department of Commerce",
+      "source_url": "https://www.bea.gov/sites/default/files/2025-01/gdp4q24-adv.pdf",
+      "license": "Public domain in the United States: work of the U.S. Government (17 U.S.C. 105).",
+      "pages_or_sheets": 7,
+      "stresses": [
+        "statistical news release: narrative with bold lead-ins, charts between paragraphs, a small two-column summary table, technical notes with two-level bullets, a footnote, a list of release tables",
+        "a dense 22-column statistical table (Table 1, page 7) with three header rows (spanning header, year groups, quarters), a line-number column on both sides, indented row labels, a two-line row label, negative values and dot-leader cells",
+        "BEA logo header and 'Page N of 17' footer on pages 2-6 (page 1 has the embargo line and masthead, page 7 a date line)",
+        "page range cut from a longer PDF (untagged after the cut)"
+      ],
+      "notes": "BEA news release exactly as served (17 pages), cut to pages 1-7 with pypdf (see holdout/SELECTION.md): page 1 headline and chart, page 2 two charts and price paragraph, page 3 'Real GDP and Related Measures' summary table, 'GDP for 2024' and the next-release line, pages 4-5 'Technical Notes', page 6 the list of news release tables, page 7 Table 1. Pages 8-17 (Tables 2-8, Appendix Tables A-B) are not in the file. Headings: the release title (largest bold text on page 1; '(Advance Estimate)' is a second, smaller line and is not part of the listed string) and the bold stand-alone lines 'GDP for 2024', 'Technical Notes', 'Sources of change for real GDP', 'Impact of Hurricane Milton on fourth-quarter 2024 estimates' and 'News release tables'. The 'News Release' banner, the BEA logo header and the chart titles and labels are not checked (they may be images). Table titles are captions, not headings. Tables: the page-3 summary table is complete (5 rows x 2 columns, no header row). Table 1 is PARTIAL by design (hand transcription of all 43 lines x 22 columns was judged too error-prone): its three header rows plus lines 1-7, 16, 19 and 22, every cell as printed; table_precision is therefore expected to be below 1 for a complete conversion. Header layout: 'Line', the empty label column and the annual columns '2022', '2023', '2024' span all three header rows and are written in the top row; 'Seasonally adjusted at annual rates' spans the 16 quarterly columns and is written in the first column it covers, the year groups 2021-2024 likewise in the second row, then the quarter row; covered positions are empty strings (not scored). The line number is printed in the first and the last column. Line 22's label is printed on two lines ('Government consumption' / 'expenditures and gross investment') with its values on the second line and is written joined. Negative values are written with ASCII hyphen-minus: the printed sign is hyphen-width (narrower than a digit); the text layer was not read, so if it encodes U+2212 those cells fail for every converter alike. Cross-checks: Table 1 line 1 shows 2.3 for 2024 Q4, 3.1 for 2024 Q3, 2.8 for 2024 and 2.9 for 2023, as the text says. Each must_contain phrase occurs once in pages 1-7 (the Table 1 title occurs twice, on pages 6 and 7, so it is not used); no phrase crosses a page break or a hyphenated line end. ordered follows pages 1, 1, 2, 3, 4, 4, 6. Noise: the only repeated furniture is the logo header and the footer 'Page N of 17' on pages 2-6 (a different number on each page), so noise is empty; the text is ragged-right with no line-end hyphenation, so absent is empty. BLIND PROTOCOL: chosen and answered before any converter or text extractor was run on the file; every check was typed from the rendered pages (pdftoppm at 150-300 dpi, read as images), and the PDF text layer was never read. Consequences: (1) text that may be an image (logos, mastheads, cover art, chart labels) is not checked; (2) invisible text-layer content cannot be known, so noise lists only VISIBLE repeated page furniture; (3) where the exact code point of a glyph cannot be seen (curly vs straight quotes, dash and minus variants, the '>=' sign), must_contain phrases and ordered anchors avoid it; headings, table cells and absent entries that cannot avoid it are noted per file.",
+      "ground_truth_file": "pub-bea-gdp4q24-adv.pdf.json",
+      "ground_truth_sha256": "97075801d5420b9149b341585d8f15642685757f44115e5d95aa68f10277074d",
+      "source": {
+        "found": true,
+        "path": "pub-bea-gdp4q24-adv.pdf",
+        "sha256_matches": true
+      },
+      "check_counts": {
+        "must_contain": 20,
+        "ordered": 7,
+        "headings": 6,
+        "tables": 2,
+        "noise": 0,
+        "absent": 0
+      },
+      "candidates": {
+        "packforai.document": {
+          "output_file": "pub-bea-gdp4q24-adv.pdf.packforai.document.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "251bc86640bb3fc9b5dde321165676b34c93d2a2399b461cefdd4f7d8834bd7b",
+          "size": {
+            "chars": 13112,
+            "bytes": 13132,
+            "tokens": 5542
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 20,
+            "total": 20,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 7,
+            "total": 7,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": 1,
+            "found": 6,
+            "total": 6,
+            "missing": []
+          },
+          "tables": {
+            "recall": 0.038618,
+            "precision": 0.073077,
+            "f1": 0.050532,
+            "spurious_cells": 113,
+            "tables_in_output": 2,
+            "csv_tables_in_output": 0,
+            "per_table": [
+              {
+                "name": "Real GDP and Related Measures [Percent change from Q3 to Q4] (page 3; complete; no header row, the title and bracketed subtitle above the table are captions)",
+                "recall": 0,
+                "precision": 0,
+                "f1": 0,
+                "matching_cells": 0,
+                "expected_cells": 10,
+                "candidate_cells": null,
+                "matched_table_index": null,
+                "matched_table_line": null,
+                "matched_table_kind": null,
+                "column_map": null,
+                "dropped_empty_columns": null
+              },
+              {
+                "name": "Table 1. Real Gross Domestic Product and Related Measures: Percent Change from Preceding Period (page 7; partial: the 3 header rows and table lines 1-7, 16, 19 and 22 of 43)",
+                "recall": 0.077236,
+                "precision": 0.146154,
+                "f1": 0.101064,
+                "matching_cells": 19,
+                "expected_cells": 246,
+                "candidate_cells": 130,
+                "matched_table_index": 1,
+                "matched_table_line": 92,
+                "matched_table_kind": "pipe",
+                "column_map": [
+                  0,
+                  1,
+                  2,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  3
+                ],
+                "dropped_empty_columns": []
+              }
+            ],
+            "per_output_table": [
+              {
+                "line": 6,
+                "kind": "pipe",
+                "rows": 3,
+                "columns": 4,
+                "cells": 10,
+                "spurious_cells": 10
+              },
+              {
+                "line": 92,
+                "kind": "pipe",
+                "rows": 49,
+                "columns": 4,
+                "cells": 130,
+                "spurious_cells": 103
+              }
+            ]
+          },
+          "noise": {
+            "excess": null,
+            "per_entry": []
+          },
+          "absent": {
+            "violations": null,
+            "found": [],
+            "found_split": []
+          }
+        },
+        "packforai.compact": {
+          "output_file": "pub-bea-gdp4q24-adv.pdf.packforai.compact.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "75c7dfac4bf4971cd4fae623f1d4a0063ee57e28d4381d4355a3f3a351c1c8dc",
+          "size": {
+            "chars": 13096,
+            "bytes": 13116,
+            "tokens": 5538
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 20,
+            "total": 20,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 7,
+            "total": 7,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": 1,
+            "found": 6,
+            "total": 6,
+            "missing": []
+          },
+          "tables": {
+            "recall": 0.038618,
+            "precision": 0.073077,
+            "f1": 0.050532,
+            "spurious_cells": 113,
+            "tables_in_output": 2,
+            "csv_tables_in_output": 0,
+            "per_table": [
+              {
+                "name": "Real GDP and Related Measures [Percent change from Q3 to Q4] (page 3; complete; no header row, the title and bracketed subtitle above the table are captions)",
+                "recall": 0,
+                "precision": 0,
+                "f1": 0,
+                "matching_cells": 0,
+                "expected_cells": 10,
+                "candidate_cells": null,
+                "matched_table_index": null,
+                "matched_table_line": null,
+                "matched_table_kind": null,
+                "column_map": null,
+                "dropped_empty_columns": null
+              },
+              {
+                "name": "Table 1. Real Gross Domestic Product and Related Measures: Percent Change from Preceding Period (page 7; partial: the 3 header rows and table lines 1-7, 16, 19 and 22 of 43)",
+                "recall": 0.077236,
+                "precision": 0.146154,
+                "f1": 0.101064,
+                "matching_cells": 19,
+                "expected_cells": 246,
+                "candidate_cells": 130,
+                "matched_table_index": 1,
+                "matched_table_line": 91,
+                "matched_table_kind": "pipe",
+                "column_map": [
+                  0,
+                  1,
+                  2,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  -1,
+                  3
+                ],
+                "dropped_empty_columns": []
+              }
+            ],
+            "per_output_table": [
+              {
+                "line": 5,
+                "kind": "pipe",
+                "rows": 3,
+                "columns": 4,
+                "cells": 10,
+                "spurious_cells": 10
+              },
+              {
+                "line": 91,
+                "kind": "pipe",
+                "rows": 49,
+                "columns": 4,
+                "cells": 130,
+                "spurious_cells": 103
+              }
+            ]
+          },
+          "noise": {
+            "excess": null,
+            "per_entry": []
+          },
+          "absent": {
+            "violations": null,
+            "found": [],
+            "found_split": []
+          }
+        },
+        "markitdown": {
+          "output_file": "pub-bea-gdp4q24-adv.pdf.markitdown.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "a631a52b7440160eb4fb7b0027426b4c0c5758a908929bc0c2c92044b15de53a",
+          "size": {
+            "chars": 13822,
+            "bytes": 13846,
+            "tokens": 5628
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 20,
+            "total": 20,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 7,
+            "total": 7,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": 0,
+            "found": 0,
+            "total": 6,
+            "missing": [
+              "Gross Domestic Product, 4th Quarter and Year 2024",
+              "GDP for 2024",
+              "Technical Notes",
+              "Sources of change for real GDP",
+              "Impact of Hurricane Milton on fourth-quarter 2024 estimates",
+              "News release tables"
+            ]
+          },
+          "tables": {
+            "recall": 0,
+            "precision": 0,
+            "f1": 0,
+            "spurious_cells": 0,
+            "tables_in_output": 0,
+            "csv_tables_in_output": 0,
+            "per_table": [
+              {
+                "name": "Real GDP and Related Measures [Percent change from Q3 to Q4] (page 3; complete; no header row, the title and bracketed subtitle above the table are captions)",
+                "recall": 0,
+                "precision": 0,
+                "f1": 0,
+                "matching_cells": 0,
+                "expected_cells": 10,
+                "candidate_cells": null,
+                "matched_table_index": null,
+                "matched_table_line": null,
+                "matched_table_kind": null,
+                "column_map": null,
+                "dropped_empty_columns": null
+              },
+              {
+                "name": "Table 1. Real Gross Domestic Product and Related Measures: Percent Change from Preceding Period (page 7; partial: the 3 header rows and table lines 1-7, 16, 19 and 22 of 43)",
+                "recall": 0,
+                "precision": 0,
+                "f1": 0,
+                "matching_cells": 0,
+                "expected_cells": 246,
+                "candidate_cells": null,
+                "matched_table_index": null,
+                "matched_table_line": null,
+                "matched_table_kind": null,
+                "column_map": null,
+                "dropped_empty_columns": null
+              }
+            ],
+            "per_output_table": []
+          },
+          "noise": {
+            "excess": null,
+            "per_entry": []
+          },
+          "absent": {
+            "violations": null,
+            "found": [],
+            "found_split": []
+          }
+        }
+      }
+    },
+    {
+      "file": "pub-irs-iw9.pdf",
+      "format": "pdf",
+      "origin": "public",
+      "title": "Instructions for the Requester of Form W-9 (Rev. March 2024): Request for Taxpayer Identification Number and Certification",
+      "publisher": "Internal Revenue Service, U.S. Department of the Treasury",
+      "source_url": "https://www.irs.gov/pub/irs-pdf/iw9.pdf",
+      "license": "Public domain in the United States: work of the U.S. Government (17 U.S.C. 105).",
+      "pages_or_sheets": 7,
+      "stresses": [
+        "two-column form instructions with large section headings that wrap over two lines",
+        "bold run-in paragraph headings, italic Option run-ins, numbered and lettered lists with hanging indents, bullet lists",
+        "CAUTION and TIP icons with italic text wrapped around them",
+        "underlined hyperlinks, including cross-references to other sections",
+        "running footer 'Instr. for Req. of Form W-9 (Rev. 3-2024)' and page numbers on pages 2-7; page-1 footer with the date and catalog number"
+      ],
+      "notes": "IRS instructions PDF exactly as served (7 pages, US Letter, two columns, Rev. March 2024; page-1 footer 'Mar 11, 2024' and 'Cat. No. 20479P'; the PDF is tagged). Page 1 has the title block across both columns ('Instructions for the Requester of Form W-9', '(Rev. March 2024)', bold subtitle 'Request for Taxpayer Identification Number and Certification') and the Treasury/IRS logo. Headings: the title and the 21 large bold section headings, each written as printed (several wrap over two lines). 'What’s New' is a section heading too but is not listed: its apostrophe is typographic and its code point cannot be seen. Bold run-in paragraph labels ('Line 3a.', 'Backup withholding rate.', 'Reserve rule.', 'Form 945.' ...) and the italic 'Option 1.'/'Option 2.' are body text, not headings. 'Purpose' is a whole heading line; the heading 'Establishing U.S. Status for Purposes ...' also contains it, and the one-to-one heading match keeps the two apart. The file has no tables (lists only), so tables is empty. must_contain: 22 phrases, each printed once, none with an apostrophe or quotation mark, none crossing a column or page break; 'A trust exempt from tax under section 664 or described in section 4947' is printed twice (items 13 and L) and is not used. Several headings and two phrases contain 'W-9', '60-day', 'awaiting-TIN' or 'tax-exempt' with a hyphen written as ASCII hyphen-minus (the blind protocol could not confirm the code point). ordered: 8 body-text anchors on pages 1 (left, right), 2 (left, right), 3, 4, 5 and 7. Noise (visible furniture): the footer 'Instr. for Req. of Form W-9 (Rev. 3-2024)' is printed on pages 2-7 (6 times), max 1; page numbers are too short to count. Absent: the text is mostly ragged-right; the only one-word line-end hyphenation seen is the bold run-in 'Payments made in settlement of payment card or third par-' / 'ty network transactions.' on page 5, listed as its split form. BLIND PROTOCOL: chosen and answered before any converter or text extractor was run on the file; every check was typed from the rendered pages (pdftoppm at 150-300 dpi, read as images), and the PDF text layer was never read. Consequences: (1) text that may be an image (logos, mastheads, cover art, chart labels) is not checked; (2) invisible text-layer content cannot be known, so noise lists only VISIBLE repeated page furniture; (3) where the exact code point of a glyph cannot be seen (curly vs straight quotes, dash and minus variants, the '>=' sign), must_contain phrases and ordered anchors avoid it; headings, table cells and absent entries that cannot avoid it are noted per file.",
+      "ground_truth_file": "pub-irs-iw9.pdf.json",
+      "ground_truth_sha256": "79f065a26e966c56b7462505f5c73edb6a9087b243dc7d2ea8eb4d2cde8b357f",
+      "source": {
+        "found": true,
+        "path": "pub-irs-iw9.pdf",
+        "sha256_matches": true
+      },
+      "check_counts": {
+        "must_contain": 22,
+        "ordered": 8,
+        "headings": 22,
+        "tables": 0,
+        "noise": 1,
+        "absent": 1
+      },
+      "candidates": {
+        "packforai.document": {
+          "output_file": "pub-irs-iw9.pdf.packforai.document.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "c4f7fa9737c7fb3a66e0fa9f1779e6fb2938ee0301698ba605145dcc72d45334",
+          "size": {
+            "chars": 43762,
+            "bytes": 43826,
+            "tokens": 9718
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 22,
+            "total": 22,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 8,
+            "total": 8,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": 1,
+            "found": 22,
+            "total": 22,
+            "missing": []
+          },
+          "tables": {
+            "recall": null,
+            "precision": null,
+            "f1": null,
+            "spurious_cells": null,
+            "tables_in_output": 0,
+            "csv_tables_in_output": 0,
+            "per_table": [],
+            "per_output_table": []
+          },
+          "noise": {
+            "excess": 0,
+            "per_entry": [
+              {
+                "text": "Instr. for Req. of Form W-9 (Rev. 3-2024)",
+                "max": 1,
+                "count": 1,
+                "excess": 0
+              }
+            ]
+          },
+          "absent": {
+            "violations": 1,
+            "found": [
+              "par- ty"
+            ],
+            "found_split": []
+          }
+        },
+        "packforai.compact": {
+          "output_file": "pub-irs-iw9.pdf.packforai.compact.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "6e2d0457b92b4b47292aa558a6ad0e2a1436cbbc92087b701264e6a6009a11e8",
+          "size": {
+            "chars": 43496,
+            "bytes": 43560,
+            "tokens": 9638
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 22,
+            "total": 22,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 8,
+            "total": 8,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": 1,
+            "found": 22,
+            "total": 22,
+            "missing": []
+          },
+          "tables": {
+            "recall": null,
+            "precision": null,
+            "f1": null,
+            "spurious_cells": null,
+            "tables_in_output": 0,
+            "csv_tables_in_output": 0,
+            "per_table": [],
+            "per_output_table": []
+          },
+          "noise": {
+            "excess": 0,
+            "per_entry": [
+              {
+                "text": "Instr. for Req. of Form W-9 (Rev. 3-2024)",
+                "max": 1,
+                "count": 0,
+                "excess": 0
+              }
+            ]
+          },
+          "absent": {
+            "violations": 1,
+            "found": [
+              "par- ty"
+            ],
+            "found_split": []
+          }
+        },
+        "markitdown": {
+          "output_file": "pub-irs-iw9.pdf.markitdown.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "fd9fbf6411e09221132434f8045162ae97dfae66d6fc617c264ced1860c55e31",
+          "size": {
+            "chars": 44850,
+            "bytes": 45026,
+            "tokens": 10713
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 22,
+            "total": 22,
+            "missing": []
+          },
+          "order": {
+            "score": 0.875,
+            "in_order": 7,
+            "total": 8,
+            "missing": [],
+            "not_in_order": [
+              "Section 1446(f) generally requires that if a portion of a gain"
+            ]
+          },
+          "heading_recall": {
+            "score": 0,
+            "found": 0,
+            "total": 22,
+            "missing": [
+              "Instructions for the Requester of Form W-9",
+              "Future Developments",
+              "Reminders",
+              "Purpose",
+              "Background. Chapter 3",
+              "Background. Chapter 4",
+              "Individual Taxpayer Identification Number (ITIN)",
+              "Substitute Form W-9",
+              "TIN Applied For",
+              "How Do I Know When To Use Form W-9?",
+              "Establishing U.S. Status for Purposes of Chapter 3 and Chapter 4 Withholding",
+              "Electronic Submission of Forms W-9",
+              "Responsibility of a Withholding Agent/Qualified Intermediary (QI)/Nominee",
+              "Payees Exempt From Backup Withholding",
+              "Payments Exempt From Backup Withholding",
+              "Payees and Account Holders Exempt From FATCA Reporting",
+              "Joint Foreign Payees",
+              "Names and TINs To Use for Information Reporting",
+              "Notices From the IRS",
+              "Taxpayer Identification Number (TIN) Matching",
+              "Payment and Returns of Tax Withheld",
+              "Additional Information"
+            ]
+          },
+          "tables": {
+            "recall": null,
+            "precision": null,
+            "f1": null,
+            "spurious_cells": null,
+            "tables_in_output": 0,
+            "csv_tables_in_output": 0,
+            "per_table": [],
+            "per_output_table": []
+          },
+          "noise": {
+            "excess": 5,
+            "per_entry": [
+              {
+                "text": "Instr. for Req. of Form W-9 (Rev. 3-2024)",
+                "max": 1,
+                "count": 6,
+                "excess": 5
+              }
+            ]
+          },
+          "absent": {
+            "violations": 1,
+            "found": [
+              "par- ty"
+            ],
+            "found_split": []
+          }
+        }
+      }
+    },
+    {
+      "file": "pub-mmwr-7401a1.pdf",
+      "format": "pdf",
+      "origin": "public",
+      "title": "Expanded Recommendations for Use of Pneumococcal Conjugate Vaccines Among Adults Aged ≥50 Years: Recommendations of the Advisory Committee on Immunization Practices — United States, 2024 (MMWR Morb Mortal Wkly Rep 2025;74(1), article a1, January 9, 2025)",
+      "publisher": "Centers for Disease Control and Prevention (CDC), U.S. Department of Health and Human Services",
+      "source_url": "https://www.cdc.gov/mmwr/volumes/74/wr/pdfs/mm7401a1-H.pdf",
+      "license": "Public domain in the United States: work of the U.S. Government (17 U.S.C. 105). MMWR states that all material in the MMWR Series is in the public domain.",
+      "pages_or_sheets": 8,
+      "stresses": [
+        "two-column justified scientific report with full-width title block, masthead and an issue 'INSIDE' box",
+        "frequent line-end hyphenation in justified columns",
+        "symbol footnotes (*, †, §, ¶, **, ††, §§, ¶¶) at the foot of columns, superscript reference numbers in italics",
+        "full-width clinical guidance TABLE (page 5) with long wrapped cells and row groups whose label is printed once per group",
+        "shaded 'Summary' box and a framed BOX with bullets placed inside the column flow",
+        "a FIGURE drawn as a grid of coloured cells (serotype coverage) with text column headers",
+        "running header and footer on pages 2-8, editorial-board box on page 2, numbered reference list"
+      ],
+      "notes": "MMWR article reprint PDF exactly as served (8 pages, US Letter, two columns). Page 1: issue masthead ('U.S. Centers for Disease Control and Prevention', 'MMWR' logo, 'Morbidity and Mortality Weekly Report', 'Weekly / Vol. 74 / No. 1', 'January 9, 2025'), title, authors, Abstract and Introduction in two columns, footnote *, an 'INSIDE' box listing other articles of the issue, a Continuing Education box and the HHS/CDC logo block. Pages 2-6: body, FIGURE (page 2), editorial-board box (page 2), Summary box (page 4), TABLE (page 5), BOX (page 6), acknowledgments, work group, author affiliations and disclosures. Pages 7-8: References 1-33. Headings: the first line of the title (the title is 3 lines; the listed string is the part on line 1), the blue centred section headings (Abstract, Introduction, Methods, Rationale and Evidence, Recommendations for Use of PCV, Acknowledgments, ACIP Pneumococcal Vaccines Work Group, References) and the bold run-over subsection headings; 'Pneumococcal Disease Incidence in Adults Aged' is the printed heading without its final '≥19 Years' (the ≥ sign's code point cannot be seen). The 'Summary' box labels, the FIGURE/TABLE/BOX captions and the 'INSIDE' items are not headings. ordered: 8 body-text anchors on pages 1 (left, right), 2, 3, 4 (left, right), 5 and 6; none from a footnote, box, figure, table or reference, so footnote placement does not change order_score. must_contain: 29 phrases, each printed once, none crossing a column or page break or a hyphenated line end; 4 are footnotes or table notes (footnote *, footnote **, footnote §§, TABLE footnote *), 1 is from the Summary box, 2 from the BOX, 1 from References. TABLE: complete. The first column labels a row group and is printed once, on the group's first row; the other rows of the group have an empty first cell (empty expected cells are not scored, so repeating the label costs precision only). Cells are written as printed, wrapped lines joined with a space; footnote markers are kept ('PPSV23*' normalizes to 'ppsv23'; '†' and '§' stay). Most cells contain '≥', and two labels contain an en dash ('19–49'); these are written as the visible characters U+2265 and U+2013, an assumption the blind protocol could not verify against the text layer. The FIGURE (page 2) is a grid of coloured cells whose meaning is in the colour, so it is not a table check. Noise (visible furniture): the running header 'Morbidity and Mortality Weekly Report' tops pages 2-8 and the same words are the page-1 masthead, so a faithful conversion has at most 1; the footer 'U.S. Department of Health and Human Services | Centers for Disease Control and Prevention | MMWR | January 9, 2025 | Vol. 74 | No. 1' is on pages 2-8 (7 times; page 1 has the logo block instead), checked through its last segment, max 1 (the '|' separators normalize to spaces; 'U.S. Department of Health and Human Services' is not used because the page-2 editorial box also prints it). Absent: split forms of eight one-word line-end hyphenations in body text (page 1 'conju-/gate', 'trans-/mission'; page 3 'unpub-/lished', 'annu-/ally', 'recommenda-/tion'; page 4 'diag-/nostic', 'assump-/tions', 'experi-/encing'); compounds broken at a line end ('PCV-/naïve', 'non-/Black', 'non-/Hispanic', 'double-/blind', 'placebo-/controlled', 'toxoid–/containing') are not listed. BLIND PROTOCOL: chosen and answered before any converter or text extractor was run on the file; every check was typed from the rendered pages (pdftoppm at 150-300 dpi, read as images), and the PDF text layer was never read. Consequences: (1) text that may be an image (logos, mastheads, cover art, chart labels) is not checked; (2) invisible text-layer content cannot be known, so noise lists only VISIBLE repeated page furniture; (3) where the exact code point of a glyph cannot be seen (curly vs straight quotes, dash and minus variants, the '>=' sign), must_contain phrases and ordered anchors avoid it; headings, table cells and absent entries that cannot avoid it are noted per file.",
+      "ground_truth_file": "pub-mmwr-7401a1.pdf.json",
+      "ground_truth_sha256": "ca97586f156332456f1abd464c2f8015c00d1d78269f66cda849fc3a9c5374bb",
+      "source": {
+        "found": true,
+        "path": "pub-mmwr-7401a1.pdf",
+        "sha256_matches": true
+      },
+      "check_counts": {
+        "must_contain": 29,
+        "ordered": 8,
+        "headings": 20,
+        "tables": 1,
+        "noise": 2,
+        "absent": 8
+      },
+      "candidates": {
+        "packforai.document": {
+          "output_file": "pub-mmwr-7401a1.pdf.packforai.document.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "48bfde8554c17f9dbaa2972d902bc38040aefe1ad5ab3ec5f09eba2829cfd6c6",
+          "size": {
+            "chars": 38770,
+            "bytes": 39049,
+            "tokens": 9948
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 29,
+            "total": 29,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 8,
+            "total": 8,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": 0.25,
+            "found": 5,
+            "total": 20,
+            "missing": [
+              "Expanded Recommendations for Use of Pneumococcal Conjugate Vaccines",
+              "Pneumococcal Disease Incidence in Adults Aged",
+              "Racial Disparities in Pneumococcal Disease Incidence and Vaccination Coverage",
+              "PCV Immunogenicity and Safety from Clinical Trials",
+              "PCV20 Postlicensure Safety Data",
+              "Economic Analysis",
+              "Selection of PCV in Populations with High Proportions of Serotype 4 Pneumococcal Disease",
+              "PPSV23 Use in PCV13-Experienced Adults Who Have Not Completed the Recommended Vaccination Series",
+              "Coadministration with Other Vaccines",
+              "Contraindications and Precautions",
+              "Reporting of Vaccine Adverse Events",
+              "Future Research and Monitoring Priorities",
+              "Acknowledgments",
+              "ACIP Pneumococcal Vaccines Work Group",
+              "References"
+            ]
+          },
+          "tables": {
+            "recall": 0,
+            "precision": 0,
+            "f1": 0,
+            "spurious_cells": 0,
+            "tables_in_output": 0,
+            "csv_tables_in_output": 0,
+            "per_table": [
+              {
+                "name": "TABLE. Clinical guidance for implementing pneumococcal vaccine recommendations for adults aged ≥19 years — United States, October 2024 (page 5; complete: header row and all 14 body rows)",
+                "recall": 0,
+                "precision": 0,
+                "f1": 0,
+                "matching_cells": 0,
+                "expected_cells": 34,
+                "candidate_cells": null,
+                "matched_table_index": null,
+                "matched_table_line": null,
+                "matched_table_kind": null,
+                "column_map": null,
+                "dropped_empty_columns": null
+              }
+            ],
+            "per_output_table": []
+          },
+          "noise": {
+            "excess": 1,
+            "per_entry": [
+              {
+                "text": "Morbidity and Mortality Weekly Report",
+                "max": 1,
+                "count": 2,
+                "excess": 1
+              },
+              {
+                "text": "January 9, 2025 | Vol. 74 | No. 1",
+                "max": 1,
+                "count": 0,
+                "excess": 0
+              }
+            ]
+          },
+          "absent": {
+            "violations": 0,
+            "found": [],
+            "found_split": []
+          }
+        },
+        "packforai.compact": {
+          "output_file": "pub-mmwr-7401a1.pdf.packforai.compact.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "c743dbdc308f229310f446d14ff7b1a3253f7db25263b1b19d076c9475ea2190",
+          "size": {
+            "chars": 38715,
+            "bytes": 38994,
+            "tokens": 9935
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 29,
+            "total": 29,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 8,
+            "total": 8,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": 0.25,
+            "found": 5,
+            "total": 20,
+            "missing": [
+              "Expanded Recommendations for Use of Pneumococcal Conjugate Vaccines",
+              "Pneumococcal Disease Incidence in Adults Aged",
+              "Racial Disparities in Pneumococcal Disease Incidence and Vaccination Coverage",
+              "PCV Immunogenicity and Safety from Clinical Trials",
+              "PCV20 Postlicensure Safety Data",
+              "Economic Analysis",
+              "Selection of PCV in Populations with High Proportions of Serotype 4 Pneumococcal Disease",
+              "PPSV23 Use in PCV13-Experienced Adults Who Have Not Completed the Recommended Vaccination Series",
+              "Coadministration with Other Vaccines",
+              "Contraindications and Precautions",
+              "Reporting of Vaccine Adverse Events",
+              "Future Research and Monitoring Priorities",
+              "Acknowledgments",
+              "ACIP Pneumococcal Vaccines Work Group",
+              "References"
+            ]
+          },
+          "tables": {
+            "recall": 0,
+            "precision": 0,
+            "f1": 0,
+            "spurious_cells": 0,
+            "tables_in_output": 0,
+            "csv_tables_in_output": 0,
+            "per_table": [
+              {
+                "name": "TABLE. Clinical guidance for implementing pneumococcal vaccine recommendations for adults aged ≥19 years — United States, October 2024 (page 5; complete: header row and all 14 body rows)",
+                "recall": 0,
+                "precision": 0,
+                "f1": 0,
+                "matching_cells": 0,
+                "expected_cells": 34,
+                "candidate_cells": null,
+                "matched_table_index": null,
+                "matched_table_line": null,
+                "matched_table_kind": null,
+                "column_map": null,
+                "dropped_empty_columns": null
+              }
+            ],
+            "per_output_table": []
+          },
+          "noise": {
+            "excess": 0,
+            "per_entry": [
+              {
+                "text": "Morbidity and Mortality Weekly Report",
+                "max": 1,
+                "count": 1,
+                "excess": 0
+              },
+              {
+                "text": "January 9, 2025 | Vol. 74 | No. 1",
+                "max": 1,
+                "count": 0,
+                "excess": 0
+              }
+            ]
+          },
+          "absent": {
+            "violations": 0,
+            "found": [],
+            "found_split": []
+          }
+        },
+        "markitdown": {
+          "output_file": "pub-mmwr-7401a1.pdf.markitdown.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "5daca85b9f363f7de156bc611ae912cb6440385fd13bf4c6402c0c7b39a53736",
+          "size": {
+            "chars": 41132,
+            "bytes": 41419,
+            "tokens": 12000
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 29,
+            "total": 29,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 8,
+            "total": 8,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": 0,
+            "found": 0,
+            "total": 20,
+            "missing": [
+              "Expanded Recommendations for Use of Pneumococcal Conjugate Vaccines",
+              "Abstract",
+              "Introduction",
+              "Methods",
+              "Rationale and Evidence",
+              "Pneumococcal Disease Incidence in Adults Aged",
+              "Racial Disparities in Pneumococcal Disease Incidence and Vaccination Coverage",
+              "PCV Immunogenicity and Safety from Clinical Trials",
+              "PCV20 Postlicensure Safety Data",
+              "Economic Analysis",
+              "Recommendations for Use of PCV",
+              "Selection of PCV in Populations with High Proportions of Serotype 4 Pneumococcal Disease",
+              "PPSV23 Use in PCV13-Experienced Adults Who Have Not Completed the Recommended Vaccination Series",
+              "Coadministration with Other Vaccines",
+              "Contraindications and Precautions",
+              "Reporting of Vaccine Adverse Events",
+              "Future Research and Monitoring Priorities",
+              "Acknowledgments",
+              "ACIP Pneumococcal Vaccines Work Group",
+              "References"
+            ]
+          },
+          "tables": {
+            "recall": 0,
+            "precision": 0,
+            "f1": 0,
+            "spurious_cells": 3,
+            "tables_in_output": 1,
+            "csv_tables_in_output": 1,
+            "per_table": [
+              {
+                "name": "TABLE. Clinical guidance for implementing pneumococcal vaccine recommendations for adults aged ≥19 years — United States, October 2024 (page 5; complete: header row and all 14 body rows)",
+                "recall": 0,
+                "precision": 0,
+                "f1": 0,
+                "matching_cells": 0,
+                "expected_cells": 34,
+                "candidate_cells": null,
+                "matched_table_index": null,
+                "matched_table_line": null,
+                "matched_table_kind": null,
+                "column_map": null,
+                "dropped_empty_columns": null
+              }
+            ],
+            "per_output_table": [
+              {
+                "line": 97,
+                "kind": "csv",
+                "rows": 2,
+                "columns": 2,
+                "cells": 3,
+                "spurious_cells": 3
+              }
+            ]
+          },
+          "noise": {
+            "excess": 13,
+            "per_entry": [
+              {
+                "text": "Morbidity and Mortality Weekly Report",
+                "max": 1,
+                "count": 8,
+                "excess": 7
+              },
+              {
+                "text": "January 9, 2025 | Vol. 74 | No. 1",
+                "max": 1,
+                "count": 7,
+                "excess": 6
+              }
+            ]
+          },
+          "absent": {
+            "violations": 8,
+            "found": [
+              "conju- gate",
+              "trans- mission",
+              "unpub- lished",
+              "annu- ally",
+              "recommenda- tion",
+              "diag- nostic",
+              "assump- tions",
+              "experi- encing"
+            ],
+            "found_split": []
+          }
+        }
+      }
+    },
+    {
+      "file": "pub-nist-cswp29.pdf",
+      "format": "pdf",
+      "origin": "public",
+      "title": "The NIST Cybersecurity Framework (CSF) 2.0 (NIST CSWP 29, February 26, 2024); pages 1-14 of 32: cover, front matter and sections 1-4",
+      "publisher": "National Institute of Standards and Technology, U.S. Department of Commerce",
+      "source_url": "https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.29.pdf",
+      "license": "Public domain in the United States: work of the U.S. Government (17 U.S.C. 105).",
+      "pages_or_sheets": 14,
+      "stresses": [
+        "single-column technical publication: cover page, front matter with roman page numbers, table of contents and list of figures with dot leaders, numbered section headings (1., 2., 3.1., ...)",
+        "running header on every page after the cover ('NIST CSWP 29' / 'February 26, 2024' left, the title right)",
+        "bulleted lists with bold or bold-italic lead-ins, a numbered list with bold lead-ins",
+        "small-capital words (GOVERN, IDENTIFY, ...), italic definitions, em dashes",
+        "framed text boxes, figures with captions (wheel diagram, structure chart, step list, tier chart)",
+        "underlined hyperlinks, an e-mail address, one footnote",
+        "page range cut from a longer PDF (untagged after the cut)"
+      ],
+      "notes": "NIST CSWP 29 exactly as served (32 pages), cut to pages 1-14 with pypdf (see holdout/SELECTION.md): page 1 cover (artwork, title 'The NIST Cybersecurity Framework (CSF) 2.0', institute name, DOI line, date, NIST logo), pages 2-5 front matter with roman folios i-iv (Abstract, Keywords, Audience, Supplemental Content, Note to Readers; Acknowledgments; Table of Contents and List of Figures; Preface), pages 6-14 sections 1-4 (printed pages 1-9). Section 5 starts on printed page 10 (PDF page 15) and is not in the file; the table of contents on page 4 still lists it and Appendices A-C. The cover is not checked at all (it may be partly or wholly an image). Headings: the blue bold front-matter headings and the numbered section headings, as printed with their numbers. The table of contents repeats the section titles with dot leaders and page numbers; those lines are not headings, and no ordered anchor or must_contain phrase uses a section title, so a converter that writes the contents as text is not penalised. Figure captions ('Fig. 1. CSF Core structure' ...) are not headings, and text inside figures is not checked. The file has no tables (the step list and tier chart are figures), so tables is empty. must_contain: 23 phrases, each printed once in pages 1-14, none containing an em dash, quotation mark or apostrophe (the text uses typographic ones throughout) and none crossing a page break; 'which are a mechanism for describing an organization' stops before the possessive. 'Appendix A is the CSF Core' is printed twice (pages 7 and 8) and is not used. ordered: 8 body-text anchors on pages 2, 5, 6, 9, 10, 11, 13 and 14. Noise (visible furniture): every page after the cover carries the running header 'NIST CSWP 29' / 'February 26, 2024' / 'The NIST Cybersecurity Framework (CSF) 2.0' (13 times); 'NIST CSWP 29' is printed nowhere else (the DOI is written 'NIST.CSWP.29'), so a faithful conversion has at most 1. The date and the title are not counted because they are also legitimate cover or abstract text. The text is ragged-right; its only line-end hyphens are in compounds ('high-/level', 'one-size-fits-/all', 'sector-'), so absent is empty. BLIND PROTOCOL: chosen and answered before any converter or text extractor was run on the file; every check was typed from the rendered pages (pdftoppm at 150-300 dpi, read as images), and the PDF text layer was never read. Consequences: (1) text that may be an image (logos, mastheads, cover art, chart labels) is not checked; (2) invisible text-layer content cannot be known, so noise lists only VISIBLE repeated page furniture; (3) where the exact code point of a glyph cannot be seen (curly vs straight quotes, dash and minus variants, the '>=' sign), must_contain phrases and ordered anchors avoid it; headings, table cells and absent entries that cannot avoid it are noted per file.",
+      "ground_truth_file": "pub-nist-cswp29.pdf.json",
+      "ground_truth_sha256": "939f639680c4e9d2c1b72b9ecd7ec617960bd154d9d9d9760e7bb24edede9382",
+      "source": {
+        "found": true,
+        "path": "pub-nist-cswp29.pdf",
+        "sha256_matches": true
+      },
+      "check_counts": {
+        "must_contain": 23,
+        "ordered": 8,
+        "headings": 15,
+        "tables": 0,
+        "noise": 1,
+        "absent": 0
+      },
+      "candidates": {
+        "packforai.document": {
+          "output_file": "pub-nist-cswp29.pdf.packforai.document.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "bd42a9f069170b2cee1917eecd3b6d7af9702c679becba4f418c53a27720db49",
+          "size": {
+            "chars": 27998,
+            "bytes": 28108,
+            "tokens": 5008
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 23,
+            "total": 23,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 8,
+            "total": 8,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": 1,
+            "found": 15,
+            "total": 15,
+            "missing": []
+          },
+          "tables": {
+            "recall": null,
+            "precision": null,
+            "f1": null,
+            "spurious_cells": null,
+            "tables_in_output": 0,
+            "csv_tables_in_output": 0,
+            "per_table": [],
+            "per_output_table": []
+          },
+          "noise": {
+            "excess": 1,
+            "per_entry": [
+              {
+                "text": "NIST CSWP 29",
+                "max": 1,
+                "count": 2,
+                "excess": 1
+              }
+            ]
+          },
+          "absent": {
+            "violations": null,
+            "found": [],
+            "found_split": []
+          }
+        },
+        "packforai.compact": {
+          "output_file": "pub-nist-cswp29.pdf.packforai.compact.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "9ac4ff32c47e3c183f56d69977e123fc62b0bb404cced1ec5000ce34f8bf2393",
+          "size": {
+            "chars": 27906,
+            "bytes": 28016,
+            "tokens": 4975
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 23,
+            "total": 23,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 8,
+            "total": 8,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": 1,
+            "found": 15,
+            "total": 15,
+            "missing": []
+          },
+          "tables": {
+            "recall": null,
+            "precision": null,
+            "f1": null,
+            "spurious_cells": null,
+            "tables_in_output": 0,
+            "csv_tables_in_output": 0,
+            "per_table": [],
+            "per_output_table": []
+          },
+          "noise": {
+            "excess": 0,
+            "per_entry": [
+              {
+                "text": "NIST CSWP 29",
+                "max": 1,
+                "count": 1,
+                "excess": 0
+              }
+            ]
+          },
+          "absent": {
+            "violations": null,
+            "found": [],
+            "found_split": []
+          }
+        },
+        "markitdown": {
+          "output_file": "pub-nist-cswp29.pdf.markitdown.md",
+          "missing": false,
+          "flags": [],
+          "sha256": "395a247aaed3216cba59107747d06c43c968004fe8f8e132603dce49d7db4b1b",
+          "size": {
+            "chars": 28822,
+            "bytes": 28978,
+            "tokens": 5645
+          },
+          "text_recall": {
+            "score": 1,
+            "found": 23,
+            "total": 23,
+            "missing": []
+          },
+          "order": {
+            "score": 1,
+            "in_order": 8,
+            "total": 8,
+            "missing": [],
+            "not_in_order": []
+          },
+          "heading_recall": {
+            "score": 0,
+            "found": 0,
+            "total": 15,
+            "missing": [
+              "Abstract",
+              "Keywords",
+              "Audience",
+              "Supplemental Content",
+              "Note to Readers",
+              "Acknowledgments",
+              "Table of Contents",
+              "List of Figures",
+              "Preface",
+              "1. Cybersecurity Framework (CSF) Overview",
+              "2. Introduction to the CSF Core",
+              "3. Introduction to CSF Profiles and Tiers",
+              "3.1. CSF Profiles",
+              "3.2. CSF Tiers",
+              "4. Introduction to Online Resources That Supplement the CSF"
+            ]
+          },
+          "tables": {
+            "recall": null,
+            "precision": null,
+            "f1": null,
+            "spurious_cells": null,
+            "tables_in_output": 0,
+            "csv_tables_in_output": 0,
+            "per_table": [],
+            "per_output_table": []
+          },
+          "noise": {
+            "excess": 12,
+            "per_entry": [
+              {
+                "text": "NIST CSWP 29",
+                "max": 1,
+                "count": 13,
+                "excess": 12
+              }
+            ]
+          },
+          "absent": {
+            "violations": null,
+            "found": [],
+            "found_split": []
+          }
+        }
+      }
+    }
+  ],
+  "aggregates": {
+    "overall": {
+      "files": 9,
+      "complete_files": 9,
+      "candidates": {
+        "packforai.document": {
+          "outputs_missing": 0,
+          "text_recall": {
+            "mean": 1,
+            "n": 9
+          },
+          "order_score": {
+            "mean": 1,
+            "n": 9
+          },
+          "heading_recall": {
+            "mean": 0.875,
+            "n": 6
+          },
+          "table_recall": {
+            "mean": 0.642863,
+            "n": 6
+          },
+          "table_precision": {
+            "mean": 0.652033,
+            "n": 6
+          },
+          "table_f1": {
+            "mean": 0.646522,
+            "n": 6
+          },
+          "spurious_table_cells": {
+            "total": 115,
+            "mean": 19.166667,
+            "n": 6
+          },
+          "noise_excess": {
+            "total": 2,
+            "mean": 0.666667,
+            "n": 3
+          },
+          "absent_violations": {
+            "total": 1,
+            "mean": 0.5,
+            "n": 2
+          },
+          "chars": {
+            "total": 147671,
+            "mean": 16407.888889,
+            "n": 9
+          },
+          "tokens": {
+            "total": 38070,
+            "mean": 4230,
+            "n": 9,
+            "total_on_complete_files": 38070,
+            "ratio_vs_markitdown_on_complete_files": 0.909786
+          }
+        },
+        "packforai.compact": {
+          "outputs_missing": 0,
+          "text_recall": {
+            "mean": 0.988304,
+            "n": 9
+          },
+          "order_score": {
+            "mean": 1,
+            "n": 9
+          },
+          "heading_recall": {
+            "mean": 0.875,
+            "n": 6
+          },
+          "table_recall": {
+            "mean": 0.328406,
+            "n": 6
+          },
+          "table_precision": {
+            "mean": 0.337576,
+            "n": 6
+          },
+          "table_f1": {
+            "mean": 0.332065,
+            "n": 6
+          },
+          "spurious_table_cells": {
+            "total": 115,
+            "mean": 19.166667,
+            "n": 6
+          },
+          "noise_excess": {
+            "total": 0,
+            "mean": 0,
+            "n": 3
+          },
+          "absent_violations": {
+            "total": 1,
+            "mean": 0.5,
+            "n": 2
+          },
+          "chars": {
+            "total": 145691,
+            "mean": 16187.888889,
+            "n": 9
+          },
+          "tokens": {
+            "total": 37548,
+            "mean": 4172,
+            "n": 9,
+            "total_on_complete_files": 37548,
+            "ratio_vs_markitdown_on_complete_files": 0.897312
+          }
+        },
+        "markitdown": {
+          "outputs_missing": 0,
+          "text_recall": {
+            "mean": 0.964912,
+            "n": 9
+          },
+          "order_score": {
+            "mean": 0.986111,
+            "n": 9
+          },
+          "heading_recall": {
+            "mean": 0.333333,
+            "n": 6
+          },
+          "table_recall": {
+            "mean": 0.425507,
+            "n": 6
+          },
+          "table_precision": {
+            "mean": 0.414566,
+            "n": 6
+          },
+          "table_f1": {
+            "mean": 0.419453,
+            "n": 6
+          },
+          "spurious_table_cells": {
+            "total": 182,
+            "mean": 30.333333,
+            "n": 6
+          },
+          "noise_excess": {
+            "total": 30,
+            "mean": 10,
+            "n": 3
+          },
+          "absent_violations": {
+            "total": 9,
+            "mean": 4.5,
+            "n": 2
+          },
+          "chars": {
+            "total": 151971,
+            "mean": 16885.666667,
+            "n": 9
+          },
+          "tokens": {
+            "total": 41845,
+            "mean": 4649.444444,
+            "n": 9,
+            "total_on_complete_files": 41845,
+            "ratio_vs_markitdown_on_complete_files": 1
+          }
+        }
+      }
+    },
+    "by_format": {
+      "pdf": {
+        "files": 4,
+        "complete_files": 4,
+        "candidates": {
+          "packforai.document": {
+            "outputs_missing": 0,
+            "text_recall": {
+              "mean": 1,
+              "n": 4
+            },
+            "order_score": {
+              "mean": 1,
+              "n": 4
+            },
+            "heading_recall": {
+              "mean": 0.8125,
+              "n": 4
+            },
+            "table_recall": {
+              "mean": 0.019309,
+              "n": 2
+            },
+            "table_precision": {
+              "mean": 0.036538,
+              "n": 2
+            },
+            "table_f1": {
+              "mean": 0.025266,
+              "n": 2
+            },
+            "spurious_table_cells": {
+              "total": 113,
+              "mean": 56.5,
+              "n": 2
+            },
+            "noise_excess": {
+              "total": 2,
+              "mean": 0.666667,
+              "n": 3
+            },
+            "absent_violations": {
+              "total": 1,
+              "mean": 0.5,
+              "n": 2
+            },
+            "chars": {
+              "total": 123642,
+              "mean": 30910.5,
+              "n": 4
+            },
+            "tokens": {
+              "total": 30216,
+              "mean": 7554,
+              "n": 4,
+              "total_on_complete_files": 30216,
+              "ratio_vs_markitdown_on_complete_files": 0.889072
+            }
+          },
+          "packforai.compact": {
+            "outputs_missing": 0,
+            "text_recall": {
+              "mean": 1,
+              "n": 4
+            },
+            "order_score": {
+              "mean": 1,
+              "n": 4
+            },
+            "heading_recall": {
+              "mean": 0.8125,
+              "n": 4
+            },
+            "table_recall": {
+              "mean": 0.019309,
+              "n": 2
+            },
+            "table_precision": {
+              "mean": 0.036538,
+              "n": 2
+            },
+            "table_f1": {
+              "mean": 0.025266,
+              "n": 2
+            },
+            "spurious_table_cells": {
+              "total": 113,
+              "mean": 56.5,
+              "n": 2
+            },
+            "noise_excess": {
+              "total": 0,
+              "mean": 0,
+              "n": 3
+            },
+            "absent_violations": {
+              "total": 1,
+              "mean": 0.5,
+              "n": 2
+            },
+            "chars": {
+              "total": 123213,
+              "mean": 30803.25,
+              "n": 4
+            },
+            "tokens": {
+              "total": 30086,
+              "mean": 7521.5,
+              "n": 4,
+              "total_on_complete_files": 30086,
+              "ratio_vs_markitdown_on_complete_files": 0.885247
+            }
+          },
+          "markitdown": {
+            "outputs_missing": 0,
+            "text_recall": {
+              "mean": 1,
+              "n": 4
+            },
+            "order_score": {
+              "mean": 0.96875,
+              "n": 4
+            },
+            "heading_recall": {
+              "mean": 0,
+              "n": 4
+            },
+            "table_recall": {
+              "mean": 0,
+              "n": 2
+            },
+            "table_precision": {
+              "mean": 0,
+              "n": 2
+            },
+            "table_f1": {
+              "mean": 0,
+              "n": 2
+            },
+            "spurious_table_cells": {
+              "total": 3,
+              "mean": 1.5,
+              "n": 2
+            },
+            "noise_excess": {
+              "total": 30,
+              "mean": 10,
+              "n": 3
+            },
+            "absent_violations": {
+              "total": 9,
+              "mean": 4.5,
+              "n": 2
+            },
+            "chars": {
+              "total": 128626,
+              "mean": 32156.5,
+              "n": 4
+            },
+            "tokens": {
+              "total": 33986,
+              "mean": 8496.5,
+              "n": 4,
+              "total_on_complete_files": 33986,
+              "ratio_vs_markitdown_on_complete_files": 1
+            }
+          }
+        }
+      },
+      "docx": {
+        "files": 1,
+        "complete_files": 1,
+        "candidates": {
+          "packforai.document": {
+            "outputs_missing": 0,
+            "text_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "order_score": {
+              "mean": 1,
+              "n": 1
+            },
+            "heading_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "table_recall": {
+              "mean": 0.931818,
+              "n": 1
+            },
+            "table_precision": {
+              "mean": 0.952381,
+              "n": 1
+            },
+            "table_f1": {
+              "mean": 0.94186,
+              "n": 1
+            },
+            "spurious_table_cells": {
+              "total": 2,
+              "mean": 2,
+              "n": 1
+            },
+            "noise_excess": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "absent_violations": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "chars": {
+              "total": 3520,
+              "mean": 3520,
+              "n": 1
+            },
+            "tokens": {
+              "total": 947,
+              "mean": 947,
+              "n": 1,
+              "total_on_complete_files": 947,
+              "ratio_vs_markitdown_on_complete_files": 1.011752
+            }
+          },
+          "packforai.compact": {
+            "outputs_missing": 0,
+            "text_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "order_score": {
+              "mean": 1,
+              "n": 1
+            },
+            "heading_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "table_recall": {
+              "mean": 0.931818,
+              "n": 1
+            },
+            "table_precision": {
+              "mean": 0.952381,
+              "n": 1
+            },
+            "table_f1": {
+              "mean": 0.94186,
+              "n": 1
+            },
+            "spurious_table_cells": {
+              "total": 2,
+              "mean": 2,
+              "n": 1
+            },
+            "noise_excess": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "absent_violations": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "chars": {
+              "total": 3482,
+              "mean": 3482,
+              "n": 1
+            },
+            "tokens": {
+              "total": 928,
+              "mean": 928,
+              "n": 1,
+              "total_on_complete_files": 928,
+              "ratio_vs_markitdown_on_complete_files": 0.991453
+            }
+          },
+          "markitdown": {
+            "outputs_missing": 0,
+            "text_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "order_score": {
+              "mean": 1,
+              "n": 1
+            },
+            "heading_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "table_recall": {
+              "mean": 0.954545,
+              "n": 1
+            },
+            "table_precision": {
+              "mean": 0.954545,
+              "n": 1
+            },
+            "table_f1": {
+              "mean": 0.954545,
+              "n": 1
+            },
+            "spurious_table_cells": {
+              "total": 4,
+              "mean": 4,
+              "n": 1
+            },
+            "noise_excess": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "absent_violations": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "chars": {
+              "total": 3429,
+              "mean": 3429,
+              "n": 1
+            },
+            "tokens": {
+              "total": 936,
+              "mean": 936,
+              "n": 1,
+              "total_on_complete_files": 936,
+              "ratio_vs_markitdown_on_complete_files": 1
+            }
+          }
+        }
+      },
+      "xlsx": {
+        "files": 1,
+        "complete_files": 1,
+        "candidates": {
+          "packforai.document": {
+            "outputs_missing": 0,
+            "text_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "order_score": {
+              "mean": 1,
+              "n": 1
+            },
+            "heading_recall": {
+              "mean": null,
+              "n": 0
+            },
+            "table_recall": {
+              "mean": 0.886742,
+              "n": 1
+            },
+            "table_precision": {
+              "mean": 0.886742,
+              "n": 1
+            },
+            "table_f1": {
+              "mean": 0.886742,
+              "n": 1
+            },
+            "spurious_table_cells": {
+              "total": 0,
+              "mean": 0,
+              "n": 1
+            },
+            "noise_excess": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "absent_violations": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "chars": {
+              "total": 2829,
+              "mean": 2829,
+              "n": 1
+            },
+            "tokens": {
+              "total": 1091,
+              "mean": 1091,
+              "n": 1,
+              "total_on_complete_files": 1091,
+              "ratio_vs_markitdown_on_complete_files": 0.980234
+            }
+          },
+          "packforai.compact": {
+            "outputs_missing": 0,
+            "text_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "order_score": {
+              "mean": 1,
+              "n": 1
+            },
+            "heading_recall": {
+              "mean": null,
+              "n": 0
+            },
+            "table_recall": {
+              "mean": 0,
+              "n": 1
+            },
+            "table_precision": {
+              "mean": 0,
+              "n": 1
+            },
+            "table_f1": {
+              "mean": 0,
+              "n": 1
+            },
+            "spurious_table_cells": {
+              "total": 0,
+              "mean": 0,
+              "n": 1
+            },
+            "noise_excess": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "absent_violations": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "chars": {
+              "total": 2309,
+              "mean": 2309,
+              "n": 1
+            },
+            "tokens": {
+              "total": 934,
+              "mean": 934,
+              "n": 1,
+              "total_on_complete_files": 934,
+              "ratio_vs_markitdown_on_complete_files": 0.839173
+            }
+          },
+          "markitdown": {
+            "outputs_missing": 0,
+            "text_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "order_score": {
+              "mean": 1,
+              "n": 1
+            },
+            "heading_recall": {
+              "mean": null,
+              "n": 0
+            },
+            "table_recall": {
+              "mean": 0.598497,
+              "n": 1
+            },
+            "table_precision": {
+              "mean": 0.53285,
+              "n": 1
+            },
+            "table_f1": {
+              "mean": 0.562174,
+              "n": 1
+            },
+            "spurious_table_cells": {
+              "total": 30,
+              "mean": 30,
+              "n": 1
+            },
+            "noise_excess": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "absent_violations": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "chars": {
+              "total": 2885,
+              "mean": 2885,
+              "n": 1
+            },
+            "tokens": {
+              "total": 1113,
+              "mean": 1113,
+              "n": 1,
+              "total_on_complete_files": 1113,
+              "ratio_vs_markitdown_on_complete_files": 1
+            }
+          }
+        }
+      },
+      "pptx": {
+        "files": 1,
+        "complete_files": 1,
+        "candidates": {
+          "packforai.document": {
+            "outputs_missing": 0,
+            "text_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "order_score": {
+              "mean": 1,
+              "n": 1
+            },
+            "heading_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "table_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "table_precision": {
+              "mean": 1,
+              "n": 1
+            },
+            "table_f1": {
+              "mean": 1,
+              "n": 1
+            },
+            "spurious_table_cells": {
+              "total": 0,
+              "mean": 0,
+              "n": 1
+            },
+            "noise_excess": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "absent_violations": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "chars": {
+              "total": 1973,
+              "mean": 1973,
+              "n": 1
+            },
+            "tokens": {
+              "total": 497,
+              "mean": 497,
+              "n": 1,
+              "total_on_complete_files": 497,
+              "ratio_vs_markitdown_on_complete_files": 1.066524
+            }
+          },
+          "packforai.compact": {
+            "outputs_missing": 0,
+            "text_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "order_score": {
+              "mean": 1,
+              "n": 1
+            },
+            "heading_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "table_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "table_precision": {
+              "mean": 1,
+              "n": 1
+            },
+            "table_f1": {
+              "mean": 1,
+              "n": 1
+            },
+            "spurious_table_cells": {
+              "total": 0,
+              "mean": 0,
+              "n": 1
+            },
+            "noise_excess": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "absent_violations": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "chars": {
+              "total": 1951,
+              "mean": 1951,
+              "n": 1
+            },
+            "tokens": {
+              "total": 488,
+              "mean": 488,
+              "n": 1,
+              "total_on_complete_files": 488,
+              "ratio_vs_markitdown_on_complete_files": 1.04721
+            }
+          },
+          "markitdown": {
+            "outputs_missing": 0,
+            "text_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "order_score": {
+              "mean": 1,
+              "n": 1
+            },
+            "heading_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "table_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "table_precision": {
+              "mean": 1,
+              "n": 1
+            },
+            "table_f1": {
+              "mean": 1,
+              "n": 1
+            },
+            "spurious_table_cells": {
+              "total": 0,
+              "mean": 0,
+              "n": 1
+            },
+            "noise_excess": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "absent_violations": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "chars": {
+              "total": 1912,
+              "mean": 1912,
+              "n": 1
+            },
+            "tokens": {
+              "total": 466,
+              "mean": 466,
+              "n": 1,
+              "total_on_complete_files": 466,
+              "ratio_vs_markitdown_on_complete_files": 1
+            }
+          }
+        }
+      },
+      "csv": {
+        "files": 1,
+        "complete_files": 1,
+        "candidates": {
+          "packforai.document": {
+            "outputs_missing": 0,
+            "text_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "order_score": {
+              "mean": 1,
+              "n": 1
+            },
+            "heading_recall": {
+              "mean": null,
+              "n": 0
+            },
+            "table_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "table_precision": {
+              "mean": 1,
+              "n": 1
+            },
+            "table_f1": {
+              "mean": 1,
+              "n": 1
+            },
+            "spurious_table_cells": {
+              "total": 0,
+              "mean": 0,
+              "n": 1
+            },
+            "noise_excess": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "absent_violations": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "chars": {
+              "total": 5474,
+              "mean": 5474,
+              "n": 1
+            },
+            "tokens": {
+              "total": 2333,
+              "mean": 2333,
+              "n": 1,
+              "total_on_complete_files": 2333,
+              "ratio_vs_markitdown_on_complete_files": 0.976559
+            }
+          },
+          "packforai.compact": {
+            "outputs_missing": 0,
+            "text_recall": {
+              "mean": 0.894737,
+              "n": 1
+            },
+            "order_score": {
+              "mean": 1,
+              "n": 1
+            },
+            "heading_recall": {
+              "mean": null,
+              "n": 0
+            },
+            "table_recall": {
+              "mean": 0,
+              "n": 1
+            },
+            "table_precision": {
+              "mean": 0,
+              "n": 1
+            },
+            "table_f1": {
+              "mean": 0,
+              "n": 1
+            },
+            "spurious_table_cells": {
+              "total": 0,
+              "mean": 0,
+              "n": 1
+            },
+            "noise_excess": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "absent_violations": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "chars": {
+              "total": 4543,
+              "mean": 4543,
+              "n": 1
+            },
+            "tokens": {
+              "total": 2136,
+              "mean": 2136,
+              "n": 1,
+              "total_on_complete_files": 2136,
+              "ratio_vs_markitdown_on_complete_files": 0.894098
+            }
+          },
+          "markitdown": {
+            "outputs_missing": 0,
+            "text_recall": {
+              "mean": 0.684211,
+              "n": 1
+            },
+            "order_score": {
+              "mean": 1,
+              "n": 1
+            },
+            "heading_recall": {
+              "mean": null,
+              "n": 0
+            },
+            "table_recall": {
+              "mean": 0,
+              "n": 1
+            },
+            "table_precision": {
+              "mean": 0,
+              "n": 1
+            },
+            "table_f1": {
+              "mean": 0,
+              "n": 1
+            },
+            "spurious_table_cells": {
+              "total": 145,
+              "mean": 145,
+              "n": 1
+            },
+            "noise_excess": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "absent_violations": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "chars": {
+              "total": 5002,
+              "mean": 5002,
+              "n": 1
+            },
+            "tokens": {
+              "total": 2389,
+              "mean": 2389,
+              "n": 1,
+              "total_on_complete_files": 2389,
+              "ratio_vs_markitdown_on_complete_files": 1
+            }
+          }
+        }
+      },
+      "json": {
+        "files": 1,
+        "complete_files": 1,
+        "candidates": {
+          "packforai.document": {
+            "outputs_missing": 0,
+            "text_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "order_score": {
+              "mean": 1,
+              "n": 1
+            },
+            "heading_recall": {
+              "mean": null,
+              "n": 0
+            },
+            "table_recall": {
+              "mean": null,
+              "n": 0
+            },
+            "table_precision": {
+              "mean": null,
+              "n": 0
+            },
+            "table_f1": {
+              "mean": null,
+              "n": 0
+            },
+            "spurious_table_cells": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "noise_excess": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "absent_violations": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "chars": {
+              "total": 10233,
+              "mean": 10233,
+              "n": 1
+            },
+            "tokens": {
+              "total": 2986,
+              "mean": 2986,
+              "n": 1,
+              "total_on_complete_files": 2986,
+              "ratio_vs_markitdown_on_complete_files": 1.010491
+            }
+          },
+          "packforai.compact": {
+            "outputs_missing": 0,
+            "text_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "order_score": {
+              "mean": 1,
+              "n": 1
+            },
+            "heading_recall": {
+              "mean": null,
+              "n": 0
+            },
+            "table_recall": {
+              "mean": null,
+              "n": 0
+            },
+            "table_precision": {
+              "mean": null,
+              "n": 0
+            },
+            "table_f1": {
+              "mean": null,
+              "n": 0
+            },
+            "spurious_table_cells": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "noise_excess": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "absent_violations": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "chars": {
+              "total": 10193,
+              "mean": 10193,
+              "n": 1
+            },
+            "tokens": {
+              "total": 2976,
+              "mean": 2976,
+              "n": 1,
+              "total_on_complete_files": 2976,
+              "ratio_vs_markitdown_on_complete_files": 1.007107
+            }
+          },
+          "markitdown": {
+            "outputs_missing": 0,
+            "text_recall": {
+              "mean": 1,
+              "n": 1
+            },
+            "order_score": {
+              "mean": 1,
+              "n": 1
+            },
+            "heading_recall": {
+              "mean": null,
+              "n": 0
+            },
+            "table_recall": {
+              "mean": null,
+              "n": 0
+            },
+            "table_precision": {
+              "mean": null,
+              "n": 0
+            },
+            "table_f1": {
+              "mean": null,
+              "n": 0
+            },
+            "spurious_table_cells": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "noise_excess": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "absent_violations": {
+              "total": 0,
+              "mean": null,
+              "n": 0
+            },
+            "chars": {
+              "total": 10117,
+              "mean": 10117,
+              "n": 1
+            },
+            "tokens": {
+              "total": 2955,
+              "mean": 2955,
+              "n": 1,
+              "total_on_complete_files": 2955,
+              "ratio_vs_markitdown_on_complete_files": 1
+            }
+          }
+        }
+      }
+    }
+  },
+  "issues": {
+    "errors": [],
+    "warnings": []
+  }
+}

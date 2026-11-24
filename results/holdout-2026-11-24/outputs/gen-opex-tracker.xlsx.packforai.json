@@ -1,0 +1,212 @@
+{
+  "schema": "packforai-benchmark-result@1",
+  "tool": "PackForAI",
+  "file": "gen-opex-tracker.xlsx",
+  "ok": true,
+  "error": null,
+  "input": {
+    "fileName": "gen-opex-tracker.xlsx",
+    "fileType": "xlsx",
+    "bytes": 8353,
+    "sha256": "43622043c9f16c8f6db38adc213827abb8cdf4eb2d940c615cd83748c93ab8ff"
+  },
+  "outputs": {
+    "document": {
+      "file": "gen-opex-tracker.xlsx.packforai.document.md",
+      "bytes": 2866,
+      "codePoints": 2829,
+      "sha256": "6b4d414fd2b1c3dc546ea2136d52b518f62255f0d518d234ad008aa840cded5d",
+      "tokensO200k": 1091
+    },
+    "compact": {
+      "file": "gen-opex-tracker.xlsx.packforai.compact.md",
+      "bytes": 2346,
+      "codePoints": 2309,
+      "sha256": "3f0274c9a3a7236e62389d8faec31d6b70924d3d9a6fb71453fd91cb4bd6b4c8",
+      "tokensO200k": 934
+    }
+  },
+  "tokenAnalysis": {
+    "tokenizerName": "o200k_base",
+    "tokenizerVersion": "gpt-tokenizer@3.4.0",
+    "originalTokenEstimate": 911,
+    "optimizedTokenEstimate": 934,
+    "savingsPercent": -2.5
+  },
+  "textQuality": {
+    "status": "good",
+    "score": 100,
+    "signals": [],
+    "warning": null
+  },
+  "processingNotes": [
+    "XLSX extraction converts sheet values to Markdown tables, with numbers and dates shown in the cell's number format. Formulas are represented by cached cell values when available.",
+    "Preserved spreadsheet row order, repeated rows and quoted cell text without prose cleanup."
+  ],
+  "ocr": {
+    "requested": false,
+    "status": "not_requested",
+    "provider": "none",
+    "pageCount": null,
+    "costEstimateUsd": null,
+    "reason": "OCR was not requested for this job.",
+    "used": false
+  },
+  "stats": {
+    "pageCount": 3,
+    "sectionCount": 3,
+    "tableCount": 3,
+    "imageCount": null
+  },
+  "elapsedMs": 6.746,
+  "workerGitCommit": "d6959689f71ac2fb72d0eebff8b56046b9026258",
+  "nodeVersion": "v24.22.1",
+  "admission": {
+    "rejectedByProduction": false,
+    "freePlanUpload": true,
+    "notes": []
+  },
+  "job": {
+    "jobId": "bench_43622043c9f16c8f6db38adc213827ab",
+    "userId": "benchmark-local",
+    "documentId": "bench_43622043c9f16c8f6db38adc213827ab",
+    "fileName": "gen-opex-tracker.xlsx",
+    "fileType": "xlsx",
+    "fileSize": 8353,
+    "uploadPath": "uploads/benchmark-local/bench_43622043c9f16c8f6db38adc213827ab/original.xlsx",
+    "status": "processing",
+    "createdAt": null,
+    "startedAt": null,
+    "completedAt": null,
+    "leaseExpiresAt": null,
+    "attemptCount": 1,
+    "maxAttempts": 3,
+    "processingVersion": "mvp-0.1.0",
+    "ocrRequested": false,
+    "ocrUsed": false,
+    "webhookUrl": null,
+    "webhookSecret": null,
+    "ocr": {
+      "requested": false,
+      "used": false,
+      "provider": "none",
+      "status": "not_requested",
+      "pageCount": null,
+      "costEstimateUsd": null,
+      "reason": "OCR was not requested for this job."
+    },
+    "ocrMonthlyLimit": 0,
+    "ocrPageLimitPerJob": 0,
+    "ocrUsageId": null,
+    "ocrMonthKey": null,
+    "plan": "free",
+    "dailyConversionLimit": 3,
+    "maxActiveJobs": 1,
+    "originalTokenEstimate": null,
+    "optimizedTokenEstimate": null,
+    "savingsPercent": null,
+    "pageCount": null,
+    "sectionCount": null,
+    "tableCount": null,
+    "imageCount": null,
+    "outputPath": null,
+    "zipPath": null,
+    "errorCode": null,
+    "errorMessage": null,
+    "processingNotes": [],
+    "usageLimitId": "benchmark-local_2026-11-24",
+    "retentionExpiresAt": null,
+    "ocrReservedPages": 0
+  },
+  "isolation": {
+    "networkAttempts": [],
+    "consoleOutput": {
+      "lines": [],
+      "total": 0
+    }
+  },
+  "run": {
+    "startedAt": "2026-11-24T09:54:41.460Z",
+    "runner": "aireadydoc/benchmarks/doc-to-markdown/run-packforai.mjs",
+    "runnerSha256": "ff664fce9d010eb447165541167aed1ebded57ac6ac7aebe11460924f8569abd",
+    "inputFolder": "holdout",
+    "worker": {
+      "processor": "aireadydoc/services/worker/dist/processor.js",
+      "distSha256": "20b8b7eb58cda930618d0b21c08e1ad437e934486ed79fcc5dea95dbf8f54211",
+      "distPossiblyStale": [],
+      "gitDirtyPaths": []
+    },
+    "dependencies": {
+      "pdf-parse": {
+        "installed": "1.1.4",
+        "lockfile": "1.1.4"
+      },
+      "mammoth": {
+        "installed": "1.12.0",
+        "lockfile": "1.12.0"
+      },
+      "turndown": {
+        "installed": "7.2.4",
+        "lockfile": "7.2.4"
+      },
+      "@mixmark-io/domino": {
+        "installed": "2.2.0",
+        "lockfile": "2.2.0"
+      },
+      "fast-xml-parser": {
+        "installed": "5.12.0",
+        "lockfile": "5.12.0"
+      },
+      "fflate": {
+        "installed": "0.8.3",
+        "lockfile": "0.8.3"
+      },
+      "gpt-tokenizer": {
+        "installed": "3.4.0",
+        "lockfile": "3.4.0"
+      },
+      "firebase-admin": {
+        "installed": "14.1.0",
+        "lockfile": "14.1.0"
+      },
+      "@google-cloud/firestore": {
+        "installed": "8.6.0",
+        "lockfile": "8.6.0"
+      },
+      "google-auth-library": {
+        "installed": "10.9.0",
+        "lockfile": "10.9.0"
+      }
+    },
+    "runtime": {
+      "nodeVersion": "v24.22.1",
+      "v8": "13.6.233.17-node.58",
+      "icu": "78.3",
+      "unicode": "17.0",
+      "platform": "darwin-arm64",
+      "nodeEnv": "production",
+      "timeZone": "UTC",
+      "locale": "en-US",
+      "tokenizer": "o200k_base via node_modules/gpt-tokenizer/esm/encoding/o200k_base.js"
+    },
+    "productionRuntime": "node:22-slim with NODE_ENV=production (aireadydoc/services/worker/Dockerfile)",
+    "timing": "elapsedMs is the wall time of processInput(job, bytes) in a long-lived conversion process that first converted one small generated file of each type. It excludes reading the file, the Storage download and upload, Firestore updates and queueing.",
+    "warmup": {
+      "ms": 102.589,
+      "results": {
+        "pdf": "ok",
+        "docx": "ok",
+        "pptx": "ok",
+        "xlsx": "ok",
+        "csv": "ok",
+        "json": "ok"
+      },
+      "consoleLines": 0
+    },
+    "fileTimeoutMs": 300000,
+    "conversionProcess": {
+      "pid": 96096,
+      "start": 1
+    }
+  }
+}

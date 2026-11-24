@@ -1,0 +1,877 @@
+[
+ {
+  "summary": "I checked both files against the source, the frozen ground truth and score.mjs v1.1.0, and imported the scorer's own normalize/scoreCandidate read-only to test fixes. Scratch scripts are in <local scratch folder> five outputs are lossless:\n- **CSV:** PackForAI document and MarkItDown parse back to exactly the source's 121x11 rows. The table body of PackForAI document is byte-identical to MarkItDown's, apart from the final newline. PackForAI compact is the source CSV itself, with only CRLF changed to LF and a 2-line header added. Python csv.reader returns rows equal to the source.\n- **JSON:** MarkItDown's output is byte-identical to the source (same sha256). Both PackForAI outputs wrap the source unchanged in a ```json fence, byte-identical inside it.\n\nThe only scores below 1.0 in my files are PackForAI compact on gen-orders.csv: text_recall 0.85 and table recall, precision and F1 of 0. Both come from the scorer, not from lost content:\n1. **Text recall:** the 3 missing phrases are in the output in standard RFC 4180 form (`\"\"Fresh\"\"`). The scorer accepts JSON's `\\\"` escapes only because normalization deletes backslashes. It has nothing that undoes CSV's doubled quotes. With the doubled-quote form also accepted, compact finds 20/20.\n2. **Table recall:** only GFM pipe tables are parsed. When I turned the compact CSV into a pipe table and scored it with scoreCandidate, it got table recall 1.0.\n\nEffect on the 9-file averages for compact: text_recall would go from 0.941 to about 0.958, and table_recall from 0.125 to 0.25 from this file alone. The csv-block parser change might also help the compact xlsx and pptx outputs, which I did not check.\n\nNo ground-truth issues:\n- Every CSV must_contain item is one whole field. For example, 0.85 occurs 16 times, always as an exact field, and the ORD ids are unique.\n- The JSON anchors are in document order, and the cursors do not contain record ids.\n\nTokens (o200k), source in brackets:\n- **CSV [5795]:** document 6532, compact 5807, MarkItDown 6512. The document costs MarkItDown plus a 20-token preamble. Compact is 10.8% below MarkItDown but 12 tokens above the raw source. PackForAI's own sidecar reports savingsPercent -0.2.\n- **JSON [3414]:** document 3442, compact 3433, MarkItDown 3414. Compact does no compacting: minified JSON would be 2273 tokens (-33%).\n\nNeither tool has noise, absent or heading checks on these files (all null). The JSON file cannot tell the tools apart on content; only tokens differ.",
+  "findings": [
+   {
+    "file": "gen-orders.csv",
+    "candidate": "packforai.compact",
+    "metric": "text_recall",
+    "score": "0.85 (17/20; missing Harbourside \"Fresh\" Market, Mark boxes \"FRAGILE\", \"Rush\" order, call before delivery)",
+    "verdict": "SCORER_ARTIFACT",
+    "evidence": "ORD-10012,2026-09-03,\"Harbourside \"\"Fresh\"\" Market\",Bristol,SKU-4425,Bubble wrap roll 10 m,9,8.99,80.91,delivered,\"Mark boxes \"\"FRAGILE\"\"\"",
+    "llm_impact": "All three values are in the output in standard RFC 4180 form. csv.reader on the compact body gives rows identical to the source. An LLM reads \"Harbourside \"\"Fresh\"\" Market\" as Harbourside \"Fresh\" Market. The only small risk is that it copies the doubled quotes when quoting a value word for word. Nothing is lost.",
+    "fix": "In textRecall, and also orderScore and absentScore for symmetry, treat a phrase as found if its normalized text OR the normalized text of phrase.replace(/\"/g,'\"\"') is a substring. This matches how JSON \\\" escapes already pass through backslash deletion. Simulated with the scorer's normalize(): compact finds 20/20, and the other candidates are unchanged."
+   },
+   {
+    "file": "gen-orders.csv",
+    "candidate": "packforai.compact",
+    "metric": "table_recall / table_precision / table_f1",
+    "score": "0 / 0 / 0 (tables_in_output 0); PackForAI document and MarkItDown get 1 / 1 / 1",
+    "verdict": "SCORER_ARTIFACT",
+    "evidence": "Source: gen-orders.csv (CSV)\n\norder_id,order_date,customer,city,sku,product,quantity,unit_price,line_total,status,notes\nORD-10001,2026-09-01,Alder Creek Outfitters,Leeds,SKU-4410,\"Packing tape, 48 mm (6 rolls)\",1,12.50",
+    "llm_impact": "The whole table is there as lossless CSV: 121 rows x 11 columns, equal to the parsed source, trailing zeros kept, empty notes kept as trailing commas. LLMs read CSV well, and it saves about 705 tokens compared with a pipe table. The trade-off is real but small: to line cells up with the 11 columns, the reader has to respect quoted commas (\"Packing tape, 48 mm (6 rolls)\"), so a column is a little easier to mis-assign than in a ' | '-delimited table. The block is also not fenced: a Markdown renderer would merge the lines into one paragraph, though raw LLM input is unaffected. A 0 does correctly say 'no Markdown table'. Published as 'compact loses tables', it would mislead.",
+    "fix": "Teach analyzeOutput to also accept as a table (a) a ```csv fenced block, or (b) a run of 3 or more consecutive non-blank lines outside code fences that RFC 4180-parse to the same field count of 3 or more, with the first line as the header. I turned the compact CSV into a pipe table and scored it with scoreCandidate: recall 1.0. If the parser should stay GFM-only, publish compact's table numbers with a footnote ('emits CSV for CSV input; structure is lossless')."
+   },
+   {
+    "file": "gen-orders.csv",
+    "candidate": "packforai.compact",
+    "metric": "tokens",
+    "score": "5807 (PackForAI document 6532, MarkItDown 6512, raw source 5795)",
+    "verdict": "REAL",
+    "evidence": "# gen-orders\n\nSource: gen-orders.csv (CSV)\n\norder_id,order_date,customer,city,sku,product,quantity,unit_price,line_total,status,notes",
+    "llm_impact": "10.8% fewer tokens than MarkItDown, with nothing lost. The whole saving comes from not building a pipe table: compact is the raw CSV plus a 12-token header, so it is 12 tokens larger than the input. PackForAI's own sidecar reports savingsPercent -0.2. Calling this 'token-optimized' is accurate only against Markdown-table converters, not against the source.",
+    "fix": "None for the score. When publishing, state that compact's CSV saving is compared with pipe-table output, not with the source."
+   },
+   {
+    "file": "gen-orders.csv",
+    "candidate": "packforai.document",
+    "metric": "text_recall / order / table R-P-F1 / tokens",
+    "score": "1.0 / 1.0 / 1.0-1.0-1.0 (1251/1251 cells) / 6532 tokens",
+    "verdict": "REAL",
+    "evidence": "# gen-orders\n\nSource file: gen-orders.csv\nSource type: CSV\n\n## gen-orders\n\n| order_id | order_date | customer | city | sku | product | quantity | unit_price | line_total | status | notes |",
+    "llm_impact": "The table is faithful, and its body is byte-identical to MarkItDown's apart from the final newline. The only difference is a 20-token preamble that gives the filename twice (H1 and H2, both 'gen-orders') plus the source type. That helps an LLM tell files apart in a multi-document context, but the repeated heading is a few wasted tokens. Nothing misleading.",
+    "fix": "None for the score. A possible product tweak is to drop the redundant '## gen-orders' H2 for single-table CSVs."
+   },
+   {
+    "file": "gen-orders.csv",
+    "candidate": "markitdown",
+    "metric": "text_recall / order / table R-P-F1 / tokens",
+    "score": "1.0 / 1.0 / 1.0-1.0-1.0 (1251/1251 cells) / 6512 tokens",
+    "verdict": "REAL",
+    "evidence": "| ORD-10003 | 2026-09-01 | Kestrel Print, Inc. | Reading | SKU-7055 | Steel shelving bay | 15 | 315.00 | 4725.00 | delivered | Mark boxes \"FRAGILE\" |",
+    "llm_impact": "The table is faithful: quotes unescaped, embedded commas kept, 2-decimal amounts kept, empty notes cells kept. There is no title or filename, so the LLM gets no provenance when several files are concatenated. The padded ' | ' separators cost about 496 tokens (6512 tokens against 6016 for the same table without padding). PackForAI document has exactly the same padding, so this does not favour either tool.",
+    "fix": "None."
+   },
+   {
+    "file": "gen-api-response.json",
+    "candidate": "all (packforai.document, packforai.compact, markitdown)",
+    "metric": "text_recall / order_score",
+    "score": "1.0 / 1.0 for all three",
+    "verdict": "REAL",
+    "evidence": "MarkItDown output sha256 002f3d00... equals the source sha256 (cmp identical). PackForAI: \"```json\\n{\\n  \\\"object\\\": \\\"list\\\",\\n  \\\"url\\\": \\\"/v2/customers\\\",\" with the fenced body byte-identical to the source.",
+    "llm_impact": "All three give the LLM the original JSON unchanged, so every value, null, empty array and escaped quote is intact. Backslash deletion in normalization lets the escaped \\\"Fresh\\\" match, as the ground-truth notes say. This file cannot tell the tools apart on content: any pass-through scores 1.0. Only tokens differ.",
+    "fix": "None. When publishing, say that the JSON file's content metrics are pass-through by construction."
+   },
+   {
+    "file": "gen-api-response.json",
+    "candidate": "packforai.document / packforai.compact",
+    "metric": "tokens",
+    "score": "3442 / 3433 vs MarkItDown 3414 (source 3414; minified JSON 2273)",
+    "verdict": "REAL",
+    "evidence": "# gen-api-response\n\nSource: gen-api-response.json (JSON)\n\n```json\n{\n  \"object\": \"list\",",
+    "llm_impact": "PackForAI adds 28 tokens (document) or 19 tokens (compact) for a title, a source line and a ```json fence. The fence is a clear boundary and language tag, which is useful to an LLM, and it is otherwise lossless. 'Compact' does no compacting: its JSON body is identical to the document's, so it is 19 tokens larger than MarkItDown's raw pass-through. Minifying would cut 33% (2273 tokens) with no loss of data. PackForAI's sidecar reports savingsPercent -0.4.",
+    "fix": "None for the score. As a product note, compact could minify JSON, or at least drop the indentation."
+   },
+   {
+    "file": "gen-api-response.json",
+    "candidate": "markitdown",
+    "metric": "tokens / format",
+    "score": "3414 tokens (= source)",
+    "verdict": "REAL",
+    "evidence": "{\n  \"object\": \"list\",\n  \"url\": \"/v2/customers\",\n  \"api_version\": \"2026-10-01\",\n  \"request_id\": \"req_7Hq2LmX9a4Kd\",",
+    "llm_impact": "This is a raw pass-through: no code fence, title or filename. An LLM reading the raw text has no trouble. In a multi-document prompt, though, the JSON has no clear boundary or provenance, and a Markdown renderer would treat the indented lines as an indented code block or paragraphs. None of this is measured by the scorer.",
+    "fix": "None."
+   }
+  ],
+  "packforai_weaknesses": [
+   "CSV compact is the raw CSV with a 2-line header and no ```csv fence. Doubled RFC 4180 quotes stay in values (\"\"Fresh\"\"), and the block reads as one paragraph if rendered as Markdown. It is still lossless.",
+   "Compact makes nothing smaller for these inputs. CSV: 5807 tokens against 5795 for the source (+12). JSON: 3433 tokens against 3414 for the source and for MarkItDown (+19), with a JSON body identical to the document output. Minified JSON would be 2273 tokens.",
+   "The document output repeats the file name as both an H1 and an H2 ('# gen-orders' and '## gen-orders') before a single table. The preamble costs 20 tokens on CSV and 28 on JSON.",
+   "The sidecar metadata (packforai.json, not scored) is wrong in two places. For the clean, synthetic JSON file it raises a 'broken_pdf_glyphs' quality warning 6 times (status warning, score 80). For CSV, processingNotes says 'converted to a Markdown table', although the compact output is raw CSV."
+  ],
+  "markitdown_weaknesses": [
+   "The JSON output is a byte-for-byte pass-through of the source: no ```json fence, title or filename. There is no boundary or provenance when several documents are concatenated for an LLM.",
+   "The CSV output is a padded GFM pipe table with no title or filename. The ' | ' padding costs about 496 tokens (7.6%) on this file. PackForAI document has the same padding, so neither tool gains from it.",
+   "MarkItDown has no token-optimized mode. Its CSV output is 705 tokens (12%) above PackForAI compact and 717 tokens above the raw source."
+  ]
+ },
+ {
+  "summary": "pub-srpt-118-226.pdf: every score shared by the three candidates holds up. That is text_recall 0.692, heading_recall 0, table_recall 0, noise_excess 9 and absent_violations 4, and each one matches what the outputs really contain. I found no ground-truth errors. I checked the frozen GT against the rendered PDF pages (sha256 matches), including Table 1 at 200 dpi and the page-9 statute headings at 150 dpi. The headings, the table values (0 5 7 7 6 5 30), the 'WITH NON FEDERAL ENTITIES' wording and the four line-end splits (require-/ments, per-/sistent, effec-/tiveness, chal-/lenges) are all correct.\n\nTwo things should be said when these numbers are published.\n\n(1) The 0.69 text recall is not lost content. All four missing must_contain phrases fail only because the tools keep line-end hyphens ('au- dits', 'find- ings', 'des- ignated', 'require- ments'). If 'letter- letter' is joined, every candidate finds 13/13. The same defect is counted a second time by absent_violations (4), so hyphenation costs about 0.31 text recall plus 4 absent violations, identically for both tools.\n\n(2) The scores tie, but the outputs differ in quality, and the scorer does not see it. MarkItDown breaks justified body text on PDF pages 3-4 into 15 false pipe tables (43 lines). The scorer's rule that turns '|' into a space hides this, and no metric penalises extra tables. One of these tables splits the heading 'II. BACKGROUND AND NEED FOR THE LEGISLATION' across two rows. MarkItDown also joins footnote numbers to the citations that follow them, which produces wrong citations: '131 U.S.C.', '52 CFR', '931 U.S.C.'. It prints the invisible rotated slug backwards ('STROPER htiw DORP32NQ621KSD no eromligj') 10 times, once in the middle of footnote 7, and it garbles the table's last column header into '2 2 0 0 2 2 4 9 –'.\n\nPackForAI has no false tables and no merged citations, and its table header can still be read ('2024–'/'2029'). But it runs a fallback mode that puts every page inside a ```text code fence, so the output has no Markdown structure. It also keeps the extra spaces from justified text: 2115 runs of 2 or more spaces cost about 2116 tokens, 27% of its output.\n\nTokens: packforai.document 7858 and compact 7854, against markitdown 6504, so PackForAI is about 21% larger despite having 5% fewer characters. With the space runs collapsed, PackForAI would be 5742 tokens, about 12% below MarkItDown. The 'compact' (token-optimised) output saves 4 tokens over 'document', and PackForAI's own run metadata reports savingsPercent -1.7.\n\nMarkItDown spends 1150 tokens on its false-table lines; the same text without table syntax is 336 tokens. It also spends 297 tokens on the reversed slug text.\n\nScratch scripts are <local scratch folder> and <local scratch folder> The page renders (pg-01.png ... pg-10.png, hi8-08.png, hi9-09.png) are in the same folder. No repo files were changed and the converters were not re-run.",
+  "findings": [
+   {
+    "file": "pub-srpt-118-226.pdf",
+    "candidate": "packforai.document, packforai.compact, markitdown",
+    "metric": "text_recall",
+    "score": "0.692 (9/13) for all three",
+    "verdict": "REAL",
+    "evidence": "PFA: 'only  49%  of  all  sampled  au-\\ndits  were  acceptable.' MID: 'it estimated that only 49% of all sampled au-\\ndits were acceptable.6' All 4 misses are line-end hyphen splits.",
+    "llm_impact": "Nothing is missing: every phrase is present but split at a kept line-end hyphen (require-/ments, au-/dits, find-/ings, des-/ignated). An LLM reading the text reconstructs the words easily, but exact-phrase search or RAG keyword matching on 'requirements', 'audits', 'findings' or 'designated' misses those spots. With 'letter- letter' joined, all candidates score 13/13, so a published 0.69 must not be read as 31% content loss.",
+    "fix": "No score correction: the outputs really contain split words. For publication, footnote that all 4 misses are hyphenation, identical across tools, and are counted again under absent_violations. Optional secondary scorer column: text_recall after joining /([a-z])- ([a-z])/ in the normalised output, so content loss and hyphenation are reported separately."
+   },
+   {
+    "file": "pub-srpt-118-226.pdf",
+    "candidate": "packforai.document, packforai.compact, markitdown",
+    "metric": "absent_violations",
+    "score": "4 for all three",
+    "verdict": "REAL",
+    "evidence": "PFA: 'to  improve  the  single  audit  require-\\nments,  having'; MID: 'to improve the single audit require-\\nments, having considered the same'; both: 'per-\\nsistent', 'effec-\\ntiveness', 'chal-\\nlenges'",
+    "llm_impact": "The same defect as the 4 text_recall misses, counted a second time. The impact is small for comprehension and larger for exact-match retrieval. Neither tool removes hyphens; PackForAI's run notes say it deliberately 'Kept PDF text line breaks, spacing'.",
+    "fix": "None needed. When publishing, state that text_recall and absent_violations both penalise the same hyphenation here, so the two metrics are not independent evidence."
+   },
+   {
+    "file": "pub-srpt-118-226.pdf",
+    "candidate": "packforai.document, packforai.compact",
+    "metric": "heading_recall",
+    "score": "0/17",
+    "verdict": "REAL",
+    "evidence": "'## Page 3\\n\\n```text\\nCalendar No. 519 ... I. PURPOSE AND SUMMARY\\nS.  4716,  the  Financial' — every page sits in a ```text fence; the only ATX headings are '# pub-srpt-118-226' and '## Page 1'..'## Page 10'",
+    "llm_impact": "All 17 heading texts are present, but only as plain lines inside code fences. The only structure is the page breaks and a title taken from the file name. An LLM or Markdown chunker sees 10 preformatted code blocks with no section hierarchy, and may treat the report as code or raw text. Section-based chunking and citation by section are lost.",
+    "fix": "None for the scorer: CommonMark correctly excludes fenced content, and the lines are not marked as headings even before fencing. This is a PackForAI weakness: the 'page-by-page visual text fallback' fires on a clean, born-digital text PDF."
+   },
+   {
+    "file": "pub-srpt-118-226.pdf",
+    "candidate": "markitdown",
+    "metric": "heading_recall",
+    "score": "0/17",
+    "verdict": "REAL",
+    "evidence": "No line starting with '#'. Heading II is split across two false table rows: '|     | II. BACKGROUND |     |     | NEED |     | LEGISLATION  |' / '|  |  |  | AND |  | FOR | THE |'",
+    "llm_impact": "No heading structure at all. The body copy of heading II reads 'II. BACKGROUND NEED LEGISLATION' then 'AND FOR THE', so the words are out of order (the TOC copy is intact). This is worse than PackForAI's plain line 'II. BACKGROUND AND NEED FOR THE LEGISLATION', but the heading metric scores both 0.",
+    "fix": "None for heading_recall. The word scrambling is not measured by any check (see the false-table finding)."
+   },
+   {
+    "file": "pub-srpt-118-226.pdf",
+    "candidate": "packforai.document, packforai.compact",
+    "metric": "table_recall",
+    "score": "0 (0 tables in output)",
+    "verdict": "REAL",
+    "evidence": "'2024         2025         2026         2027         2028         2029\\n2024–\\n2029\\nEstimated             Authorization  .....    0             5             7             7             6             5             30'",
+    "llm_impact": "No Markdown table. The values sit in a space-aligned row inside a code fence, so the columns can be recovered by alignment, and the '2024–'/'2029' header is intact though split over two lines. An LLM can usually rebuild the table but has to infer the columns from whitespace. Dot leaders and padding cost tokens.",
+    "fix": "None for the scorer (the metric is explicitly about pipe tables). The GT table is correct: checked at 200 dpi, rows 0 5 7 7 6 5 30, years 2024-2029 plus '2024–2029'."
+   },
+   {
+    "file": "pub-srpt-118-226.pdf",
+    "candidate": "markitdown",
+    "metric": "table_recall",
+    "score": "0 (15 tables in output, none of them Table 1)",
+    "verdict": "REAL",
+    "evidence": "'2024 2025 2026 2027 2028 2029 2 2 0 0 2 2 4 9 –\\nEstimated Authorization .......... 0 5 7 7 6 5 30'",
+    "llm_impact": "Table 1 comes out as flat text. The two-line total-column header '2024–/2029' is interleaved character by character into '2 2 0 0 2 2 4 9 –', so an LLM sees 7 values against 6 readable year labels plus junk, and must guess that 30 is the 2024–2029 total. Meanwhile 15 pipe tables were made from ordinary prose.",
+    "fix": "None for table_recall."
+   },
+   {
+    "file": "pub-srpt-118-226.pdf",
+    "candidate": "markitdown",
+    "metric": "text_recall / table metrics (no false-table penalty)",
+    "score": "text_recall 0.692 (tie with PackForAI); no metric counts the 15 false tables",
+    "verdict": "SCORER_ARTIFACT",
+    "evidence": "'| Section  | 7504  of  title  | 31,  | United  | States  | Code,  | to  | improve  | single  |\\n| -------- | ---------------- |' (PDF p.3 body text turned into a pipe table)",
+    "llm_impact": "This works against PackForAI: the output is worse than its scores show. Justified prose on PDF pages 3-4 is turned into 15 one-to-three-row pipe tables (43 lines, 1150 tokens; the same text without table syntax is 336 tokens). That includes a 9-column table of contents with dot leaders as cells, and heading II with its words out of order. Table-aware chunkers and LLMs will treat sentences as tabular data. Normalisation step 4 (every '|' becomes a space) turns these rows back into running text, so text_recall cannot see the damage, and no metric counts extra tables.",
+    "fix": "Minimal scorer fix: add a secondary per-file 'false_tables' field = tables_in_output minus tables matched to an expected table (already computable: tables_in_output 15 vs 0 here), and show it beside tblRec in the summary. Do not change the pipe normalisation."
+   },
+   {
+    "file": "pub-srpt-118-226.pdf",
+    "candidate": "markitdown",
+    "metric": "unscored (footnote markers merged into citations)",
+    "score": "n/a (text_recall 0.692 same as PackForAI)",
+    "verdict": "REAL",
+    "evidence": "'131 U.S.C. §§7501–7506.' ... '52 CFR §200.513(a)(3)(ii).' ... '931 U.S.C. §7504(c)(2).' (PDF p.4 prints footnotes 1, 5, 9 as '31 U.S.C.', '2 CFR', '31 U.S.C.')",
+    "llm_impact": "Misleading. An LLM asked what the report cites would answer '52 CFR 200.513', which is a real but wrong CFR title, or '131 U.S.C.', which does not exist. Inline references are also merged ('ment.1', 'basis.2', 'threshold.10'). PackForAI keeps the marker on its own line ('1\\n31 U.S.C. § § 7501–7506.'), so its citations are correct. No check covers this, so the tie on text_recall hides a correctness gap in MarkItDown's output.",
+    "fix": "This is a coverage gap, not a scoring error. Optionally, and as a judgement call, absent entries such as '131 U.S.C.' and '52 CFR' (strings that never occur legitimately) would catch it. Otherwise mention it qualitatively in the write-up."
+   },
+   {
+    "file": "pub-srpt-118-226.pdf",
+    "candidate": "packforai.document, packforai.compact",
+    "metric": "noise_excess",
+    "score": "9 (10 occurrences, max 1)",
+    "verdict": "REAL",
+    "evidence": "'VerDate Sep 11 2014     00:36 Oct 11, 2024    Jkt 049010    PO 00000    Frm 00003    Fmt 6659    Sfmt 6602    E:\\HR\\OC\\SR226.XXX    SR226'",
+    "llm_impact": "The invisible GPO production slug appears on all 10 pages: 629 tokens, inflated by space runs. Its dates (Sep 11 2014, Oct 11 2024) can be mistaken for document dates; the real date is Sept 19, 2024. The rotated slug, not counted for either tool, is also emitted forwards 10 times ('jgilmore on DSK126QN23PROD with REPORTS', 171 tokens) and glued to other hidden text: 'REPORTSE:\\Seals\\Congress.#13', 'REPORTSInsert offset folio 9 here SR226.001'.",
+    "fix": "None. Leaving the rotated slug out for both tools is fair: each tool emits it 10 times, PackForAI forwards (171 tokens) and MarkItDown reversed (297 tokens)."
+   },
+   {
+    "file": "pub-srpt-118-226.pdf",
+    "candidate": "markitdown",
+    "metric": "noise_excess",
+    "score": "9 (10 occurrences, max 1)",
+    "verdict": "REAL",
+    "evidence": "'VerDate Sep 11 2014 00:36 Oct 11, 2024 Jkt 049010 PO 00000 Frm 00006 ...' plus unscored 'STROPER\\nhtiw\\nDORP32NQ621KSD\\nno\\neromligj' and '7American ... Single\\nSTROPER htiw DORP32NQ621KSD no eromligj Audits  (2017)'",
+    "llm_impact": "Same VerDate slug, 10 times (551 tokens). MarkItDown also emits the rotated slug backwards as gibberish 10 times (297 tokens with the reversed '31#.ssergnoC\\slaeS\\:E' and '100.622RS ereh 9 oilof tesffo tresnI'). One copy is pushed into the middle of footnote 7 and one between body lines on PDF p.3, where an LLM would read it as part of the text.",
+    "fix": "None. The reversed rotated slug is unscored for both tools, which is consistent."
+   },
+   {
+    "file": "pub-srpt-118-226.pdf",
+    "candidate": "packforai.document, packforai.compact",
+    "metric": "tokens",
+    "score": "7858 / 7854 vs markitdown 6504 (+20.8%)",
+    "verdict": "REAL",
+    "evidence": "'to  which  was  referred  the  bill  (S.  4716)  to  amend  section  7504  of' — 2115 runs of 2+ spaces (3098 extra spaces)",
+    "llm_impact": "Fewer characters than MarkItDown (26654 vs 28063) but more tokens: collapsing space runs alone saves 2116 tokens (27%), giving 5742, which is 12% below MarkItDown. The cover braces alone carry about 90 padding spaces ('\"   ...   !'). Fences and page headings add only 127 tokens. 'compact' differs from 'document' only in the header line (-4 tokens), and PackForAI's own tokenAnalysis reports savingsPercent -1.7, so the token-optimised output is not optimised on this file.",
+    "fix": "No scorer change: tokens are counted on the stored file, as documented. This is a PackForAI weakness: the fallback keeps justified-text spacing, which should be collapsed outside real column layouts, at least in compact mode."
+   },
+   {
+    "file": "pub-srpt-118-226.pdf",
+    "candidate": "markitdown",
+    "metric": "tokens",
+    "score": "6504",
+    "verdict": "REAL",
+    "evidence": "'| I. Purpose and Summary                                     ...   |     | ...... |     |          |   |   |     | 1   |' (9-column padded TOC table)",
+    "llm_impact": "Lower total, but with waste of its own: 43 false-table lines cost 1150 tokens against 336 for the same words without table syntax (about 814 tokens of pipes, padding and '---' rows). The reversed slug gibberish adds 297 tokens and the VerDate slug 551.",
+    "fix": "None."
+   }
+  ],
+  "packforai_weaknesses": [
+   "Treats this clean, born-digital text PDF as broken: the run metadata says textQuality 'broken' (score 65), 'suspicious_tokens' critical, and 'OCR will be needed'. That triggers the page-by-page visual-text fallback, which puts every page in a ```text code fence. The output has no Markdown structure: 0 headings, 0 tables, and the title is the file name ('# pub-srpt-118-226').",
+   "Keeps the spacing of justified text: 2115 runs of 2 or more spaces cost about 2116 tokens (27% of the output), making it 21% larger than MarkItDown in tokens despite 5% fewer characters.",
+   "The 'compact' (token-optimised) output is effectively identical to 'document' (7854 vs 7858 tokens); its own tokenAnalysis reports -1.7% savings.",
+   "Keeps line-end hyphens ('require-\\nments', 'au-\\ndits', 'des-\\nignated'), which accounts for all 4 text_recall misses and all 4 absent violations.",
+   "Emits the invisible GPO slugs on every page: 'VerDate Sep 11 2014 ...' (629 tokens) and 'jgilmore on DSK126QN23PROD with REPORTS' (171 tokens), glued to other hidden text such as 'REPORTSE:\\Seals\\Congress.#13' and 'REPORTSInsert offset folio 9 here SR226.001'.",
+   "Follows the text-layer order for footnotes: footnotes 1-9 come before the body of PDF page 4, and footnotes 10-12 come before the body of page 5. The page-spanning sentence 'may er-' / 'roneously' is therefore interrupted by a fence close/open, '## Page 5', the page number and three footnotes. Footnote reference numbers sit on their own lines ('ment.\\n1\\nThe Single'), so they read as stray numbers.",
+   "Cover page reading order is scrambled: the imprint at the bottom of the page comes first ('U.S. GOVERNMENT PUBLISHING OFFICE / WASHINGTON : / 1 / 49–010'), and 'WASHINGTON : 2024' is split so that '2024' lands after 'REPORT' ('REPORT\\n2024\\n118–226').",
+   "The CBO Table 1 is only space-aligned text inside a code fence ('2024–' and '2029' on separate lines), not a pipe table."
+  ],
+  "markitdown_weaknesses": [
+   "Turns justified body text on PDF pages 3-4 into 15 false pipe tables (43 lines, 1150 tokens against 336 for the plain text). These include a 9-column table of contents with dot leaders as cells, and heading II with its words out of order ('II. BACKGROUND | NEED | LEGISLATION' / 'AND | FOR | THE'). The scorer does not penalise this because of its '|'-to-space normalisation.",
+   "Joins footnote numbers to the citation text that follows, producing wrong citations: '131 U.S.C. §§7501–7506.', '52 CFR §200.513(a)(3)(ii).', '931 U.S.C. §7504(c)(2).', '2Kerri', '10Government'. Inline references are joined too ('ment.1', 'basis.2').",
+   "Emits the invisible rotated slug backwards on every page ('STROPER htiw DORP32NQ621KSD no eromligj', '31#.ssergnoC\\slaeS\\:E', '100.622RS ereh 9 oilof tesffo tresnI'): 297 tokens of gibberish, one copy inside footnote 7 and one between body lines on PDF p.3. Also emits the 'VerDate ...' slug 10 times (551 tokens).",
+   "The CBO Table 1 is not a pipe table, and its total-column header is garbled into '2 2 0 0 2 2 4 9 –'.",
+   "Drops the spaces between words set in small capitals: '118THCONGRESS', 'OFTHE', 'TOACCOMPANY', 'SEPTEMBER19'.",
+   "Merges the two-column committee roster line by line, mixing majority and minority members ('THOMAS R. CARPER, Delaware RAND PAUL, Kentucky').",
+   "Produces no Markdown headings at all, keeps line-end hyphens (4 text_recall misses and 4 absent violations, the same as PackForAI), and leaves a stray '1' as the first line of the cover."
+  ]
+ },
+ {
+  "summary": "pub-fedreg-2024-31144.pdf: I opened all three outputs, rendered pages 1-4 at 110 dpi, and re-ran the scorer's own normalize() through a scratch script. No ground-truth errors: Tables 1 and 3, the headings, the line-end hyphens and the white (invisible) GPO slug all match the rendered pages.\n\nMarkItDown's text recall of 0/14 is REAL. pdfminer joins lines that sit side by side in the 3 columns, so on every page each output line holds pieces of 2-3 columns. Its longest unbroken run per phrase is 5-10 words out of 9-26. Its order score of 0.375 is REAL, and if anything generous.\n\nPackForAI's 13/14 is a SCORER_ARTIFACT. The one miss is the true compound '40,000-pound', which PackForAI writes as '40,000-' then a line break, then 'pound'. The scorer turns the line break into a space. A one-rule fix ('- ' becomes '-' on both sides) makes the phrase match, and all 3 absent checks still catch the split words in both outputs.\n\nHeading recall is 0 for both, and that is REAL. PackForAI puts every page inside a ```text code fence, and MarkItDown emits no headings at all. The tie hides a real difference: all 12 heading texts stand alone on their own lines in PackForAI, but only 2/12 in MarkItDown.\n\nTable recall is 0 for both, also REAL: neither tool writes Tables 1 or 3 as pipe tables. MarkItDown does write 16 junk pipe tables on page 4 (872 tokens) that mix three columns of text.\n\nNoise is a REAL tie at excess 6 each. Both keep 3 running headers and the invisible 'Jkt 265001' slug on all 4 pages.\n\nAbsent checks: PackForAI's 3 violations are REAL. MarkItDown's 2 understates its problem. Its third split word ('Destina- tion') escapes detection only because its output is more garbled: 'Destina- applicable fees ... tion Markets'. Neither output contains 'Destination' anywhere. This SCORER_ARTIFACT favours MarkItDown and reverses the true order on this check.\n\nTokens: PackForAI document 6755 and compact 6751, against MarkItDown 6560 (+3.0%), REAL. PackForAI spends about 326 tokens on runs of spaces and 69 on code fences and page headers. Its compact output saves nothing here: 4 tokens, and the sidecar reports -1.4% savings. MarkItDown spends 872 tokens on junk tables. Both spend 179 tokens on dot leaders and about 320 on invisible slugs. Scratch scripts are in <local scratch folder> (check.mjs, headings.mjs, pg-1..4.png).",
+  "findings": [
+   {
+    "file": "pub-fedreg-2024-31144.pdf",
+    "candidate": "markitdown",
+    "metric": "text_recall",
+    "score": "0.000 (0/14)",
+    "verdict": "REAL",
+    "evidence": "\"This section of the FEDERAL REGISTER Executive Orders 12866, 13563, and fee structure of the Specialty Crop\" — every body line on pp.1-4 mixes 2-3 columns; longest contiguous run per must_contain phrase is only 5-10 of 9-26 words.",
+    "llm_impact": "Each sentence is spliced with sentences from the neighbouring columns, e.g. '$317.50 inspection fee will be minimum charge at the currently'. An LLM cannot quote the rule, and it can attach numbers and conditions to the wrong clause. This is the dominant failure for this file.",
+    "fix": "Converter: use column-aware layout analysis (pdfminer LAParams with boxes_flow/column segmentation, or per-column cropping) before emitting text. No scorer change."
+   },
+   {
+    "file": "pub-fedreg-2024-31144.pdf",
+    "candidate": "markitdown",
+    "metric": "order_score",
+    "score": "0.375 (3/8; 5 anchors missing)",
+    "verdict": "REAL",
+    "evidence": "The 5 missing anchors (e.g. 'exhausted prior to any judicial challenge') are split by interleaving: 'exhausted prior to any judicial notes that 40,000 pounds is generally'. The 3 found are short fragments that happened to fit inside one column segment.",
+    "llm_impact": "Sequence of argument (background -> analysis -> comments -> amendatory text) is not recoverable line by line; if anything 0.375 is generous.",
+    "fix": "Same column-segmentation fix in the converter; no scorer change."
+   },
+   {
+    "file": "pub-fedreg-2024-31144.pdf",
+    "candidate": "packforai.document / packforai.compact",
+    "metric": "order_score",
+    "score": "1.000 (8/8)",
+    "verdict": "REAL",
+    "evidence": "Columns are read top-to-bottom, left to right, e.g. '...the cost savings for additional\\nlots.\\nTABLE 1—SCI SEC. 8e INSPECTION FEES...' and the column-to-column continuation '$317.50 inspection fee will be\\ndetermined by multiplying'.",
+    "llm_impact": "Body text reads in source order; sentences that cross columns are intact.",
+    "fix": "None."
+   },
+   {
+    "file": "pub-fedreg-2024-31144.pdf",
+    "candidate": "packforai.document / packforai.compact",
+    "metric": "text_recall",
+    "score": "0.929 (13/14)",
+    "verdict": "SCORER_ARTIFACT",
+    "evidence": "\"As shown in Table 1,\\napplicants importing typical 40,000-\\npound loads comprising one lot will see\\nno change in inspection fees\" (inside a ```text fence; the hyphen is a real compound hyphen, see rendered p.2 col.2)",
+    "llm_impact": "Practically none: the hyphen is genuine and only a hard line break follows it, so an LLM reads '40,000-pound loads'. The real weakness, that PDF lines are not reflowed, is already measured by the absent checks.",
+    "fix": "Scorer normalize(): add a step after the whitespace collapse that deletes a space following a hyphen-minus ('- ' -> '-'), applied to output and ground truth alike. Verified in scratch: the phrase then matches (PackForAI 14/14), and all absent entries still match the split forms in both outputs ('in- spection' -> 'in-spection' on both sides). Apply it corpus-wide and re-run, because it can change other files' scores. Borderline: the benchmark deliberately picked a cross-line compound, but an unchanged compound hyphen followed by a newline is faithful content, not an error."
+   },
+   {
+    "file": "pub-fedreg-2024-31144.pdf",
+    "candidate": "packforai.document / packforai.compact",
+    "metric": "heading_recall",
+    "score": "0.000 (0/12)",
+    "verdict": "REAL",
+    "evidence": "## Page 1\\n\\n```text\\n... Executive Order 13175\\nThis rule has been reviewed under ... \\nBackground\\nOn June 20, 2024, a proposed — every page is a fenced code block, so no ATX heading exists apart from the file name and 'Page N'.",
+    "llm_impact": "No section structure: a chunker or LLM that keys on Markdown headings sees only page splits, and the code fence marks the whole document as preformatted. Mitigating fact the metric hides: all 12 expected heading texts appear intact on standalone lines (12/12 vs MarkItDown 2/12), so an LLM can still infer section boundaries.",
+    "fix": "Converter: emit body text as Markdown rather than ```text fences, and promote bold standalone lines to ATX headings. Optionally report a secondary 'heading text intact on own line' diagnostic in the scorer; the current metric itself is correct."
+   },
+   {
+    "file": "pub-fedreg-2024-31144.pdf",
+    "candidate": "markitdown",
+    "metric": "heading_recall",
+    "score": "0.000 (0/12)",
+    "verdict": "REAL",
+    "evidence": "\"This section of the FEDERAL REGISTER Executive Orders 12866, 13563, and fee structure of the Specialty Crop\" / \"Final Regulatory Flexibility Analysis to such actions in order that small which inspection services are provided;\"",
+    "llm_impact": "No Markdown headings at all, and 10 of 12 heading texts are fused with body text from other columns, so section boundaries cannot be recovered. This is worse than the tie with PackForAI suggests.",
+    "fix": "Converter: column segmentation plus heading detection; no scorer change."
+   },
+   {
+    "file": "pub-fedreg-2024-31144.pdf",
+    "candidate": "packforai.document / packforai.compact",
+    "metric": "table_recall",
+    "score": "0.000 (Table 1: 0/31, Table 3: 0/68; 0 tables parsed)",
+    "verdict": "REAL",
+    "evidence": "\"Number of lots    FY 2025 fee    New fee\\n1\\nReduced cost to importer applicant\\n(1) ... (2) ... (3)\\n1  ......    $254  ......    $254  ......    $0.\" (inside ```text)",
+    "llm_impact": "Data rows are intact, one per line and in correct cell order, so values are recoverable. But there is no cell structure. The superscript '¹' becomes its own line ('New fee\\n1'), which can be misread as a data row. Table 3's header is broken into 10 fragment lines, and Table 2 prints '(\\n1\\n)'. The LLM has to map columns from spacing.",
+    "fix": "Converter: turn dot-leader/column-gap rows into GFM pipe tables and attach superscript markers to their cell. No scorer change; neither tool is credited for whitespace-aligned text tables."
+   },
+   {
+    "file": "pub-fedreg-2024-31144.pdf",
+    "candidate": "markitdown",
+    "metric": "table_recall",
+    "score": "0.000 (16 pipe tables parsed, none matching)",
+    "verdict": "REAL",
+    "evidence": "Real tables are plain lines: \"≤40,000 lbs. >40,000 lbs. Total Pct of total Cumulative\\ninspections\\nper lot per lot inspections percent\\n(percent)\". Spurious tables: \"| (TIPA) in full support of implementing  | Miscellaneous (undesignated center  |     |     |\"",
+    "llm_impact": "Table 1/3 data rows are readable as text, but the Table 3 header is scrambled and superscripts are glued ('New fee1', 'lot12', 'FY20231'). The 16 junk pipe tables on page 4 (48 lines, 872 tokens) present comment text, the redesignation table and the NRC rule as one table. That actively misleads an LLM about which cells belong together.",
+    "fix": "Converter: segment columns before table detection and drop tables whose cells are body-text fragments. No scorer change."
+   },
+   {
+    "file": "pub-fedreg-2024-31144.pdf",
+    "candidate": "all three",
+    "metric": "noise_excess ('Vol. 89, No. 249', max 1)",
+    "score": "count 4, excess 3 for every candidate",
+    "verdict": "REAL",
+    "evidence": "PackForAI: \"106232 Federal  Register/ Vol.  89,  No.  249 / Monday,  December  30,  2024 / Rules  and  Regulations\"; MarkItDown: \"106232 Federal Register/Vol. 89, No. 249/Monday, December 30, 2024/Rules and Regulations\"",
+    "llm_impact": "The running header is repeated on pp. 2-4 (PackForAI 115 tokens, MarkItDown 88) and interrupts the text at page breaks. Minor. It is a tie, so the comparison is fair.",
+    "fix": "Converters: drop repeated page headers/footers. Counting a visible running header as noise is a judgement call; no ground-truth change proposed."
+   },
+   {
+    "file": "pub-fedreg-2024-31144.pdf",
+    "candidate": "all three",
+    "metric": "noise_excess ('Jkt 265001', max 1)",
+    "score": "count 4, excess 3 for every candidate",
+    "verdict": "REAL",
+    "evidence": "PackForAI: \"VerDate Sep<11>2014     21:04 Dec 27, 2024    Jkt 265001    PO 00000    Frm 00001 ...\" + \"ddrumheller on DSK120RN23PROD with RULES1\"; MarkItDown: same slug + reversed \"1SELUR\\nhtiw\\nDORP32NR021KSD\\nno\\nrellehmurdd\". Rendered p.1 confirms both slugs are invisible (white).",
+    "llm_impact": "Invisible production metadata appears on every page: a GPO operator's username, the 'Dec 27, 2024' composition date that differs from the Dec 30 publication date, and file paths. PackForAI spends 328 tokens on it and MarkItDown 321. MarkItDown's reversed copy is pure junk tokens. It is a tie, so the comparison is fair.",
+    "fix": "Converters: skip text with white fill or invisible render mode."
+   },
+   {
+    "file": "pub-fedreg-2024-31144.pdf",
+    "candidate": "packforai.document / packforai.compact",
+    "metric": "absent_violations",
+    "score": "3/3",
+    "verdict": "REAL",
+    "evidence": "\"($254  in-\\nspection  cost  per  40,000-pound  lot\" ; \"Specialty  Crops  Program,  Agricul-\\ntural Marketing Service\" ; \"Schedule  of  Fees  and  Charges  at  Destina-\\ntion Markets (undesignated center head-\\ning)\"",
+    "llm_impact": "A minor reading cost, because an LLM usually rejoins the word. But exact search or RAG for 'inspection cost', 'Agricultural Marketing Service' (in that footnote) or 'Destination Markets' misses these spans. PackForAI never dehyphenates or reflows.",
+    "fix": "Converter: rejoin a line-end hyphen when the joined form is a word (or occurs unhyphenated elsewhere in the document); keep hyphens of true compounds."
+   },
+   {
+    "file": "pub-fedreg-2024-31144.pdf",
+    "candidate": "markitdown",
+    "metric": "absent_violations",
+    "score": "2/3 ('Destina- tion' counted as passed)",
+    "verdict": "SCORER_ARTIFACT",
+    "evidence": "\"represented about 1.3 percent of the  Schedule of Fees and Charges at Destina- applicable fees for additional lots of the\\ntotal number of lots inspected.  tion Markets (undesignated center head-\" — 'Destination' occurs 0 times in the output.",
+    "llm_impact": "MarkItDown did not repair the hyphenation. It split the word with text from two other columns, which is worse than PackForAI's clean 'Destina-\\ntion'. The 2-vs-3 gap on this file reverses the true quality order. The other two MarkItDown violations ('in-\\nspection', 'Agricul-\\ntural') are REAL.",
+    "fix": "Scorer, no ground-truth change: derive each absent entry's joined form by removing '- ' ('Destina- tion' -> 'destination'). Count the entry as passed only when the joined form occurs and the split form does not. If neither occurs, count a violation, or report it as 'unresolved' and exclude it from the pass count."
+   },
+   {
+    "file": "pub-fedreg-2024-31144.pdf",
+    "candidate": "packforai.document / packforai.compact vs markitdown",
+    "metric": "tokens",
+    "score": "6755 / 6751 vs 6560 (+3.0%)",
+    "verdict": "REAL",
+    "evidence": "PackForAI keeps double spaces from justified footnotes and column gaps: \"The  fee  for  one  standard  lot  under  this  rule  is  $254,\" (326 runs; collapsing gives 6429 tokens). Compact differs from document only in the header line: \"Source: pub-fedreg-2024-31144.pdf (PDF)\".",
+    "llm_impact": "PackForAI's overhead is about 326 tokens of space runs (4.8%), 69 tokens of fences and page headers, 179 of dot leaders, 328 of invisible slugs and 115 of running headers. Its compact output saves 4 tokens, and the sidecar reports savingsPercent -1.4. MarkItDown's waste is 872 tokens of junk pipe tables, 179 of dot leaders, 321 of slugs and 88 of headers. Its lower count partly reflects that it is broken text, not efficient text.",
+    "fix": "PackForAI compact: collapse space runs, strip dot leaders, invisible text and repeated running headers (about 0.9k tokens, roughly 13%, recoverable on this file). No scorer change."
+   }
+  ],
+  "packforai_weaknesses": [
+   "Every page is wrapped in a ```text code fence, so the output has no Markdown structure by construction. The only ATX headings are the file name ('# pub-fedreg-2024-31144') and '## Page N'; the document title and 11 section/CFR headings are plain lines.",
+   "PDF lines are not reflowed and line-end hyphens are not repaired: 'in-\\nspection', 'Agricul-\\ntural', 'Destina-\\ntion', '40,000-\\npound loads', 'per-\\npound rate'.",
+   "Tables 1-4 and the redesignation table come out as whitespace-aligned text with dot leaders, not pipe tables. Superscript footnote markers fall onto their own lines ('New fee\\n1', '(\\n1\\n)', '[FY2021–FY2023\\n1\\n]') and can be misread as data rows. The Table 3 header is split into 10 fragment lines.",
+   "Keeps the invisible white GPO slug ('VerDate Sep<11>2014 ... Jkt 265001 ...') and the rotated operator slug ('ddrumheller on DSK120RN23PROD with RULES1') on all 4 pages (about 328 tokens), plus the running headers on pp. 2-4.",
+   "About 326 tokens (4.8%) go to runs of 2+ spaces from justified footnotes and column alignment. The 'compact' (token-optimized) output is effectively identical to the document output (6751 vs 6755 tokens; the sidecar's own tokenAnalysis reports savingsPercent -1.4).",
+   "The sidecar falsely labels the clean, born-digital text layer as textQuality 'broken' ('suspicious_tokens', critical) and says OCR will be needed. That would mislead a user into paying for or waiting on OCR.",
+   "Minor: the boxed page-1 note is emitted before the masthead ('Rules and Regulations / Federal Register / 106231'), and the unrelated NRC rule that starts on p.4 has no separator (MarkItDown has the same NRC issue)."
+  ],
+  "markitdown_weaknesses": [
+   "pdfminer joins lines that sit side by side in the three columns into one line, so nearly every body line on pp.1-4 mixes 2-3 columns. 0/14 must_contain phrases survive; the longest intact run is 5-10 words. Sentences such as 'the $317.50 inspection fee will be minimum charge at the currently' are spliced from different columns.",
+   "Writes 16 junk pipe tables on page 4 (48 lines, 872 tokens). They mix the Comments section, the redesignation table, the signature block and the NRC rule into one grid, e.g. '| Comments | heading) | | |'.",
+   "The real Tables 1-4 are plain text lines with dot leaders. The Table 3 header is scrambled over 4 lines, and superscripts are glued to the text ('New fee1', 'Inspection fee per lot12', '[FY2021–FY20231]', '1The fee for one standard lot').",
+   "Small-caps labels lose their spaces: 'FORFURTHERINFORMATIONCONTACT:', 'SUPPLEMENTARYINFORMATION:'.",
+   "Emits the invisible VerDate/Jkt slug on every page, and the rotated invisible operator slug reversed and split into junk lines ('1SELUR\\nhtiw\\nDORP32NR021KSD\\nno\\nrellehmurdd'); keeps the running headers.",
+   "No Markdown headings at all; 10 of 12 heading texts are fused with text from the neighbouring columns.",
+   "Its lower absent count (2 vs 3) on this file comes from garbling, not repair: 'Charges at Destina- applicable fees for additional lots of the ... tion Markets'. 'Destination' never appears."
+  ]
+ },
+ {
+  "findings": [
+   {
+    "file": "gen-two-column.pdf",
+    "candidate": "markitdown",
+    "metric": "text_recall",
+    "score": "0.385 (5/13) vs PackForAI 1.0",
+    "verdict": "REAL",
+    "evidence": "\"cages, and close each cage when it is full. A ment system.\\ntypical operator sorts between 420 and 480 Option A keeps manual sorting but equips every\". I checked all 8 misses: each phrase is cut by right-column text spliced into the same line. Removing the 19 pipe-table delimiter rows recovers none of them (still 5/13). The word count matches the PDF (1569 words each), so nothing is dropped. The words are only reordered.",
+    "llm_impact": "Facts get mixed up across columns. For example: \"The mis-sort rate averaged 0.6 tips parcels into chutes at speeds of up to 9,000 percent across the network in 2026, rising to 1.1 items per hour\". An LLM can tie 9,000 to the mis-sort rate, or lose the 0.6% figure.",
+    "fix": "None. The scorer is correct here."
+   },
+   {
+    "file": "gen-two-column.pdf",
+    "candidate": "packforai.document / packforai.compact",
+    "metric": "text_recall + order_score",
+    "score": "1.0 / 1.0",
+    "verdict": "REAL",
+    "evidence": "\"1. Introduction\\nParcel  volumes  across  the  network  grew  by  6.8\\npercent in the third quarter of 2026, and the com-\". The output's word sequence is identical to the order of the PDF's text-drawing (Tj) operators, which I decoded from the content stream. ReportLab drew header, footer, title, then the left column, then the right column. PackForAI's own note says \"Columns and wrapped cells were not reconstructed\".",
+    "llm_impact": "The text reads correctly and completely. But the result comes from following the PDF's internal drawing order, which matches reading order in this synthetic file. It does not show that PackForAI detects columns. The 'two-column reading order' stress is never exercised for a tool that follows drawing order.",
+    "fix": "The scorer needs no change. If this is published, add the caveat. Better: add a corpus variant whose content stream is not in reading order (right column drawn first, or lines drawn in rows across both columns), so the test measures layout analysis."
+   },
+   {
+    "file": "gen-two-column.pdf",
+    "candidate": "markitdown",
+    "metric": "order_score",
+    "score": "0.714 vs PackForAI 1.0",
+    "verdict": "REAL",
+    "evidence": "\"1. Introduction Capacity is limited by floor space as much as by\\nParcel volumes across the network grew by 6.8 labour. Leeds operates...\". The right-column anchor comes before the left-column anchor, and the same happens on page 2 with 'Option C' and 'Maintenance contracts'. Page 3 opens with \"6. Risks and Mitigations reduced injury rates are expected but were not\", which is the end of section 7.",
+    "llm_impact": "If anything the score is lenient. Lines from the two columns alternate on all 3 pages, about 120 lines, but only 7 paragraph-start anchors are sampled. Sentences are split across unrelated text throughout.",
+    "fix": "None needed for correctness. Optional: an adjacency metric for consecutive source lines would show the line-level interleaving that the 7 anchors miss."
+   },
+   {
+    "file": "gen-two-column.pdf",
+    "candidate": "packforai.document / packforai.compact",
+    "metric": "absent_violations",
+    "score": "10 (all 10 distinct 'prefix- rest' forms; 13 sites)",
+    "verdict": "REAL",
+    "evidence": "\"the com-\\nmercial team expects\" ... \"de-\\nscribes  the  automation  options  that  were  eval-\\nuated\". All 13 hyphens at line ends are kept as printed, and none is joined into the whole word.",
+    "llm_impact": "An LLM still understands the text. But exact-match keyword search and retrieval for commercial, maintenance, management, installation, destination and similar words fails at those 13 places, and the split words cost extra tokens.",
+    "fix": "No scorer change. PackForAI should rejoin a word broken at a line end (a line ending in '<letters>-' followed by a lowercase continuation) when the joined form is a word or appears elsewhere in the document unbroken."
+   },
+   {
+    "file": "gen-two-column.pdf",
+    "candidate": "markitdown",
+    "metric": "absent_violations",
+    "score": "1 vs PackForAI 10",
+    "verdict": "SCORER_ARTIFACT",
+    "evidence": "\"percent in the third quarter of 2026, and the com- positions during the evening peak\\nmercial team expects...\". MarkItDown also leaves all 13 line-end hyphens unjoined, the same 13 sites as PackForAI. In 12 of them right-column text sits between the prefix and the suffix, so the 'com- mercial' pattern never appears. Only 'tempo- rary' (page 3, single column) stays next to its suffix.",
+    "llm_impact": "MarkItDown is worse here, not better. The word fragments are separated by unrelated text ('the com- positions'), so the reader cannot rebuild the word. The metric rewards this damage. This one file accounts for 9 of the 10-point gap in the overall totals (17 vs 7).",
+    "fix": "In score.mjs absent_violations: for each entry of the form '<prefix>- <rest>', also count it when the normalized output has '<prefix>- ' at a word boundary followed by any word, i.e. /(?:^|[^\\p{L}\\p{N}])<prefix>- \\S/u. Tested: PackForAI stays at 10, MarkItDown goes from 1 to 10. Alternative: score de-hyphenation as presence of the whole word in context (e.g. 'the commercial team expects')."
+   },
+   {
+    "file": "gen-two-column.pdf",
+    "candidate": "packforai.document / packforai.compact",
+    "metric": "heading_recall",
+    "score": "0/9",
+    "verdict": "REAL",
+    "evidence": "Inside a ```text fence: \"1. Introduction\\nParcel  volumes...\". The only Markdown headings are '# gen-two-column' (the file name) and '## Page 1..3'. With the fences stripped there are still 0 matches. The source shows headings are detectable by font: section headings are Helvetica-Bold 11 pt, body text is Times-Roman 11 pt, and the title is Helvetica-Bold 20 pt. The ground truth is correct.",
+    "llm_impact": "An LLM can guess the numbered lines are section titles, but there is no structure for chunking or navigation. The H1 is the file name, not the document title 'Automating Parcel Sorting at Regional Hubs', which may mislead.",
+    "fix": "No scorer change. PackForAI could mark lines in a bold, larger or different-family font (relative to body text) as ATX headings, and use the largest text on page 1 as the H1."
+   },
+   {
+    "file": "gen-two-column.pdf",
+    "candidate": "markitdown",
+    "metric": "heading_recall",
+    "score": "0/9 (tie with PackForAI)",
+    "verdict": "REAL",
+    "evidence": "\"1. Introduction Capacity is limited by floor space as much as by\" / \"2. Current Sorting Operations Four options were evaluated against the same\". Headings are joined with body text from the other column, and '3. Automation Options' comes before '2. Current Sorting Operations'.",
+    "llm_impact": "Structurally worse than PackForAI even though both score 0. Headings are not on their own lines and section boundaries are mixed up, so an LLM may assign paragraphs to the wrong section.",
+    "fix": "None. A 'heading text on its own line' sub-check would separate the two tools, but this is optional."
+   },
+   {
+    "file": "gen-two-column.pdf",
+    "candidate": "packforai.document / packforai.compact",
+    "metric": "table_recall",
+    "score": "0 vs MarkItDown 0.20",
+    "verdict": "REAL",
+    "evidence": "\"Table 1. Capital cost and payback by option\\nOption    Capital (GBP) Payback (months)\\nA: Handheld scanners    180,000    14\\nB: Tilt-tray sorter    1,450,000    31\". The table is whitespace-aligned text inside a ```text fence, with no pipe table. Stripping the fence still gives 0. In the header, columns 2 and 3 are separated by a single space.",
+    "llm_impact": "All 5 rows are intact, each on its own line with nothing else on it, and the caption sits directly above. An LLM can look up values reliably, and in practice more reliably than from MarkItDown. Markdown table parsers and chunkers see no table, and the single space between header columns 2 and 3 is ambiguous.",
+    "fix": "No scorer change. PackForAI should emit a pipe table: its gap measurement already separates the 3 columns."
+   },
+   {
+    "file": "gen-two-column.pdf",
+    "candidate": "markitdown",
+    "metric": "table_recall",
+    "score": "0.20 (3/15 cells)",
+    "verdict": "REAL",
+    "evidence": "The matched table is header-only: \"| Option |     | Capital (GBP) |     | Payback (months) |     |...\" (12 columns). Row A is a separate one-row table. B and C are plain lines joined with prose: \"B: Tilt-tray sorter 1,450,000 31 a  fallback.  Training  for  operators  and  mainte-\". Row D is a table row with 'date.' from the right column in it.",
+    "llm_impact": "The score counts correctly, but MarkItDown 0.20 > PackForAI 0 reverses which output is more usable. Here 3 of 5 rows share a line with prose from the other column, so an LLM has to guess where each row ends.",
+    "fix": "None for recall. When publishing, state that both outputs fail to produce a correct Markdown table for this file."
+   },
+   {
+    "file": "gen-two-column.pdf",
+    "candidate": "markitdown",
+    "metric": "table_precision / table_f1 (secondary)",
+    "score": "precision 1.0, F1 0.333",
+    "verdict": "SCORER_ARTIFACT",
+    "evidence": "The output has 19 parsed pipe tables with 128 non-empty cells, and only 3 of those cells belong to Table 1. Prose is turned into tables, e.g. \"| Benefits  | are  counted   | only      | where  | they             | can  be |\". Precision is 1.0 only because the picked table is a header-only fragment. The other 18 tables made from prose are not penalized anywhere.",
+    "llm_impact": "The published precision of 1.0 suggests clean table output. In reality an LLM gets 18 tables made of prose (180 empty cells) that it may read as data.",
+    "fix": "Add a 'spurious_table_cells' figure to score.mjs: non-empty cells in parsed tables that no expected table picked (here 125 for MarkItDown, 0 for PackForAI). Or compute precision over all parsed tables."
+   },
+   {
+    "file": "gen-two-column.pdf",
+    "candidate": "packforai.document / packforai.compact",
+    "metric": "noise_excess",
+    "score": "6 (each of 3 furniture strings x3, max 1)",
+    "verdict": "REAL",
+    "evidence": "\"Parcel Sorting Automation Study    Report OE-2026-14\\nFernhill Logistics - Internal use only - Page 1 of 3\\nAutomating Parcel Sorting at Regional Hubs\". The running header and footer are kept on every page. Because PackForAI follows the PDF's drawing order, the page footer is also placed at the top of each page, before the body.",
+    "llm_impact": "Small cost, about 83 tokens of headers and footers, of which about 55 are surplus. 'Page N of 3' placed before the title is harmless but slightly misleading.",
+    "fix": "No scorer change. PackForAI could drop lines that repeat in the same position on every page, or keep them once."
+   },
+   {
+    "file": "gen-two-column.pdf",
+    "candidate": "markitdown",
+    "metric": "noise_excess",
+    "score": "6 (tie)",
+    "verdict": "REAL",
+    "evidence": "\"| Parcel Sorting Automation Study |     |     |     |     |     |     |     |     |     | Report OE-2026-14 |     |\". The page 2 and 3 headers become 12-column and 9-column pipe tables. The footers appear at the end of each page.",
+    "llm_impact": "The same repetition as PackForAI, plus the headers are presented as tables, which wastes tokens and adds tables that are not real.",
+    "fix": "None."
+   },
+   {
+    "file": "gen-two-column.pdf",
+    "candidate": "packforai.compact (and document)",
+    "metric": "tokens",
+    "score": "compact 3090, document 3094 vs MarkItDown 3197",
+    "verdict": "REAL",
+    "evidence": "Spacing is copied from the justified layout: \"typical   operator   sorts   between   420   and   480\". The compact output has 920 runs of 2 or more spaces (1069 extra space characters). In the PDF the strings have single spaces, and the wider gaps come from the word-spacing setting: '2.037857 Tw (Parcel volumes across the network grew by 6.8) Tj'. Collapsing the runs cuts the output from 3090 to 2170 tokens (-29.8%). Compact is only 4 tokens smaller than document (only the 'Source' line differs), and the JSON reports savingsPercent -1.7.",
+    "llm_impact": "About 30% of PackForAI's tokens on this file are whitespace with no meaning. The output labelled token-optimized does no optimization here. The -3.2% token lead over MarkItDown is coincidence: both outputs are about 45-50% above the roughly 2130 tokens of the plain source text.",
+    "fix": "No scorer change. PackForAI compact should collapse runs of spaces within lines in prose, and keep the spacing only on lines that look like table rows."
+   },
+   {
+    "file": "gen-two-column.pdf",
+    "candidate": "markitdown",
+    "metric": "tokens",
+    "score": "3197",
+    "verdict": "REAL",
+    "evidence": "19 delimiter rows such as \"| ----------- | --------- | --- | ----------------- | --- |...\" cost 457 tokens. Pipes and padding in the prose tables cost another 577 tokens, and double spaces 84 more. Flattening all of this gives 2079 tokens (-35%).",
+    "llm_impact": "About a third of the tokens are fake table syntax around prose that is already interleaved. The model pays for the noise and the damage together.",
+    "fix": "None for the scorer."
+   }
+  ],
+  "packforai_weaknesses": [
+   "The correct column order on this file comes from following the PDF's internal drawing order. The output word sequence matches the content stream's text-drawing (Tj) order exactly, and the processing note says columns were not reconstructed. The file does not show that PackForAI handles PDFs whose drawing order differs from reading order.",
+   "No de-hyphenation: all 13 hyphens at line ends are kept ('com-\\nmercial', 'Instal-\\nlation').",
+   "Justified-text word spacing (the PDF Tw setting) becomes runs of 2–5 spaces: 920 runs, about 30% of the compact output's tokens. The compact output is only 4 tokens smaller than the full one, so it is not token-optimized on this file.",
+   "The whole page body is wrapped in ```text code fences. Markdown renderers and chunkers treat the prose as code, and no headings or tables can be expressed.",
+   "Section headings are not marked even though font information separates them clearly (Helvetica-Bold vs Times-Roman body text). The only H1 is the file name '# gen-two-column', not the document title.",
+   "Table 1 is whitespace-aligned text, not a pipe table. Header columns 2 and 3 are separated by a single space ('Capital (GBP) Payback (months)').",
+   "Running header and footer are kept on all 3 pages. Because of drawing order, the footer 'Page N of 3' is placed at the top of each page."
+  ],
+  "markitdown_weaknesses": [
+   "Two-column pages are interleaved line by line across the columns on all 3 pages. 8 of 13 key phrases are broken, and numbers end up beside unrelated sentences ('The mis-sort rate averaged 0.6 tips parcels into chutes at speeds of up to 9,000 percent').",
+   "19 tables are made from prose, with 128 non-empty cells of which only 3 belong to the real table. About 1034 tokens (32%) go to pipe and delimiter syntax around prose.",
+   "The real Table 1 is split up: a header-only table, row A as its own table, rows B and C as plain lines joined with right-column prose, and row D with 'date.' in an extra cell.",
+   "Headings are joined with text from the other column and come out of order ('3. Automation Options' before '2. Current Sorting Operations').",
+   "No de-hyphenation either: the 13 line-end hyphens are kept, and in 12 cases unrelated text sits between the fragments. The absent metric wrongly counts this as success.",
+   "Running headers on pages 2 and 3 become wide tables made of mostly empty columns. Headers and footers are repeated on every page."
+  ],
+  "summary": "gen-two-column.pdf, checked against the source PDF (pdftotext -layout and the decoded content stream). I found no ground-truth errors: all 13 key phrases, 7 order anchors, 9 headings (fonts confirmed), the 15 table cells and the 13 line-end hyphens match the source.\n\n- **Text and order:** MarkItDown's text recall of 0.385 and order of 0.714 are REAL. Its two columns are interleaved line by line, and stripping table syntax recovers no phrase. The order score is if anything lenient.\n- **Caveat on PackForAI's 1.0/1.0:** these scores are REAL, but PackForAI's word sequence is identical to the PDF's drawing order, which ReportLab wrote column by column. This file does not actually test column detection for PackForAI.\n- **Absent:** PackForAI's 10 is REAL (no de-hyphenation). MarkItDown's 1 is a SCORER_ARTIFACT: it keeps the same 13 hyphens, but 12 escape detection only because the interleaving puts other text between the fragments. With a dangling-prefix rule (tested) both score 10. This file alone makes up 9 of the 10-point overall absent gap (17 vs 7).\n- **Headings:** 0 for both is REAL. PackForAI's headings are plain lines in a ```text fence. MarkItDown's are joined with right-column text and out of order.\n- **Tables:** both scores are REAL. PackForAI has no pipe table, but all 5 rows are intact, one per line. MarkItDown's 0.20 comes from a header-only fragment, with rows B to D mixed into prose. So the 0.20 > 0 ranking reverses which output an LLM can actually use. MarkItDown's table precision of 1.0 is a SCORER_ARTIFACT: 18 tables made from prose (125 extra cells) are never penalized.\n- **Noise:** 6 for both is REAL. Both keep the header and footer on every page.\n- **Tokens:** PackForAI's 3090–3094 vs MarkItDown's 3197 are REAL, but both are about 45–50% above the roughly 2130-token source text:\n  - PackForAI: 920 tokens (about 30%) are space runs copied from justified layout, and its compact output saves only 4 tokens.\n  - MarkItDown: about 1034 tokens (32%) are table syntax around prose.\n\nVerification scripts are in <local scratch folder> check.mjs and check2.mjs re-run the metrics with the scorer's own functions.\n- absentfix.mjs tests the proposed absent-rule fix.\n- tok.mjs and tok2.mjs measure where the tokens go.\n- stream_lines.txt is the decoded content-stream text; layout.txt and raw.txt are the pdftotext extracts."
+ },
+ {
+  "summary": "Files checked: gen-report.docx, gen-sales.xlsx and gen-deck.pptx. I compared each against its source (unzipped OOXML), its frozen ground truth (GT), all three outputs and the scorer code. I found no errors in the GT. The docx table GT matches the source (gridSpan 3). The xlsx table GT matches, cell for cell, a fresh rendering of stored value plus numFmt for all 33 rows. The pptx headings and table match slide1-5.xml. Scratch scripts are in <local scratch folder> (relaxed.mjs re-scores the tables, tokens.mjs breaks down token costs).\n\ndocx: all three candidates score 1.0 on text, order, headings and table recall, and every source paragraph appears in all three outputs. The scores are fair. The only difference is PackForAI table precision 0.89, which is real: it invents the header cells 'Column 3' and 'Column 4'.\n\npptx: PackForAI table_recall 0 vs MarkItDown 1.0 is real. PackForAI turns the 4x3 table into 12 single-cell bullets. PackForAI also has a real speaker-notes bug that no metric catches: slide 1 gets slide 2's notes, because readSlideNotes falls back to notesSlide<N>.xml when a slide has no notes relationship. Compact heading_recall 0 is real (compact drops the slide-title headings). Both tools lose bullet nesting, and neither is penalised for it.\n\nxlsx: PackForAI 0.686 vs MarkItDown 0.627 is real but narrow. The whole gap is MarkItDown writing '2026-01-05 00:00:00' on 25 date cells (no value is lost). Every other miss, for both tools, is a lost display format: no '$' and no 2 decimals on Unit Price and Revenue, Share of Revenue as a raw fraction instead of '%', and no thousands separators. No cell value is missing. With numbers compared at the precision the GT displays, both tools reach recall 1.0 on both sheets. MarkItDown needs the midnight time stripped for that; without it, it gets 0.882 on Q1 Sales.\n\nPackForAI compact xlsx table_recall 0 is a SCORER_ARTIFACT. Every cell is there as CSV, but the scorer only parses pipe tables. Converted to pipe tables, compact scores 0.744/0.629, the same as document. It is also the only candidate whose table header is the real header row.\n\nTokens (o200k): docx PackForAI document 561 / compact 543 / MarkItDown 537. xlsx 1386 / 1097 / 1533. pptx 374 / 317 / 322. MarkItDown's xlsx overhead is ' 00:00:00' (150 tokens), 'NaN' (33) and 'Unnamed: N' (32). PackForAI's overhead is the filename H1 plus Source lines on every file (17-21 tokens), float noise such as '64.90000000000001' (30), 'Column N' placeholders (16) and the wrongly copied speaker note on the deck (26-28). Compact saves little on docx and pptx: it is larger than MarkItDown on docx and smaller only through markup it drops on pptx.",
+  "findings": [
+   {
+    "file": "gen-deck.pptx",
+    "candidate": "packforai.document, packforai.compact",
+    "metric": "table_recall",
+    "score": "0 (markitdown 1.0)",
+    "verdict": "REAL",
+    "evidence": "## Slide 4: Budget Request by Hub\\n\\n- Hub\\n- Capital request\\n- Headcount change\\n- Leeds\\n- GBP 420,000\\n- +6\\n- Bristol",
+    "llm_impact": "The 4x3 table (slide4.xml has a:tbl inside a graphicFrame) arrives as 12 peer bullets. An LLM has to guess that there are 3 columns before it can link '+6' to Leeds or 'GBP 310,000' to Bristol. Compact is the same table as plain lines. MarkItDown emits a correct pipe table.",
+    "fix": "Converter: extractPptx (services/worker/src/extractors.ts) passes the table's cell paragraphs through readDrawingParagraphs and returns tables: [], so a:tbl should be rendered as a pipe table instead. No scorer change is needed."
+   },
+   {
+    "file": "gen-deck.pptx",
+    "candidate": "packforai.document, packforai.compact",
+    "metric": "text_recall/order_score 1.0 (defect not measured)",
+    "score": "1.0 (hides a misattributed speaker note)",
+    "verdict": "REAL",
+    "evidence": "## Slide 1: 2027 Planning Kickoff\\n\\n- Fernhill Logistics Distribution Division, 2026-11-16\\n\\n**Speaker notes:** Open with the throughput figure, then hand over to the hub managers",
+    "llm_impact": "In the source, slide1.xml.rels has no notesSlide relationship, and notesSlide1.xml's relationship points to slide2.xml. PackForAI still attaches slide 2's notes to the title slide and then repeats them under slide 2. An LLM is told the title slide has presenter notes it does not have, and reads the same note twice. Cost: +28 tokens (document), +26 (compact). MarkItDown attaches the notes correctly. No metric catches this.",
+    "fix": "Converter: readSlideNotes (extractors.ts line ~784) should use the notesSlide${slideNumber}.xml fallback only when the slide's .rels part is missing, and should check the notes part's slide back-reference. Benchmark: add the noise entry {\"text\":\"Open with the throughput figure\",\"max\":1}. This is objective, not a judgement call: the text occurs exactly once in the file."
+   },
+   {
+    "file": "gen-deck.pptx",
+    "candidate": "packforai.compact",
+    "metric": "heading_recall",
+    "score": "0 (packforai.document 1.0, markitdown 1.0)",
+    "verdict": "REAL",
+    "evidence": "Budget Request by Hub\\nHub\\nCapital request\\nHeadcount change\\nLeeds\\nGBP 420,000",
+    "llm_impact": "Slide titles are plain lines, indistinguishable from bullets and table cells. Only blank lines mark where a slide starts, so slide structure is lost.",
+    "fix": "Compact output for pptx should keep a '## ' marker on slide titles (about 2 tokens per slide). The scorer is correct."
+   },
+   {
+    "file": "gen-deck.pptx",
+    "candidate": "all three",
+    "metric": "list structure (not scored; all candidates get text/order 1.0)",
+    "score": "n/a",
+    "verdict": "REAL",
+    "evidence": "PFA: \"- Automate returns intake at Bristol\\n- Pilot starts in February 2027\\n- Target: 30 percent faster returns processing\"; MID: same lines with no list markers at all",
+    "llm_impact": "slide3.xml marks 'Pilot starts...' and 'Target...' as lvl=1 sub-points. PackForAI shows 7 peer 'priorities' instead of 3 priorities with sub-points. MarkItDown drops the bullet markers entirely. Both tools mislead about the hierarchy equally, and the scores do not show it.",
+    "fix": "Converters: emit the a:pPr lvl as list indentation. Scorer (optional): add a nested-list check."
+   },
+   {
+    "file": "gen-report.docx",
+    "candidate": "packforai.document, packforai.compact",
+    "metric": "table_precision",
+    "score": "0.894737 (markitdown 1.0); recall 1.0 for both",
+    "verdict": "REAL",
+    "evidence": "| Hub | Parcels shipped (thousands) | Column 3 | Column 4 |",
+    "llm_impact": "The header has invented column names. The merged label 'Parcels shipped (thousands)' (gridSpan 3 in document.xml) now seems to cover only the July column, while August and September sit under 'Column 3' and 'Column 4'. MarkItDown leaves those cells blank, so it also loses the span but invents nothing.",
+    "fix": "Converter: rowsToMarkdownTable (extractors.ts:1051) fills empty headers with `Column ${index+1}`. It should leave them empty or repeat the merged label across the gridSpan. The scorer is correct."
+   },
+   {
+    "file": "gen-report.docx",
+    "candidate": "packforai.compact",
+    "metric": "list nesting (not scored; all metrics 1.0)",
+    "score": "n/a",
+    "verdict": "REAL",
+    "evidence": "- Late deliveries fell to 2.9 percent of all parcels.\\n- Weather delays accounted for 41 percent of late parcels.\\n- Carrier handover errors accounted for 23 percent.",
+    "llm_impact": "The document output and MarkItDown keep the level-1 nesting. Compact flattens it, so '23 percent' loses its parent ('of late parcels'). Compact saves only 18 tokens here (543 vs 561) and is still larger than MarkItDown (537).",
+    "fix": "Converter: tidyLines/normalizeLine in optimizer.ts collapses leading whitespace and should keep the indentation of list lines."
+   },
+   {
+    "file": "gen-report.docx",
+    "candidate": "all three",
+    "metric": "text_recall / order / heading_recall / table_recall",
+    "score": "1.0 for all",
+    "verdict": "REAL",
+    "evidence": "Every non-empty w:p of word/document.xml (title, caption, 6 headings, 18 table cells, 10 list items, body paragraphs) is found normalized in all three outputs; # Executive Summary / ## Warehouse Throughput present in each",
+    "llm_impact": "The scores are fair: no content is lost in any candidate. Small difference: PackForAI's first H1 is the file stem '# gen-report', placed above the real title 'Q3 2026 Operations Review', so an LLM may take 'gen-report' as the document title.",
+    "fix": "None for the scorer or GT. Converter (optional): use the Title-style paragraph or core-properties title for the H1 instead of the file stem."
+   },
+   {
+    "file": "gen-sales.xlsx",
+    "candidate": "markitdown",
+    "metric": "table_recall (Q1 Sales)",
+    "score": "0.625592 (packforai.document 0.744076)",
+    "verdict": "REAL",
+    "evidence": "| SO-26-0101 | 2026-01-05 00:00:00 | Alder Creek Outfitters | Pacific | NaN | Trail Tent 2P | 40 | 189 | 7560 |",
+    "llm_impact": "Column B uses numFmt 164 (yyyy-mm-dd), but MarkItDown adds a made-up midnight time to all 25 dates. That costs 150 tokens and no information. This one column is the whole PackForAI-vs-MarkItDown xlsx table gap (25 cells; 0.686 vs 0.627 mean). Publish it as a date-formatting difference, not as lost data.",
+    "fix": "No scorer change is required. For publishing, add a value-level table recall next to the strict one. With midnight times stripped and numbers compared at display precision, both tools score 1.0."
+   },
+   {
+    "file": "gen-sales.xlsx",
+    "candidate": "packforai.document, markitdown",
+    "metric": "table_recall (absolute level)",
+    "score": "PFA 0.744 / 0.629, MID 0.626 / 0.629 (Q1 Sales / Regions)",
+    "verdict": "REAL",
+    "evidence": "PFA: \"| Pacific | Priya Raman | 7 | 355 | 37924.52 | 0.1640083924924246 |\"; MID: \"| Pacific | Priya Raman | 7 | 355 | 37924.52 | 0.164008 |\" (source displays $37,924.52 and 16.4%)",
+    "llm_impact": "No cell value is missing in either tool. All misses (PFA: 54 Q1 and 13 Regions cells) are display formats. Unit Price and Revenue lose '$' and their 2 decimals, Share of Revenue is a raw fraction, and thousands separators are dropped. The currency loss matters: '$' appears nowhere else in the workbook, so an LLM cannot tell the currency (other corpus docs use GBP). Share is still recoverable as a fraction. Read as 'about a third of table cells lost', the 0.69 / 0.63 headline overstates the damage. Under value-level matching both sheets score 1.0 for both tools (MarkItDown only once its midnight times are stripped; otherwise 0.882 on Q1).",
+    "fix": "Converters: apply numFmt (PackForAI's readDateStyles applies only date formats; MarkItDown/pandas applies none). Benchmark: publish a value-level table recall (strip $ , % and compare numbers at the expected cell's displayed precision) beside the strict format-level figure."
+   },
+   {
+    "file": "gen-sales.xlsx",
+    "candidate": "packforai.document, packforai.compact, markitdown",
+    "metric": "table_recall: thousands-separator cells",
+    "score": "6 of the missed cells per tool (1,200 / 1,050 / 3,990 / 1,497 / 1,743 / 3,990)",
+    "verdict": "SCORER_ARTIFACT",
+    "evidence": "PFA \"| Driftwood Sports | Atlantic |  | Hydration Pack 2L | 1200 | 42.75 | 51300 |\" vs expected \"1,200\"",
+    "llm_impact": "'1200' and '1,200' mean the same to an LLM. The GT notes say grouping separators depend on the viewer's locale (the audit dropped them from must_contain for that reason), yet table cells still require the en-US separator. The penalty is the same for both tools, so the ranking does not change. Without it: PFA 0.758 / 0.714, MID 0.640 / 0.714.",
+    "fix": "Scorer: in table cell comparison, remove grouping commas between digits on both sides (e.g. replace /(?<=\\d),(?=\\d{3}(\\D|$))/g with '') before testing equality."
+   },
+   {
+    "file": "gen-sales.xlsx",
+    "candidate": "packforai.compact",
+    "metric": "table_recall",
+    "score": "0 / 0",
+    "verdict": "SCORER_ARTIFACT",
+    "evidence": "# Q1 Sales\\nFernhill Outdoor Supply - Q1 2026 Sales Ledger\\nOrder ID,Order Date,Customer,Region,,Product,Units,Unit Price,Revenue\\nSO-26-0101,2026-01-05,Alder Creek Outfitters,Pacific,,Trail Tent 2P,40,189,7560",
+    "llm_impact": "Every cell is present as headed CSV, which LLMs read well, and the title is kept as its own line rather than the header. The scorer only parses GFM pipe tables. Converted to pipe tables with the same scorer functions, compact scores 0.744 / 0.629 (equal to the document output), and value-level 1.0 / 1.0 with precision 1.0. That is the best header handling of the three candidates. The float noise remains (see below).",
+    "fix": "Scorer: also parse runs of 2 or more lines with the same count of unquoted RFC-4180 commas as tables, at least for the compact candidate. Otherwise report compact table_recall as n/a instead of 0 in published aggregates."
+   },
+   {
+    "file": "gen-sales.xlsx",
+    "candidate": "packforai.document, markitdown",
+    "metric": "table header placement (not scored)",
+    "score": "n/a (scorer's row alignment hides it)",
+    "verdict": "REAL",
+    "evidence": "PFA \"| Fernhill Outdoor Supply - Q1 2026 Sales Ledger | Column 2 | Column 3 |\"; MID \"| Fernhill Outdoor Supply - Q1 2026 Sales Ledger | Unnamed: 1 | Unnamed: 2 |\"",
+    "llm_impact": "Both tools make the merged title A1:I1 the GFM header row and push the real header ('Order ID | Order Date ...') down to the first data row, with made-up column names. A model or table parser reads 'Column 2' / 'Unnamed: 1' as the column names. The row-alignment step (rule d) lets the expected header match any candidate row, so neither tool is penalised.",
+    "fix": "Converters: emit a merged row that spans the full width as a caption line above the table. Scorer (optional): report header_match = whether expected row 0 aligned to candidate row 0."
+   },
+   {
+    "file": "gen-sales.xlsx",
+    "candidate": "markitdown",
+    "metric": "table_precision",
+    "score": "0.567 (packforai.document 0.671)",
+    "verdict": "REAL",
+    "evidence": "| Total | NaN | NaN | NaN | NaN | NaN | 3990 | NaN | 231235.24 |",
+    "llm_impact": "The spacer column E and the blank cells of the totals rows come out as 'NaN'. An LLM may read this as missing or invalid data (for example 'Unit Price: NaN' on the Total row), not as intentionally empty cells. Cost: +33 tokens, plus 32 tokens for the 'Unnamed: N' headers.",
+    "fix": "None for the scorer; this is a converter issue (pandas NaN should render as an empty cell)."
+   },
+   {
+    "file": "gen-sales.xlsx",
+    "candidate": "packforai.document, packforai.compact",
+    "metric": "cell value fidelity (not scored; both tools miss the '$64.90' cell anyway)",
+    "score": "n/a",
+    "verdict": "REAL",
+    "evidence": "| SO-26-0103 | 2026-01-12 | Cedar & Stone Supply | Central |  | Camp Stove Kit | 60 | 64.90000000000001 | 3894 |",
+    "llm_impact": "sheet1.xml stores the binary-float string 64.90000000000001 (5 cells) and 9359.280000000001. Excel shows $64.90, and would show 64.9 even in General format. PackForAI copies the raw string, so an LLM may quote false precision. MarkItDown shows 64.9. Cost: +30 tokens in each PackForAI output. The strict scorer marks both tools wrong on these cells, so the difference is invisible, and the lenient value-level re-score gives PackForAI credit for them.",
+    "fix": "Converter: format numbers to at most 15 significant digits, or apply numFmt."
+   },
+   {
+    "file": "gen-sales.xlsx",
+    "candidate": "all three",
+    "metric": "tokens",
+    "score": "PFA doc 1386, compact 1097, MID 1533",
+    "verdict": "REAL",
+    "evidence": "MID \"| 2026-01-05 00:00:00 |\" x25, \"NaN\" x34, \"Unnamed: 1..8\"; PFA \"Source file: gen-sales.xlsx\\nSource type: XLSX\", \"64.90000000000001\", \"Column 2..9\"",
+    "llm_impact": "Measured waste: MarkItDown has ' 00:00:00' 150, NaN 33, 'Unnamed: N' 32. PackForAI document has float noise 30, 16-digit share fractions 15, 'Column N' 16, filename and Source header 17. Compact is the smallest (-28% vs MarkItDown) and loses nothing except table markup.",
+    "fix": "None for the scorer. The numbers come from tokens.mjs in the scratch folder."
+   },
+   {
+    "file": "gen-deck.pptx",
+    "candidate": "all three",
+    "metric": "tokens",
+    "score": "PFA doc 374, compact 317, MID 322",
+    "verdict": "REAL",
+    "evidence": "PFA \"# gen-deck\\n\\nSource file: gen-deck.pptx\\nSource type: PPTX\" and the duplicated slide-1 note; MID \"<!-- Slide number: 1 -->\"",
+    "llm_impact": "PackForAI document waste: the wrong duplicated note 28 tokens and the filename/Source header 21. Without the bug, compact would be 291 tokens. MarkItDown's slide-number comments cost 35 tokens but are useful slide boundaries. The PackForAI document is the largest output and the only one with wrong content.",
+    "fix": "None for the scorer."
+   },
+   {
+    "file": "gen-report.docx",
+    "candidate": "all three",
+    "metric": "tokens",
+    "score": "PFA doc 561, compact 543, MID 537",
+    "verdict": "REAL",
+    "evidence": "PFA \"# gen-report\\n\\nSource file: gen-report.docx\\nSource type: DOCX\" and \"-   Late deliveries\" (4-space list markers); MID \"| **Hub** | **Parcels shipped (thousands)** |\"",
+    "llm_impact": "PackForAI waste: the filename/Source header 18 tokens, wide list markers 10, 'Column 3/4' a few. MarkItDown waste: bold markers in table cells about 10. Compact is still larger than MarkItDown here and also flattens the nested list.",
+    "fix": "None for the scorer."
+   }
+  ],
+  "packforai_weaknesses": [
+   "PPTX: a native table (a:tbl) becomes one bullet per cell. extractPptx returns tables: [], so table_recall is 0 on gen-deck.pptx in both outputs.",
+   "PPTX: speaker notes are attached to the wrong slide. readSlideNotes falls back to notesSlide<N>.xml when a slide has no notes relationship, so slide 1 gets slide 2's notes and the text appears twice. No current metric penalises this.",
+   "PPTX: bullet levels (lvl=1) are flattened into peer '- ' bullets, so sub-points read as separate priorities.",
+   "PPTX compact: slide titles lose their heading marker (heading_recall 0) and the table becomes bare lines.",
+   "XLSX: number formats other than dates are ignored. '$' and '%' are lost (the currency unit appears nowhere else in the sheet), and stored binary-float strings are copied as-is ('64.90000000000001', '9359.280000000001', '0.1640083924924246').",
+   "XLSX: a merged title row (A1:I1) becomes the table header with invented 'Column 2..9' names, and the real header is pushed down to a body row.",
+   "DOCX: empty merged-header cells are filled with invented 'Column 3' / 'Column 4' labels (table precision 0.89).",
+   "Compact flattens nested list indentation (docx) and saves little on docx/pptx: 543 tokens vs MarkItDown's 537 on docx, 317 vs 322 on pptx (291 without the duplicated-note bug).",
+   "Every output starts with a file-stem H1 plus 'Source file' / 'Source type' lines (17-21 tokens), so the top H1 is 'gen-report' and not the document title."
+  ],
+  "markitdown_weaknesses": [
+   "XLSX: every yyyy-mm-dd date cell is written as a datetime with a made-up ' 00:00:00' (25 cells, +150 tokens). This alone explains the whole xlsx table-recall gap vs PackForAI (0.627 vs 0.686).",
+   "XLSX: pandas artifacts. Empty cells (spacer column, blanks in totals rows) become 'NaN' and placeholder headers become 'Unnamed: 1..8' (+65 tokens). 'NaN' implies missing data and lowers table precision (0.567).",
+   "XLSX: number formats are ignored, as in PackForAI ('$', '%' and thousands separators lost; share shown as a 6-decimal fraction).",
+   "XLSX: the merged title row becomes the table header and the real header is pushed down to a body row.",
+   "PPTX: bullets come out as plain lines with no list markers or nesting levels.",
+   "PPTX: the per-slide '<!-- Slide number: N -->' comments cost 35 tokens. They are useful as slide boundaries.",
+   "DOCX: table header cells keep '**' bold markers (about 10 tokens), and the merged header span is lost (blank cells after 'Parcels shipped (thousands)')."
+  ]
+ },
+ {
+  "summary": "pub-census-ecomm-24q3.pdf. I rendered all 3 pages (110 dpi) and checked them against the frozen ground truth. All 4 headings and every cell of both tables match the printed page, so I found no ground-truth issue. Text recall and order are 1.0 for both tools and both are correct: each recovered word spacing on the text-layer lines that have no spaces (for example \"preliminary estimate. Therefore, the estimate is subject to\"). Noise and absent checks are empty for this file.\n\nHEADINGS: 0 for both is REAL. Neither tool emits an ATX heading for the title or the three section titles. PackForAI's only headings are synthetic (\"# pub-census-ecomm-24q3\" and \"## Page N\"), and all document text sits inside ```text fences.\n\nTABLES: the direction is right but MarkItDown's size is wrong.\n- PackForAI's 0 is REAL. There is no Markdown table. Every data row is intact on its own line (85/93 and 45/51 expected cells appear as whitespace-separated cells in the right positions). However, the column labels are scattered, and the spanning group headers (\"Percent Change From Prior Quarter\", \"Coefficient of Variation (CV)\") appear only AFTER the data rows.\n- MarkItDown's 0.106 is mostly a SCORER_ARTIFACT. All 120 values are in pipe rows, in the same column positions as MarkItDown's own label row. Three scorer behaviours combine to give near-zero credit:\n  (1) A line without a pipe ends a table (a deliberate departure from GFM), so \"Adjusted2\", \"Not Adjusted\" and \"(millions of dollars)...\" cut Table 1 into 4 fragments and Table 2 into 2.\n  (2) Only one fragment can be credited per expected table.\n  (3) MarkItDown adds a column that is empty in every row after the row-label column. The data fragments' header row is really a data row, so no column pairs by header. The fallback pairs columns by position with offset 0, so every value column is shifted by one and only the 5 quarter labels match.\n  As a result the best-credited fragment for BOTH tables is Table 1's 2-row header fragment (line 35). Table 2's 7 credited cells are generic labels from Table 1.\n- Effect of fixes, measured with the scorer's own mapColumns/alignRows:\n  - Drop columns that are empty in every row before pairing: Table 1 = 40/93, Table 2 = 46/51, mean 0.666.\n  - Parse tables as GFM does: mean 0.482.\n  - Line the columns up by content: Table 1 = 88/93, Table 2 = 46/51.\n  MarkItDown still has real table defects: the table is split into fragments, the first data row of each fragment becomes a header row, there is a spurious empty column, and the spanning headers are broken into plain-text lines.\n\nTOKENS: PackForAI 3067 (compact 3063) vs MarkItDown 3186. The ~3.7% saving comes entirely from page 2: PackForAI 1226 vs MarkItDown 1431 tokens, because PackForAI has no table markup. On the rest of the document PackForAI uses MORE tokens (1841 vs 1755):\n- about 60 tokens of wrapper (title, Source lines, \"## Page N\" headings, fences);\n- 95 two- or three-space runs at one token each, kept from justified and double-spaced sentences;\n- about 10 tokens from superscripts split onto their own lines.\nMarkItDown spends about 124 tokens on 6 delimiter rows (4 of them spurious) and about 99 on cell padding. Compact differs from document by 4 tokens, and PackForAI's own JSON reports savingsPercent -5.6.\n\nScratch evidence and scripts: <local scratch folder>, gfm.mjs, gfm2.mjs, tokens.mjs, tokens2.mjs and page-1.png to page-3.png in the same folder.",
+  "findings": [
+   {
+    "file": "pub-census-ecomm-24q3.pdf",
+    "candidate": "packforai.document (same for packforai.compact)",
+    "metric": "heading_recall",
+    "score": "0 (0/4)",
+    "verdict": "REAL",
+    "evidence": "```text\\n\\nSurvey Description\\n\\nRetail e-commerce sales are estimated from the same sample ...   and   QUARTERLY RETAIL E-COMMERCE SALES\\n3\\nrd\\nQUARTER 2024   (only ATX headings: '# pub-census-ecomm-24q3', '## Page 1..3')",
+    "llm_impact": "The title and the three section titles are plain lines inside a ```text code block, so there is no Markdown structure for chunking or navigation. The headings that do exist are the file name and page numbers, so the outline is page-based, not section-based. Blank lines around the section titles still let an LLM guess them. The title is broken over 4 lines by the split superscript.",
+    "fix": "No scorer fix. Product fix: emit lines in bold or larger fonts as ATX headings, and do not wrap prose in code fences. Any heading or table inside a fence is invisible to the metric, and to Markdown generally."
+   },
+   {
+    "file": "pub-census-ecomm-24q3.pdf",
+    "candidate": "markitdown",
+    "metric": "heading_recall",
+    "score": "0 (0/4)",
+    "verdict": "REAL",
+    "evidence": "approval number: CBDRB-FY25-0002).\\nAdjusted Estimates\\nThis report publishes estimates that have been adjusted for seasonal variation and holiday and trading-day differences, but",
+    "llm_impact": "The section titles have no '#' and, on page 3, are not even separated by blank lines. 'Adjusted Estimates' reads as the first words of the next paragraph, so an LLM can miss the section boundaries. This is slightly worse than PackForAI's blank-line isolation, although both score 0.",
+    "fix": "No scorer fix; the score is accurate."
+   },
+   {
+    "file": "pub-census-ecomm-24q3.pdf",
+    "candidate": "packforai.document (same for packforai.compact)",
+    "metric": "table_recall",
+    "score": "0 (T1 0/93, T2 0/51; 0 pipe tables)",
+    "verdict": "REAL",
+    "evidence": "Adjusted\\n2\\n3rd quarter 2024(p)    1,849,906    300,053    16.2    1.3    2.6    2.1    7.4 ... 3rd quarter 2023    1,815,346    268,745    14.8    -0.3    1.5    2.2    9.6\\nRetail Sales    Percent Change    Percent Change",
+    "llm_impact": "All 120 values are present, one row per line in the correct column order: 85/93 and 45/51 expected cells appear as whitespace-separated cells in the right positions. But the sub-headers are spread over 3 lines above the data ('Total    E-commerce' / 'Total' / 'Total  ...  E-commerce'), and the group headers ('Retail Sales (millions of dollars)', 'Percent Change From Prior Quarter/Same Quarter', 'Coefficient of Variation (CV)') come only AFTER the rows. Spacing in the header lines does not line up with the uniform 4-space gaps in the data. An LLM must infer what each column means, which risks confusing quarter-on-quarter with year-on-year, or CV with SE. The '2' footnote marker on its own line just above the first data row can also be misread.",
+    "fix": "No scorer fix; the metric measures Markdown table structure, and none exists here. Publication note: a 0 here does not mean the numbers are missing; it means there is no column structure. Product fix: reconstruct the columns, or at least put the header lines before the data."
+   },
+   {
+    "file": "pub-census-ecomm-24q3.pdf",
+    "candidate": "markitdown",
+    "metric": "table_recall",
+    "score": "0.106 (T1 7/93 = 0.075, T2 7/51 = 0.137)",
+    "verdict": "SCORER_ARTIFACT",
+    "evidence": "|     |         | Total | E-commerce | Total | Total  | E-commerce |   Total     | E-commerce  |\\nAdjusted2\\n| 3rd quarter 2024(p) |     | 1,849,906 | 300,053 | 16.2 | 1.3  | 2.6 | 2.1 | 7.4  |",
+    "llm_impact": "All 120 values are in pipe rows, in the same column positions as MarkItDown's own sub-header row, with the 'Adjusted2' and 'Not Adjusted' group labels between them. An LLM can read this as one table. Yet the scorer credits only 7 header words. The causes:\n(a) A line without a pipe ends a table (documented departure from GFM), so Table 1 becomes 4 fragments and Table 2 becomes 2.\n(b) Only one fragment is credited per expected table.\n(c) In each data fragment the header row is really the first data row, so no column pairs by header (rule b falls back to offset 0). MarkItDown's spurious column 1, empty in every row, then shifts every value column by one, and only the 5 quarter labels match.\nUnder a fair rule this table would score far higher.",
+    "fix": "Minimal fix in scoreExpectedTable: before mapColumns, drop columns that are empty in every row of the parsed table, and do the same to the expected rows. This changes no matching cell; it only removes empty padding. Measured with the scorer's own functions: T1 40/93 = 0.430, T2 46/51 = 0.902, mean 0.666. PackForAI stays 0. Alternatives: GFM-conformant continuation (a line without a pipe becomes a one-cell row) gives 0.482; content-based column offsets give T1 88/93, T2 46/51."
+   },
+   {
+    "file": "pub-census-ecomm-24q3.pdf",
+    "candidate": "markitdown",
+    "metric": "table_recall (Table 2 sub-score)",
+    "score": "0.137 (7/51, credited from matched_table_line 35)",
+    "verdict": "SCORER_ARTIFACT",
+    "evidence": "results-run1.json: Table 2 matched_table_line 35 = '|     | Quarter |       |            | of    |        |            |  A Year Ago |             |' (Table 1's header fragment); the real Table 2 fragment at line 70 also scores 7 but loses the precision tie-break",
+    "llm_impact": "The 7 credited cells ('Quarter' plus six generic 'Total'/'E-commerce' labels) come from Table 1, not Table 2. The real Table 2 fragment (header 'Total | E-commerce | of Total | ...', with 5 complete data rows aligned to it) gets no credit beyond what the Table 1 fragment gets. The per-table number therefore says nothing about Table 2.",
+    "fix": "The empty-column fix above makes line 70 score 46/51. Also consider a one-to-one assignment of parsed tables to expected tables, so that a single parsed fragment cannot be the best match for two different expected tables."
+   },
+   {
+    "file": "pub-census-ecomm-24q3.pdf",
+    "candidate": "markitdown",
+    "metric": "table structure (residual, part of table_recall)",
+    "score": "0.106 (residual real defects after fixes: T1 about 0.95, T2 about 0.90 at best)",
+    "verdict": "REAL",
+    "evidence": "| 3rd quarter 2024(p) |     | 1,849,906 | 300,053 | 16.2 | 1.3  | 2.6 | 2.1 | 7.4  |\\n| ------------------- | --- | --------- | ...   and   Coefficient of   Standard Error SE for  SE for Percent Change\\nVariation (CV) (SE) for      Percent Change From Same Quarter",
+    "llm_impact": "These defects are real even after fixing the scorer:\n- Four spurious delimiter rows promote the first data row of each block ('3rd quarter 2024(p)') to a header row.\n- An empty column follows the row-label column.\n- The spanning group headers are broken into plain-text lines that interleave labels ('Coefficient of   Standard Error SE for  SE for Percent Change').\nAn LLM can usually rebuild the columns, but it must guess which Total/E-commerce pair is CV, SE quarter-on-quarter or SE year-on-year. Spanning-header cells are unrecoverable as cells: 6/93 in T1 and 4/51 in T2.",
+    "fix": "None needed; this part of the gap is genuine."
+   },
+   {
+    "file": "pub-census-ecomm-24q3.pdf",
+    "candidate": "packforai.document vs markitdown",
+    "metric": "tokens (o200k_base)",
+    "score": "PackForAI 3067 vs MarkItDown 3186 (-3.7%)",
+    "verdict": "REAL",
+    "evidence": "Page-2 region: PackForAI 1226 vs MarkItDown 1431 tokens; rest of document: PackForAI 1841 vs MarkItDown 1755. PackForAI wastes about 95 tokens on runs like 'Note:  Table  2  provides  estimated  measures  of  sampling  variability.'",
+    "llm_impact": "PackForAI's whole saving comes from not emitting table markup. MarkItDown spends about 124 tokens on 6 delimiter rows (4 spurious) and about 99 tokens on cell padding. Outside the tables PackForAI is 86 tokens LARGER:\n- about 60 tokens of wrapper (title, 'Source file:' and 'Source type:' lines, '## Page N' headings, ```text fences);\n- 95 two- or three-space runs at one token each (justified footnotes and double spaces after sentences);\n- about 10 tokens from superscripts on their own lines.\nThese cost tokens without adding information.",
+    "fix": "No scorer fix. Publication should not present the token delta on this file as compaction: it reflects missing table structure. Product fix: collapse runs of 2–3 spaces in prose, which saves about 3%."
+   },
+   {
+    "file": "pub-census-ecomm-24q3.pdf",
+    "candidate": "packforai.compact",
+    "metric": "tokens (compact vs document)",
+    "score": "3063 vs 3067 (-4 tokens, -0.1%)",
+    "verdict": "REAL",
+    "evidence": "diff document→compact: '< Source file: pub-census-ecomm-24q3.pdf\\n< Source type: PDF' → '> Source: pub-census-ecomm-24q3.pdf (PDF)'; packforai.json tokenAnalysis: originalTokenEstimate 2900, optimizedTokenEstimate 3063, savingsPercent -5.6",
+    "llm_impact": "The 'token-optimized' output is the same as the full output except for one metadata line. It keeps the double spaces, the fences and the split superscripts. By its own estimate it is larger than the original.",
+    "fix": "No scorer fix. Product fix: the compact mode should at least normalize whitespace on the PDF visual-text fallback path."
+   },
+   {
+    "file": "pub-census-ecomm-24q3.pdf",
+    "candidate": "packforai.document (same for packforai.compact)",
+    "metric": "readability (unscored)",
+    "score": "n/a",
+    "verdict": "REAL",
+    "evidence": "QUARTERLY RETAIL E-COMMERCE SALES\\n3\\nrd\\nQUARTER 2024 ... Estimated Quarterly U.S. Retail E-commerce Sales as a Percent of Total Quarterly Retail Sales:\\n1\\nst\\nQuarter 2015 – 3\\nrd\\nQuarter 2024",
+    "llm_impact": "Superscript ordinals and footnote markers are emitted as separate lines: '3/rd', '1/st', '4/th', 'Adjusted/2', and the marker '1' after the Table 1 title. MarkItDown joins them correctly ('3rd QUARTER 2024', '4th quarter 1999', 'Adjusted2'). An LLM can still understand the text, but quoted titles and dates come out wrong and lone digits beside the tables can be misread as values. The metrics do not catch this because no check string crosses these breaks.",
+    "fix": "No scorer fix. Product fix: merge superscript glyph runs into the preceding token."
+   },
+   {
+    "file": "pub-census-ecomm-24q3.pdf",
+    "candidate": "markitdown",
+    "metric": "readability (unscored)",
+    "score": "n/a",
+    "verdict": "REAL",
+    "evidence": "for approximately 71 percent of the e-commerce sales estimate and about 71 percent of the estimate of U.S. retail sales for any\\nquarter.\\nFor each month of the quarter, estimates are obtained by summing weighted sales",
+    "llm_impact": "On pages 1 and 3 paragraph breaks are lost: lines 83–138 contain no blank line, so section titles and paragraphs run together. The Table 1 caption is also reversed ('...Total and E-commerce1\\nTable 1.'). An LLM gets one wall of text per page, which is harder to chunk or quote by paragraph. PackForAI keeps the paragraph breaks.",
+    "fix": "No scorer fix. Paragraph segmentation is not measured, so this MarkItDown weakness does not show in the numbers."
+   }
+  ],
+  "packforai_weaknesses": [
+   "The PDF fallback path wraps every page in ```text fences. Headings, links and tables can therefore never be expressed, and every heading and table metric reads 0 by construction. The only ATX headings are the file name and '## Page N'.",
+   "Tables are not rebuilt. Data rows are intact, but the sub-header fragments are spread over 3 lines above the rows, and the spanning group headers ('Retail Sales (millions of dollars)', 'Percent Change From Prior Quarter', 'Coefficient of Variation (CV)') are emitted AFTER the data rows. Column meaning must be inferred.",
+   "Header lines use position-like wide spacing, but data rows use uniform 4-space gaps, so even the preformatted block does not keep columns aligned.",
+   "Superscript ordinals and footnote markers are split onto their own lines ('3\\nrd\\nQUARTER 2024', 'Adjusted\\n2', '4\\nth\\nquarter').",
+   "About 95 tokens (about 3%) are wasted on 2–3-space runs kept from justified text, plus about 60 tokens of wrapper boilerplate (file-name title, Source lines, page headings, fences).",
+   "The compact output saves only 4 tokens over the document output. PackForAI's own tokenAnalysis reports savingsPercent -5.6.",
+   "The token advantage over MarkItDown on this file (3067 vs 3186) comes only from omitting table markup; outside page 2 PackForAI is 86 tokens larger.",
+   "In packforai.json, textQuality reports 'damaged' text that needs OCR (broken_pdf_glyphs 6, suspicious_tokens 11), even though all 14 must_contain phrases are found and the text matches the rendered page. This false alarm could push users toward unnecessary OCR."
+  ],
+  "markitdown_weaknesses": [
+   "No headings at all: the title and section titles are plain lines.",
+   "Paragraph breaks are lost on pages 1 and 3 (no blank lines), so section titles run into the following paragraph.",
+   "Table 1 is emitted as 4 pipe-table fragments and Table 2 as 2. Spurious delimiter rows promote the first data row of each block ('3rd quarter 2024(p)') to a header row.",
+   "A spurious column that is empty in every row follows the row-label column in every fragment.",
+   "Spanning group headers are broken into plain-text lines between pipe rows, with labels interleaved ('Coefficient of   Standard Error SE for  SE for Percent Change'). Matching each Total/E-commerce pair to CV, SE quarter-on-quarter or SE year-on-year must be inferred.",
+   "About 124 tokens go to 6 delimiter rows (4 of them spurious) and about 99 tokens to cell padding.",
+   "The Table 1 caption order is reversed ('Estimated Quarterly U.S. Retail Sales: Total and E-commerce1' before 'Table 1.'), and footnote markers are glued to words ('E-commerce1', 'Adjusted2').",
+   "Both tools keep the stray invisible white '.' under the Table 1 subtitle. It is harmless and not scored."
+  ]
+ }
+]

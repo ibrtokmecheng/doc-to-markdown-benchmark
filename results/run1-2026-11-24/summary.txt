@@ -1,0 +1,5 @@
+score.mjs: 9 file(s) scored, 9 with all outputs; 0 error(s), 0 warning(s)
+candidate             text  order  heads tblRec  noise absent    tokens missing
+packforai.document   0.958  1.000  0.333  0.336     21     17     33069       0
+packforai.compact    0.941  1.000  0.167  0.125     21     17     31955       0
+markitdown           0.786  0.899  0.333  0.492     21      7     31765       0

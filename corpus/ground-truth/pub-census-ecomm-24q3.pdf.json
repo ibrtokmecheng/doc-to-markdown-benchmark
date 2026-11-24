@@ -1,0 +1,88 @@
+{
+  "file": "pub-census-ecomm-24q3.pdf",
+  "format": "pdf",
+  "origin": "public",
+  "source_url": "https://www2.census.gov/retail/releases/historical/ecomm/24q3.pdf",
+  "title": "Quarterly Retail E-Commerce Sales, 3rd Quarter 2024 (release CB24-186, November 19, 2024)",
+  "publisher": "U.S. Census Bureau, U.S. Department of Commerce",
+  "license": "Public domain in the United States: work of the U.S. Government (17 U.S.C. 105).",
+  "sha256": "b6ead1764513dfb414fcc4292661515ddda1f11b40c256158df11f952fb7bbd7",
+  "pages_or_sheets": 3,
+  "stresses": [
+    "statistical data tables with two-level column headers, a stub column and row-group labels",
+    "text drawn as individually positioned glyphs with few or no space characters in the text layer, so word spacing must be inferred from glyph gaps (tables, notes and some page-3 lines)",
+    "a chart image with a text title placed between paragraphs",
+    "superscript ordinals and footnote markers",
+    "line-end hyphens inside true compounds (E-commerce, X-11); not scored, since both keep their hyphen when joined"
+  ],
+  "checks": {
+    "must_contain": [
+      "the estimate of U.S. retail e-commerce sales for the third quarter of 2024, adjusted for seasonal variation, but not for price changes, was $300.1 billion",
+      "E-commerce sales in the third quarter of 2024 accounted for 16.2 percent of total sales.",
+      "On a not adjusted basis, the estimate of U.S. retail e-commerce sales for the third quarter of 2024 totaled $288.8 billion",
+      "Estimated Quarterly U.S. Retail E-commerce Sales as a Percent of Total Quarterly Retail Sales",
+      "is scheduled for release on February 19, 2025",
+      "The Census Bureau does not have sufficient statistical evidence to conclude that the actual change is different from zero.",
+      "Estimates are based on data from the Monthly Retail Trade Survey and administrative records.",
+      "E-commerce sales are sales of goods and services where the buyer places an order",
+      "Estimated Measures of Sampling Variability for Quarterly U.S. Retail Sales Estimates",
+      "used to make confidence statements about both adjusted and not adjusted estimates",
+      "A stratified simple random sampling method is used to select approximately 10,800 retail firms excluding food services",
+      "The estimate for the most recent quarter is a preliminary estimate. Therefore, the estimate is subject to revision.",
+      "Disclosure Review Board (DRB) approval number: CBDRB-FY25-0002",
+      "Nonsampling error encompasses all other factors that contribute to the total error of a sample survey estimate."
+    ],
+    "ordered": [
+      "FOR IMMEDIATE RELEASE",
+      "accounted for 16.2 percent of total sales",
+      "totaled $288.8 billion",
+      "scheduled for release on February 19, 2025",
+      "Monthly Retail Trade Survey and administrative records",
+      "Sampling Variability for Quarterly U.S. Retail Sales Estimates",
+      "Survey Description",
+      "precautionary steps are taken to minimize the effects of nonsampling error"
+    ],
+    "headings": [
+      "QUARTERLY RETAIL E-COMMERCE SALES",
+      "Survey Description",
+      "Adjusted Estimates",
+      "Reliability of Estimates"
+    ],
+    "tables": [
+      {
+        "name": "Table 1. Estimated Quarterly U.S. Retail Sales: Total and E-commerce (page 2; complete, 14 rows: two header rows, the 'Adjusted²' row-group label and its 5 rows, the 'Not Adjusted' row-group label and its 5 rows)",
+        "rows": [
+          ["Quarter", "Retail Sales (millions of dollars)", "", "E-commerce as a Percent of Total", "Percent Change From Prior Quarter", "", "Percent Change From Same Quarter A Year Ago", ""],
+          ["", "Total", "E-commerce", "", "Total", "E-commerce", "Total", "E-commerce"],
+          ["Adjusted²", "", "", "", "", "", "", ""],
+          ["3rd quarter 2024(p)", "1,849,906", "300,053", "16.2", "1.3", "2.6", "2.1", "7.4"],
+          ["2nd quarter 2024(r)", "1,826,454", "292,567", "16.0", "0.4", "1.6", "2.1", "7.0"],
+          ["1st quarter 2024", "1,818,701", "287,855", "15.8", "-0.1", "1.6", "1.5", "8.1"],
+          ["4th quarter 2023", "1,820,433", "283,293", "15.6", "0.4", "1.4", "3.1", "10.0"],
+          ["3rd quarter 2023(r)", "1,812,587", "279,508", "15.4", "1.3", "2.3", "2.5", "9.4"],
+          ["Not Adjusted", "", "", "", "", "", "", ""],
+          ["3rd quarter 2024(p)", "1,852,305", "288,783", "15.6", "-0.1", "2.2", "2.0", "7.5"],
+          ["2nd quarter 2024(r)", "1,853,622", "282,628", "15.2", "7.9", "5.5", "1.8", "6.7"],
+          ["1st quarter 2024", "1,717,431", "267,976", "15.6", "-9.3", "-17.0", "2.7", "8.4"],
+          ["4th quarter 2023", "1,892,581", "322,862", "17.1", "4.3", "20.1", "2.8", "9.8"],
+          ["3rd quarter 2023", "1,815,346", "268,745", "14.8", "-0.3", "1.5", "2.2", "9.6"]
+        ]
+      },
+      {
+        "name": "Table 2. Estimated Measures of Sampling Variability for Quarterly U.S. Retail Sales Estimates: Total and E-commerce (page 2)",
+        "rows": [
+          ["Quarter", "Coefficient of Variation (CV)", "", "Standard Error (SE) for E-commerce as a Percent of Total", "SE for Percent Change From Prior Quarter", "", "SE for Percent Change From Same Quarter A Year Ago", ""],
+          ["", "Total", "E-commerce", "", "Total", "E-commerce", "Total", "E-commerce"],
+          ["3rd quarter 2024(p)", "0.9", "1.9", "0.2", "0.1", "0.2", "0.3", "0.7"],
+          ["2nd quarter 2024(r)", "0.8", "1.9", "0.2", "0.1", "0.4", "0.2", "0.7"],
+          ["1st quarter 2024", "0.8", "1.8", "0.2", "0.2", "0.4", "0.3", "0.7"],
+          ["4th quarter 2023", "0.7", "1.9", "0.3", "0.2", "0.5", "0.2", "0.6"],
+          ["3rd quarter 2023", "0.7", "2.0", "0.2", "0.1", "0.2", "0.2", "0.5"]
+        ]
+      }
+    ],
+    "noise": [],
+    "absent": []
+  },
+  "notes": "Census Bureau release PDF exactly as served (3 pages; the PDF is untagged, so headings and tables are judged from the rendered pages only). Ground truth was built from the rendered pages (each page read as an image; both tables and the tightly set page-3 lines re-checked at 200 dpi); pdftotext and pdfplumber were used only to locate text and to check characters, fonts and colours. The text layer of the tables, the table captions and notes, the footnotes and parts of page 3 has few or no space characters between words (pdftotext -raw gives e.g. 'EstimatedQuarterlyU.S.RetailSales' and 'preliminary estimate.Therefore,theestimateissubjectto'); the expected strings use the spaced wording a reader sees on the page, so this file measures whether a converter recovers word spacing. The masthead ('U.S. Census Bureau News / U.S. Department of Commerce, Washington, D.C. 20233') and the chart body (axis labels, legend) are images without a text layer and are not checked; the chart title and 'Percent of Total' are real text. Noise: there is no visible running header, footer or page label; the only invisible text-layer item is a single white 5-pt '.' under the Table 1 subtitle on page 2, too short to check, so noise is empty. Headings are the release title (Calibri Bold 14 pt; body text is 10 pt) and the three page-3 section headings 'Survey Description', 'Adjusted Estimates' and 'Reliability of Estimates' (bold, each on its own line, same 10.5 pt size as the body); the bold 'Data Inquiries' / 'Media Inquiries' labels and the bold release-date paragraph on page 1 are body text, and the chart and table titles are captions, so none of them is listed. Ordered anchors come from the release line, the page-1 paragraphs, the Table 1 subtitle, the Table 2 title, a page-3 heading and the last page-3 sentence; none comes from a footnote, a table legend or a table note, so where a converter places footnotes does not affect the order score. Tables: both are complete; header rows are given top level first; a spanning header is placed in the first column it covers and the columns it also covers are empty; 'Quarter' and the single-column header 'E-commerce as a Percent of Total' (and in Table 2 'Standard Error (SE) for E-commerce as a Percent of Total') span both header rows and are placed in the top row. Table 1 has 14 rows: the two header rows, the bold row-group label 'Adjusted' with the superscript marker of footnote 2 (written 'Adjusted²', which NFKC-normalizes to 'adjusted2', so 'Adjusted2' also matches but 'Adjusted' without the marker does not; the corpus writes footnote markers in cells the same way, e.g. 'New fee¹' in the Federal Register file), its 5 quarter rows, the label 'Not Adjusted' and its 5 quarter rows; the two label rows have text only in the Quarter column. '(p)' and '(r)' are printed directly after the year without a space. Negative values use the ASCII hyphen-minus, as in the text layer. Hyphenation: the only line-end hyphens are in the true compounds 'E-commerce' (Table 2 title, 'Total and E-' / 'commerce') and 'X-11' (page 3, 'with the X-' / '11 filter-based adjustments'); both keep their hyphen when joined, so absent is empty (absent lists only split forms of words that are printed unhyphenated) and no checked string crosses either break. AUDIT 2026-11-24: (1) ordered: 'Estimate is less than 0.05%' (the '(Z)' legend line under Table 2, footnote-type text) replaced by 'Sampling Variability for Quarterly U.S. Retail Sales Estimates' (the Table 2 title, at the same point in reading order), so the order test no longer depends on where table footnotes are placed. (2) tables: Table 1 made complete by adding the row-group label rows 'Adjusted²' and 'Not Adjusted' (the old 12-row cap no longer applies; the old note also miscounted 13 printed rows below the header, there are 12); name updated. (3) absent: removed 'E- commerce' and 'X- 11', split forms of true compounds, which the absent rule excludes. (4) stresses: the hyphenated-compound item now says it is not scored. (5) notes: invisible white '.' recorded, heading styling and anchor sources stated. All must_contain phrases (each at least 6 words, each occurring once in the document), ordered anchors, headings and every table cell were re-checked character by character against the rendered pages; no other change. sha256 re-computed on the corpus file: unchanged."
+}

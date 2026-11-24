@@ -1,0 +1,89 @@
+{
+  "file": "pub-irs-iw9.pdf",
+  "format": "pdf",
+  "origin": "public",
+  "source_url": "https://www.irs.gov/pub/irs-pdf/iw9.pdf",
+  "title": "Instructions for the Requester of Form W-9 (Rev. March 2024): Request for Taxpayer Identification Number and Certification",
+  "publisher": "Internal Revenue Service, U.S. Department of the Treasury",
+  "license": "Public domain in the United States: work of the U.S. Government (17 U.S.C. 105).",
+  "sha256": "ec609a8bf9fac7da593355a57e49e0aa4d569eaceca3a7a84255104d864b1c34",
+  "pages_or_sheets": 7,
+  "stresses": [
+    "two-column form instructions with large section headings that wrap over two lines",
+    "bold run-in paragraph headings, italic Option run-ins, numbered and lettered lists with hanging indents, bullet lists",
+    "CAUTION and TIP icons with italic text wrapped around them",
+    "underlined hyperlinks, including cross-references to other sections",
+    "running footer 'Instr. for Req. of Form W-9 (Rev. 3-2024)' and page numbers on pages 2-7; page-1 footer with the date and catalog number"
+  ],
+  "checks": {
+    "must_contain": [
+      "Request for Taxpayer Identification Number and Certification",
+      "Section references are to the Internal Revenue Code unless otherwise noted.",
+      "The backup withholding rate is 24% for reportable payments.",
+      "A payor must deduct, withhold, and deposit with IRS 24% of reportable payments made to that payee until the cause of the backup withholding is remedied.",
+      "If an account holder fails to provide its TIN, then the withholding rate is 30%.",
+      "must withhold a tax equal to 10% of the amount realized, unless an exception applies",
+      "The payee has 60 calendar days, from the date you receive this certificate, to provide a TIN.",
+      "You must backup withhold on any reportable payments made during the 60-day period if a payee withdraws more than $500 at one time",
+      "Treat as reportable payments all cash withdrawals in an amount up to the reportable payments made from the day after you receive the awaiting-TIN certificate to the day of withdrawal.",
+      "The 60-day exemption from backup withholding does not apply to any payment other than interest, dividends, and certain payments relating to readily tradable instruments.",
+      "A recalcitrant account holder is an account holder that is not an FFI and that fails to comply with documentation or information requests from an FFI in which it holds an account.",
+      "If several persons qualify as withholding agents for a single payment, the tax must only be withheld once.",
+      "the electronic system need not provide for an electronic signature or a perjury statement",
+      "For a disposition of a U.S. real property interest, the transferee generally is required to withhold 15% of the amount realized.",
+      "A middleman known in the investment community as a nominee or custodian",
+      "Payments of interest on obligations issued by individuals.",
+      "However, if you pay $600 or more of interest in the course of your trade or business to a payee, you must report the payment.",
+      "Fish purchases for cash reportable under section 6050R.",
+      "A tax-exempt trust under a section 403(b) plan or section 457(g) plan.",
+      "Any information received through the TIN matching program must be kept confidential in accordance with Regulations section 31.3406(f)-1.",
+      "Form 945 is used to report income tax withholding on nonpayroll payments including backup withholding and withholding on pensions, annuities, IRAs, military retirement, and gambling winnings.",
+      "For more information on backup withholding, see Pubs. 1281 and 515."
+    ],
+    "ordered": [
+      "Section references are to the Internal Revenue Code",
+      "However, a payor of certain information return reportable payments",
+      "Section 1446(f) generally requires that if a portion of a gain",
+      "With a model 1 or 2 intergovernmental agreement (IGA)",
+      "You may also elect to backup withhold during this 60-day period",
+      "Requesters may establish a system for payees",
+      "Certain payees are exempt from backup withholding with respect to the payments below",
+      "TIN matching allows a payor or authorized agent"
+    ],
+    "headings": [
+      "Instructions for the Requester of Form W-9",
+      "Future Developments",
+      "Reminders",
+      "Purpose",
+      "Background. Chapter 3",
+      "Background. Chapter 4",
+      "Individual Taxpayer Identification Number (ITIN)",
+      "Substitute Form W-9",
+      "TIN Applied For",
+      "How Do I Know When To Use Form W-9?",
+      "Establishing U.S. Status for Purposes of Chapter 3 and Chapter 4 Withholding",
+      "Electronic Submission of Forms W-9",
+      "Responsibility of a Withholding Agent/Qualified Intermediary (QI)/Nominee",
+      "Payees Exempt From Backup Withholding",
+      "Payments Exempt From Backup Withholding",
+      "Payees and Account Holders Exempt From FATCA Reporting",
+      "Joint Foreign Payees",
+      "Names and TINs To Use for Information Reporting",
+      "Notices From the IRS",
+      "Taxpayer Identification Number (TIN) Matching",
+      "Payment and Returns of Tax Withheld",
+      "Additional Information"
+    ],
+    "tables": [],
+    "noise": [
+      {
+        "text": "Instr. for Req. of Form W-9 (Rev. 3-2024)",
+        "max": 1
+      }
+    ],
+    "absent": [
+      "par- ty"
+    ]
+  },
+  "notes": "IRS instructions PDF exactly as served (7 pages, US Letter, two columns, Rev. March 2024; page-1 footer 'Mar 11, 2024' and 'Cat. No. 20479P'; the PDF is tagged). Page 1 has the title block across both columns ('Instructions for the Requester of Form W-9', '(Rev. March 2024)', bold subtitle 'Request for Taxpayer Identification Number and Certification') and the Treasury/IRS logo. Headings: the title and the 21 large bold section headings, each written as printed (several wrap over two lines). 'What’s New' is a section heading too but is not listed: its apostrophe is typographic and its code point cannot be seen. Bold run-in paragraph labels ('Line 3a.', 'Backup withholding rate.', 'Reserve rule.', 'Form 945.' ...) and the italic 'Option 1.'/'Option 2.' are body text, not headings. 'Purpose' is a whole heading line; the heading 'Establishing U.S. Status for Purposes ...' also contains it, and the one-to-one heading match keeps the two apart. The file has no tables (lists only), so tables is empty. must_contain: 22 phrases, each printed once, none with an apostrophe or quotation mark, none crossing a column or page break; 'A trust exempt from tax under section 664 or described in section 4947' is printed twice (items 13 and L) and is not used. Several headings and two phrases contain 'W-9', '60-day', 'awaiting-TIN' or 'tax-exempt' with a hyphen written as ASCII hyphen-minus (the blind protocol could not confirm the code point). ordered: 8 body-text anchors on pages 1 (left, right), 2 (left, right), 3, 4, 5 and 7. Noise (visible furniture): the footer 'Instr. for Req. of Form W-9 (Rev. 3-2024)' is printed on pages 2-7 (6 times), max 1; page numbers are too short to count. Absent: the text is mostly ragged-right; the only one-word line-end hyphenation seen is the bold run-in 'Payments made in settlement of payment card or third par-' / 'ty network transactions.' on page 5, listed as its split form. BLIND PROTOCOL: chosen and answered before any converter or text extractor was run on the file; every check was typed from the rendered pages (pdftoppm at 150-300 dpi, read as images), and the PDF text layer was never read. Consequences: (1) text that may be an image (logos, mastheads, cover art, chart labels) is not checked; (2) invisible text-layer content cannot be known, so noise lists only VISIBLE repeated page furniture; (3) where the exact code point of a glyph cannot be seen (curly vs straight quotes, dash and minus variants, the '>=' sign), must_contain phrases and ordered anchors avoid it; headings, table cells and absent entries that cannot avoid it are noted per file."
+}

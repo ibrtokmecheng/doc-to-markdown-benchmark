@@ -1,0 +1,6 @@
+score.mjs: 10 file(s) scored, 10 with all outputs; 0 error(s), 0 warning(s)
+candidate             text  order  heads tblRec   spur  noise absent    tokens missing
+packforai.document   0.901  0.900  0.939  0.861   1557      0      1     40231       0
+packforai.compact    0.890  0.900  0.939  0.677   1557      0      1     39763       0
+markitdown           0.922  0.929  0.286  0.474    405     15      2     43640       0
+spur = spurious_table_cells: table cells that sit on no ground-truth table cell (secondary; see SCORING.md)

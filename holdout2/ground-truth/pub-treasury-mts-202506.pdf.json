@@ -1,0 +1,575 @@
+{
+  "file": "pub-treasury-mts-202506.pdf",
+  "format": "pdf",
+  "origin": "public",
+  "source_url": "https://fiscaldata.treasury.gov/static-data/published-reports/mts/MonthlyTreasuryStatement_202506.pdf",
+  "title": "Monthly Treasury Statement of Receipts and Outlays of the United States Government for Fiscal Year 2025 Through June 30, 2025, and Other Periods; pages 1-10 of 40",
+  "publisher": "Bureau of the Fiscal Service, U.S. Department of the Treasury",
+  "license": "Public domain in the United States: work of the U.S. Government (17 U.S.C. 105).",
+  "sha256": "8fc10c0400bd8684dbfc962ebb15b988d458a184233cced44008e4e8a6a6379c",
+  "pages_or_sheets": 10,
+  "stresses": [
+    "financial statement made mostly of ruled, zebra-shaded tables with [$ millions] subtitles, bold total rows, group label rows, indented row labels and signed values",
+    "cover page with a photograph and banner, a blank inside cover (page 2)",
+    "boxed 'Highlight', a contents list with dot leaders, an introduction with bold capital subheads (page 3)",
+    "full-page charts: Sankey diagrams (page 4), bar and pie charts (pages 6-8) with many text labels",
+    "multi-line header cells with superscript note marks, a 10-column table with a three-group spanning header, '......' (no transactions) cells, note marks printed before numbers",
+    "table notes in two columns under each table",
+    "page range cut from a longer, untagged PDF"
+  ],
+  "checks": {
+    "must_contain": [
+      "Net interest, which includes interest paid to holders of the debt that Treasury issues to the public, totaled $84 billion.",
+      "Outlays for military active duty and retirement, veterans benefits, Supplemental Security Income, and Medicare payments to health maintenance organizations and prescription drug plans accelerated into May",
+      "is prepared by the Bureau of the Fiscal Service, Department of the Treasury",
+      "normally released on the 8th workday of the month following the reporting month.",
+      "Information is presented on a modified cash basis; receipts are accounted for on the basis of collections",
+      "is published each working day of the Federal Government.",
+      "is the official publication of the detailed receipts and outlays of the Government.",
+      "The Explanatory Notes section of this publication provides information concerning the flow of data into the",
+      "Table 1. Summary of Receipts, Outlays, and the Deficit/Surplus of the U.S. Government, Fiscal Years 2024 and 2025, by Month",
+      "Outlays decreased by $352 million due to additional reporting by the Railroad Retirement Board and the Corps of Engineers.",
+      "Table 3. Summary of Receipts and Outlays of the U.S. Government, June 2025 and Other Periods",
+      "Amount decreased by $298 million due to additional reporting for the month of May 2025 by the Railroad Retirement Board.",
+      "Table 4. Receipts of the U.S. Government, June 2025 and Other Periods",
+      "In accordance with the Social Security Act as amended: Individual Income Taxes, Withheld have been decreased",
+      "Less than absolute value of $500,000"
+    ],
+    "ordered": [
+      "is prepared by the Bureau of the Fiscal Service",
+      "Information is presented on a modified cash basis",
+      "is the official publication of the detailed receipts and outlays",
+      "The Explanatory Notes section of this publication provides information",
+      "Table 1. Summary of Receipts, Outlays, and the Deficit/Surplus",
+      "Results and Financing of the U.S. Government",
+      "Table 3. Summary of Receipts and Outlays of the U.S. Government",
+      "Table 4. Receipts of the U.S. Government"
+    ],
+    "headings": [
+      "Highlight",
+      "Contents",
+      "Introduction",
+      "AUDIENCE",
+      "DISCLOSURE STATEMENT",
+      "TRIAD OF PUBLICATIONS",
+      "DATA SOURCES AND INFORMATION"
+    ],
+    "tables": [
+      {
+        "name": "Table 1. Summary of Receipts, Outlays, and the Deficit/Surplus, FY 2024 and 2025, by Month (page 5; complete; the FY 2025 May Outlays cell is left empty, see notes)",
+        "rows": [
+          [
+            "Period",
+            "Receipts",
+            "Outlays",
+            "Deficit/Surplus (-)"
+          ],
+          [
+            "FY 2024",
+            "",
+            "",
+            ""
+          ],
+          [
+            "October",
+            "403,434",
+            "469,997",
+            "66,564"
+          ],
+          [
+            "November",
+            "274,830",
+            "588,842",
+            "314,012"
+          ],
+          [
+            "December",
+            "429,311",
+            "558,665",
+            "129,354"
+          ],
+          [
+            "January",
+            "477,320",
+            "499,250",
+            "21,930"
+          ],
+          [
+            "February",
+            "271,126",
+            "567,401",
+            "296,275"
+          ],
+          [
+            "March",
+            "332,079",
+            "568,635",
+            "236,556"
+          ],
+          [
+            "April",
+            "776,198",
+            "566,669",
+            "-209,529"
+          ],
+          [
+            "May",
+            "323,647",
+            "670,778",
+            "347,131"
+          ],
+          [
+            "June",
+            "466,255",
+            "537,220",
+            "70,965"
+          ],
+          [
+            "July",
+            "330,377",
+            "574,119",
+            "243,741"
+          ],
+          [
+            "August",
+            "306,540",
+            "686,620",
+            "380,080"
+          ],
+          [
+            "September",
+            "526,990",
+            "462,304",
+            "-64,685"
+          ],
+          [
+            "Year-to-Date",
+            "4,918,106",
+            "6,750,499",
+            "1,832,394"
+          ],
+          [
+            "FY 2025",
+            "",
+            "",
+            ""
+          ],
+          [
+            "October",
+            "326,770",
+            "584,220",
+            "257,450"
+          ],
+          [
+            "November",
+            "301,754",
+            "668,517",
+            "366,763"
+          ],
+          [
+            "December",
+            "454,415",
+            "541,146",
+            "86,732"
+          ],
+          [
+            "January",
+            "513,294",
+            "641,935",
+            "128,640"
+          ],
+          [
+            "February",
+            "296,424",
+            "603,441",
+            "307,017"
+          ],
+          [
+            "March",
+            "367,645",
+            "528,174",
+            "160,528"
+          ],
+          [
+            "April",
+            "850,169",
+            "591,769",
+            "-258,400"
+          ],
+          [
+            "May",
+            "371,229",
+            "",
+            "315,652"
+          ],
+          [
+            "June",
+            "526,445",
+            "499,435",
+            "-27,010"
+          ],
+          [
+            "Year-to-Date",
+            "4,008,146",
+            "5,345,518",
+            "1,337,372"
+          ]
+        ]
+      },
+      {
+        "name": "Table 2. Summary of Budget and Off-Budget Results and Financing, June 2025 (page 5; complete; '......' cells left empty)",
+        "rows": [
+          [
+            "Classification",
+            "This Month",
+            "Current Fiscal Year to Date",
+            "Budget Estimates Full Fiscal Year¹",
+            "Comparable Prior Period Year to Date (2024)",
+            "Budget Estimates Next Fiscal Year (2026)¹"
+          ],
+          [
+            "Total On-Budget and Off-Budget Results:",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "Total Receipts",
+            "526,445",
+            "4,008,146",
+            "5,561,646",
+            "3,754,199",
+            "6,011,381"
+          ],
+          [
+            "On-Budget Receipts",
+            "390,296",
+            "3,019,723",
+            "4,255,251",
+            "2,791,771",
+            "4,644,964"
+          ],
+          [
+            "Off-Budget Receipts",
+            "136,149",
+            "988,424",
+            "1,306,395",
+            "962,427",
+            "1,366,417"
+          ],
+          [
+            "Total Outlays",
+            "499,435",
+            "5,345,518",
+            "7,439,295",
+            "5,027,456",
+            "7,612,734"
+          ],
+          [
+            "On-Budget Outlays",
+            "392,858",
+            "4,294,414",
+            "6,035,465",
+            "4,062,489",
+            "6,124,968"
+          ],
+          [
+            "Off-Budget Outlays",
+            "106,577",
+            "1,051,104",
+            "1,403,830",
+            "964,967",
+            "1,487,766"
+          ],
+          [
+            "Total Surplus (+) or Deficit (-)",
+            "+27,010",
+            "-1,337,372",
+            "-1,877,649",
+            "-1,273,258",
+            "-1,601,353"
+          ],
+          [
+            "On-Budget Surplus (+) or Deficit (-)",
+            "-2,562",
+            "-1,274,692",
+            "-1,780,214",
+            "-1,270,718",
+            "-1,480,004"
+          ],
+          [
+            "Off-Budget Surplus (+) or Deficit (-)",
+            "+29,572",
+            "-62,680",
+            "-97,435",
+            "-2,539",
+            "-121,349"
+          ],
+          [
+            "Total On-Budget and Off-Budget Financing",
+            "-27,010",
+            "1,337,372",
+            "1,877,649",
+            "1,273,258",
+            "1,601,353"
+          ],
+          [
+            "Means of Financing:",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "Borrowing from the Public",
+            "3,212",
+            "651,563",
+            "1,901,128",
+            "1,260,431",
+            "1,695,149"
+          ],
+          [
+            "Reduction of Operating Cash, Increase (-)",
+            "-105,538",
+            "428,745",
+            "",
+            "-120,908",
+            ""
+          ],
+          [
+            "By Other Means",
+            "75,316",
+            "257,064",
+            "-23,479",
+            "133,735",
+            "-93,796"
+          ]
+        ]
+      },
+      {
+        "name": "Table 3. Summary of Receipts and Outlays, June 2025 (page 9; PARTIAL: header row and the Budget Receipts section through (Off-Budget), 15 body rows; the Budget Outlays and Surplus sections below it are not included)",
+        "rows": [
+          [
+            "Classification",
+            "This Month",
+            "Current Fiscal Year to Date",
+            "Comparable Prior Period Year to Date",
+            "Budget Estimates Full Fiscal Year¹"
+          ],
+          [
+            "Budget Receipts",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "Individual Income Taxes",
+            "236,168",
+            "2,059,339",
+            "1,885,757",
+            "2,686,312"
+          ],
+          [
+            "Corporation Income Taxes",
+            "68,086",
+            "366,273",
+            "392,670",
+            "702,522"
+          ],
+          [
+            "Social Insurance and Retirement Receipts:",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "Employment and General Retirement (Off-Budget)",
+            "136,149",
+            "988,424",
+            "962,427",
+            "1,306,395"
+          ],
+          [
+            "Employment and General Retirement (On-Budget)",
+            "39,926",
+            "309,668",
+            "300,794",
+            "552,154"
+          ],
+          [
+            "Unemployment Insurance",
+            "6,418",
+            "44,880",
+            "39,515",
+            "52,876"
+          ],
+          [
+            "Other Retirement",
+            "666",
+            "6,323",
+            "5,801",
+            "8,182"
+          ],
+          [
+            "Excise Taxes",
+            "7,596",
+            "75,358",
+            "64,246",
+            "115,950"
+          ],
+          [
+            "Estate and Gift Taxes",
+            "2,486",
+            "22,341",
+            "24,545",
+            "37,018"
+          ],
+          [
+            "Customs Duties",
+            "26,632",
+            "108,018",
+            "55,607",
+            "63,276"
+          ],
+          [
+            "Miscellaneous Receipts",
+            "2,318",
+            "27,521",
+            "22,835",
+            "36,961"
+          ],
+          [
+            "Total Receipts",
+            "526,445",
+            "4,008,146",
+            "3,754,199",
+            "5,561,646"
+          ],
+          [
+            "(On-Budget)",
+            "390,296",
+            "3,019,723",
+            "2,791,771",
+            "4,255,251"
+          ],
+          [
+            "(Off-Budget)",
+            "136,149",
+            "988,424",
+            "962,427",
+            "1,306,395"
+          ]
+        ]
+      },
+      {
+        "name": "Table 4. Receipts of the U.S. Government, June 2025 (page 10; PARTIAL: both header rows and 6 body rows from the corporation, excise, estate and gift, customs and miscellaneous sections)",
+        "rows": [
+          [
+            "Classification",
+            "This Month",
+            "",
+            "",
+            "Current Fiscal Year to Date",
+            "",
+            "",
+            "Prior Fiscal Year to Date",
+            "",
+            ""
+          ],
+          [
+            "",
+            "Gross Receipts",
+            "Refunds (Deduct)",
+            "Receipts",
+            "Gross Receipts",
+            "Refunds (Deduct)",
+            "Receipts",
+            "Gross Receipts",
+            "Refunds (Deduct)",
+            "Receipts"
+          ],
+          [
+            "Corporation Income Taxes",
+            "70,571",
+            "2,484",
+            "68,086",
+            "391,728",
+            "25,454",
+            "366,273",
+            "421,422",
+            "28,752",
+            "392,670"
+          ],
+          [
+            "Miscellaneous Excise Taxes",
+            "2,568",
+            "260",
+            "2,308",
+            "28,801",
+            "4,929",
+            "23,873",
+            "21,963",
+            "4,987",
+            "16,976"
+          ],
+          [
+            "Highway Trust Fund",
+            "4,004",
+            "45",
+            "3,960",
+            "35,819",
+            "294",
+            "35,525",
+            "32,438",
+            "293",
+            "32,145"
+          ],
+          [
+            "Estate and Gift Taxes",
+            "2,947",
+            "461",
+            "2,486",
+            "23,425",
+            "1,084",
+            "22,341",
+            "25,373",
+            "829",
+            "24,545"
+          ],
+          [
+            "Customs Duties",
+            "27,155",
+            "523",
+            "26,632",
+            "113,292",
+            "5,275",
+            "108,018",
+            "60,800",
+            "5,192",
+            "55,607"
+          ],
+          [
+            "All Other",
+            "1,130",
+            "3",
+            "1,126",
+            "16,975",
+            "18",
+            "16,956",
+            "14,390",
+            "13",
+            "14,377"
+          ]
+        ]
+      }
+    ],
+    "noise": [],
+    "absent": []
+  },
+  "notes": "Monthly Treasury Statement for June 2025 (40 pages as served, untagged, produced by PDFium), cut to pages 1-10 with pypdf (see holdout2/SELECTION.md): page 1 cover (banner, title block, photograph, seal), page 2 blank, page 3 Highlight box, Contents and Introduction, page 4 Figures 1-2 (Sankey diagrams), page 5 Tables 1-2, pages 6-8 Figures 3-8 (bar and pie charts), page 9 Table 3, page 10 Table 4; the Contents lists Receipts on page 10 and Outlays from page 11, which is not in the file. Not checked because they may be images: the cover (title block, banner), the figures, their titles, labels and 'Source data' lines. Headings: the bold 'Highlight', 'Contents' and 'Introduction' and the four bold capital subheads of the Introduction. Table titles are captions (two are must_contain phrases and four are ordered anchors, because this document's body after page 3 is tables). Tables: Table 1 is complete (header, the two fiscal-year label rows, 21 month rows, two Year-to-Date rows); its FY 2025 May Outlays value is printed with a superscript note mark in front ('¹686,881') and is left as an empty (unscored) cell because the mark's position in the text cannot be seen. Table 2 is complete; the four '......' (no transactions) cells are left empty because the dot count is not legible with certainty. Header cells are printed on two to four centred lines and written joined with spaces; superscript note marks are written attached ('Fiscal Year¹', NFKC '1'). Label-only rows ('FY 2024', 'Total On-Budget and Off-Budget Results:', 'Means of Financing:', 'Budget Receipts', 'Social Insurance and Retirement Receipts:') are rows with empty value cells. Table 3 is PARTIAL (its outlays section is not transcribed) and Table 4 is PARTIAL (rows without '......' or '--' were taken: Corporation Income Taxes, two excise rows, Estate and Gift Taxes, Customs Duties, All Other); table_precision is therefore expected to be below 1 for a complete conversion. Its header row 1 has 'Classification' (spanning both header rows) and the three period groups spanning three columns each, written in the first column they cover. Negative values and '(-)' are written with ASCII hyphen-minus (assumed; the code point cannot be seen); '+' signs are kept. Arithmetic checked while typing: monthly rows sum to Year-to-Date within rounding, Outlays - Receipts = Deficit, on-budget + off-budget = total, receipts - outlays = surplus, financing rows sum to the total, gross - refunds = receipts, and the figures shared by Tables 1-4 agree. must_contain: 15 phrases, each printed once (the note 'These estimates are based on the FY 2025 Mid-Session Review' is printed twice and not used; no phrase with an apostrophe or hyphen). ordered: 4 anchors from the page-3 introduction, then the titles of Tables 1, 2 (its unhyphenated part), 3 and 4 on pages 5, 5, 9 and 10. Noise: only page numbers repeat, so noise is empty; the text has no line-end hyphenation, so absent is empty. BLIND PROTOCOL: chosen and answered before any converter or text extractor was run on the file; every check was typed from the rendered pages (pdftoppm at 90-230 dpi, read as images), and the PDF text layer was never read. Consequences: (1) text that may be an image (logos, mastheads, cover art, chart labels) is not checked; (2) invisible text-layer content cannot be known, so noise lists only VISIBLE repeated page furniture; (3) where the exact code point of a glyph cannot be seen (curly vs straight quotes, dash and minus variants), must_contain phrases and ordered anchors avoid it; headings, table cells and absent entries that cannot avoid it are noted per file."
+}

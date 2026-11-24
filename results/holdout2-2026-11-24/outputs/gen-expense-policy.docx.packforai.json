@@ -1,0 +1,214 @@
+{
+  "schema": "packforai-benchmark-result@1",
+  "tool": "PackForAI",
+  "file": "gen-expense-policy.docx",
+  "ok": true,
+  "error": null,
+  "input": {
+    "fileName": "gen-expense-policy.docx",
+    "fileType": "docx",
+    "bytes": 40420,
+    "sha256": "529edced52e516a34fa1fe5303827c1912ca46d1175c7c4064fde52dc649112d"
+  },
+  "outputs": {
+    "document": {
+      "file": "gen-expense-policy.docx.packforai.document.md",
+      "bytes": 3732,
+      "codePoints": 3732,
+      "sha256": "57f0c34010f25e031dc77ebf7927b2e1883f337e9a7bcfe760936ef64fe52df4",
+      "tokensO200k": 866
+    },
+    "compact": {
+      "file": "gen-expense-policy.docx.packforai.compact.md",
+      "bytes": 3686,
+      "codePoints": 3686,
+      "sha256": "6194c47cb3e37c4f2e35fd71acde7b5df39e76f0127ee38da52e2982528b3fef",
+      "tokensO200k": 841
+    }
+  },
+  "tokenAnalysis": {
+    "tokenizerName": "o200k_base",
+    "tokenizerVersion": "gpt-tokenizer@3.4.0",
+    "originalTokenEstimate": 714,
+    "optimizedTokenEstimate": 841,
+    "savingsPercent": -17.8
+  },
+  "textQuality": {
+    "status": "good",
+    "score": 100,
+    "signals": [],
+    "warning": null
+  },
+  "processingNotes": [
+    "Unrecognised paragraph style: 'Title' (Style ID: Title)",
+    "Unrecognised paragraph style: 'Subtitle' (Style ID: Subtitle)",
+    "Unrecognised paragraph style: 'caption' (Style ID: Caption)",
+    "Generated compact.md from the extracted text with whitespace tidied; no lines were removed."
+  ],
+  "ocr": {
+    "requested": false,
+    "status": "not_requested",
+    "provider": "none",
+    "pageCount": null,
+    "costEstimateUsd": null,
+    "reason": "OCR was not requested for this job.",
+    "used": false
+  },
+  "stats": {
+    "pageCount": null,
+    "sectionCount": 10,
+    "tableCount": 3,
+    "imageCount": null
+  },
+  "elapsedMs": 73.687,
+  "workerGitCommit": "7d693af2c1d44363d8678290134909b691ca27d1",
+  "nodeVersion": "v24.22.1",
+  "admission": {
+    "rejectedByProduction": false,
+    "freePlanUpload": true,
+    "notes": []
+  },
+  "job": {
+    "jobId": "bench_529edced52e516a34fa1fe5303827c19",
+    "userId": "benchmark-local",
+    "documentId": "bench_529edced52e516a34fa1fe5303827c19",
+    "fileName": "gen-expense-policy.docx",
+    "fileType": "docx",
+    "fileSize": 40420,
+    "uploadPath": "uploads/benchmark-local/bench_529edced52e516a34fa1fe5303827c19/original.docx",
+    "status": "processing",
+    "createdAt": null,
+    "startedAt": null,
+    "completedAt": null,
+    "leaseExpiresAt": null,
+    "attemptCount": 1,
+    "maxAttempts": 3,
+    "processingVersion": "mvp-0.1.0",
+    "ocrRequested": false,
+    "ocrUsed": false,
+    "webhookUrl": null,
+    "webhookSecret": null,
+    "ocr": {
+      "requested": false,
+      "used": false,
+      "provider": "none",
+      "status": "not_requested",
+      "pageCount": null,
+      "costEstimateUsd": null,
+      "reason": "OCR was not requested for this job."
+    },
+    "ocrMonthlyLimit": 0,
+    "ocrPageLimitPerJob": 0,
+    "ocrUsageId": null,
+    "ocrMonthKey": null,
+    "plan": "free",
+    "dailyConversionLimit": 3,
+    "maxActiveJobs": 1,
+    "originalTokenEstimate": null,
+    "optimizedTokenEstimate": null,
+    "savingsPercent": null,
+    "pageCount": null,
+    "sectionCount": null,
+    "tableCount": null,
+    "imageCount": null,
+    "outputPath": null,
+    "zipPath": null,
+    "errorCode": null,
+    "errorMessage": null,
+    "processingNotes": [],
+    "usageLimitId": "benchmark-local_2026-11-24",
+    "retentionExpiresAt": null,
+    "ocrReservedPages": 0
+  },
+  "isolation": {
+    "networkAttempts": [],
+    "consoleOutput": {
+      "lines": [],
+      "total": 0
+    }
+  },
+  "run": {
+    "startedAt": "2026-11-24T12:57:54.554Z",
+    "runner": "aireadydoc/benchmarks/doc-to-markdown/run-packforai.mjs",
+    "runnerSha256": "ff664fce9d010eb447165541167aed1ebded57ac6ac7aebe11460924f8569abd",
+    "inputFolder": "holdout2",
+    "worker": {
+      "processor": "aireadydoc/services/worker/dist/processor.js",
+      "distSha256": "1851e3b1132c6638cb269c56ed83c3ede91aea95e55ce85317fc6ec2e5019e6b",
+      "distPossiblyStale": [],
+      "gitDirtyPaths": []
+    },
+    "dependencies": {
+      "pdf-parse": {
+        "installed": "1.1.4",
+        "lockfile": "1.1.4"
+      },
+      "mammoth": {
+        "installed": "1.12.0",
+        "lockfile": "1.12.0"
+      },
+      "turndown": {
+        "installed": "7.2.4",
+        "lockfile": "7.2.4"
+      },
+      "@mixmark-io/domino": {
+        "installed": "2.2.0",
+        "lockfile": "2.2.0"
+      },
+      "fast-xml-parser": {
+        "installed": "5.12.0",
+        "lockfile": "5.12.0"
+      },
+      "fflate": {
+        "installed": "0.8.3",
+        "lockfile": "0.8.3"
+      },
+      "gpt-tokenizer": {
+        "installed": "3.4.0",
+        "lockfile": "3.4.0"
+      },
+      "firebase-admin": {
+        "installed": "14.1.0",
+        "lockfile": "14.1.0"
+      },
+      "@google-cloud/firestore": {
+        "installed": "8.6.0",
+        "lockfile": "8.6.0"
+      },
+      "google-auth-library": {
+        "installed": "10.9.0",
+        "lockfile": "10.9.0"
+      }
+    },
+    "runtime": {
+      "nodeVersion": "v24.22.1",
+      "v8": "13.6.233.17-node.58",
+      "icu": "78.3",
+      "unicode": "17.0",
+      "platform": "darwin-arm64",
+      "nodeEnv": "production",
+      "timeZone": "UTC",
+      "locale": "en-US",
+      "tokenizer": "o200k_base via node_modules/gpt-tokenizer/esm/encoding/o200k_base.js"
+    },
+    "productionRuntime": "node:22-slim with NODE_ENV=production (aireadydoc/services/worker/Dockerfile)",
+    "timing": "elapsedMs is the wall time of processInput(job, bytes) in a long-lived conversion process that first converted one small generated file of each type. It excludes reading the file, the Storage download and upload, Firestore updates and queueing.",
+    "warmup": {
+      "ms": 196.467,
+      "results": {
+        "pdf": "ok",
+        "docx": "ok",
+        "pptx": "ok",
+        "xlsx": "ok",
+        "csv": "ok",
+        "json": "ok"
+      },
+      "consoleLines": 0
+    },
+    "fileTimeoutMs": 300000,
+    "conversionProcess": {
+      "pid": 80308,
+      "start": 1
+    }
+  }
+}

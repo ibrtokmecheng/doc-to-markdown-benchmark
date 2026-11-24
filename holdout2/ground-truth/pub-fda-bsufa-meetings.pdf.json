@@ -1,0 +1,183 @@
+{
+  "file": "pub-fda-bsufa-meetings.pdf",
+  "format": "pdf",
+  "origin": "public",
+  "source_url": "https://www.fda.gov/media/113913/download",
+  "title": "Formal Meetings Between the FDA and Sponsors or Applicants of BsUFA Products: Guidance for Industry (July 2025, Procedural); pages 1-15 of 23",
+  "publisher": "U.S. Food and Drug Administration (Center for Drug Evaluation and Research, Center for Biologics Evaluation and Research), U.S. Department of Health and Human Services",
+  "license": "Public domain in the United States: work of the U.S. Government (17 U.S.C. 105).",
+  "sha256": "d43daf072f3864f05885cf79e479ecb08a2ba0e6c71c499997aa69e035fe14bf",
+  "pages_or_sheets": 15,
+  "stresses": [
+    "standard FDA guidance layout: two cover pages, a table of contents with dot leaders and page numbers, a framed disclaimer box, Roman-numbered bold section headings (I.-VII.) and lettered subsection headings (A.-F.)",
+    "running header 'Contains Nonbinding Recommendations' on every page after the covers, page numbers",
+    "29 numbered footnotes at the foot of the pages, superscript reference numbers in body text and headings",
+    "bullet lists with dash sub-items, numbered lists (two lists restart at 1 on pages 11-12), a numbered list with bold lead-ins and lettered sub-items",
+    "italic document titles inside sentences, curly quotes and apostrophes",
+    "three small ruled tables with a three-line bold header cell (page 15)",
+    "page range cut from a longer PDF (untagged after the cut)"
+  ],
+  "checks": {
+    "must_contain": [
+      "Additional copies are available from:",
+      "Office of Communication, Outreach, and Development",
+      "This guidance represents the current thinking of the Food and Drug Administration (FDA or Agency) on this topic.",
+      "This guidance provides recommendations to industry on formal meetings between the Food and Drug Administration (FDA) and sponsors or applicants",
+      "This guidance has been prepared by the Center for Drug Evaluation and Research in cooperation with the Center for Biologics Evaluation and Research at the Food and Drug Administration.",
+      "This guidance finalizes the draft guidance of the same name issued in August 2023.",
+      "As part of the reauthorization of the Biosimilar User Fee Act (BsUFA), the FDA has committed to specific performance goals",
+      "There are six types of formal meetings that occur between requesters and FDA staff",
+      "A BIA meeting is an initial assessment limited to a general discussion regarding whether licensure under section 351(k) of the PHS Act may be feasible for a particular product",
+      "Any guidance already received from other health authorities on product development.",
+      "Requesting a BIA meeting is not a requirement prior to joining the BPD program.",
+      "A BPD Type 1 meeting is a meeting that is necessary for an otherwise stalled development program to proceed or a meeting to address an important safety issue.",
+      "Meetings to discuss an important safety issue, when such an issue is identified and the FDA and requester agree that the issue should be discussed.",
+      "Immunogenicity testing strategy following prior FDA recommendations or feedback.",
+      "This meeting type includes substantive review of full study reports",
+      "Full study report(s) for a clinical study or studies.",
+      "Proposal for justification of extrapolation",
+      "Discussion of any potential review issues identified based on the information provided",
+      "No fee is associated with a BIA meeting.",
+      "Requesters may request this meeting format only for BIA, BPD Type 2a, and BPD Type 2b meetings.",
+      "To promote efficient meeting management, requesters should anticipate future needs",
+      "The FDA considers meeting requests sent by fax or email to be courtesy copies only and are not substitutes for formal submissions.",
+      "Proper and proprietary names of the reference product.",
+      "Human factors engineering plan (if applicable).",
+      "List of specific objectives or outcomes the requester expects from the meeting.",
+      "Proposed agenda, including estimated times needed for discussion of each agenda item.",
+      "Therefore, a meeting request should include no more than 10 questions listed consecutively regardless of discipline",
+      "The FDA honors requests for BPD Type 2b, BPD Type 3, and BPD Type 4 meetings except in the most unusual circumstances.",
+      "If a biosimilar biological product development fee is required under section 744H, and the sponsor does not pay the fee within the timeframe required under section 744H, the meeting will be cancelled.",
+      "Denials are based on substantive reason, not merely on the absence of a minor element of the meeting request or a minor element of the meeting package.",
+      "If the requested date for any meeting type is greater than the specified time frame, the meeting date should be within 14 calendar days of the requested date.",
+      "Table 1: FDA Meeting Request Response Timelines",
+      "Table 3: FDA WRO Response Timelines"
+    ],
+    "ordered": [
+      "This guidance provides recommendations to industry on formal meetings",
+      "Each year, FDA review staff participate in many meetings with requesters",
+      "A BIA meeting is an initial assessment limited to a general discussion",
+      "This meeting type may include substantive review of summary data",
+      "Under the BsUFA user fee provisions",
+      "To make the most efficient use of FDA resources",
+      "The objectives and agenda provide overall context for the meeting topics",
+      "If a meeting request is denied, the FDA will notify the requester in writing"
+    ],
+    "headings": [
+      "Formal Meetings",
+      "TABLE OF CONTENTS",
+      "INTRODUCTION",
+      "BACKGROUND",
+      "MEETING TYPES",
+      "BIA Meeting",
+      "BPD Type 1 Meeting",
+      "BPD Type 2a Meeting",
+      "BPD Type 2b Meeting",
+      "BPD Type 3 Meeting",
+      "BPD Type 4 Meeting",
+      "BsUFA FEES ASSOCIATED WITH THE BPD PROGRAM",
+      "MEETING FORMATS",
+      "MEETING REQUESTS",
+      "ASSESSING AND RESPONDING TO MEETING REQUESTS",
+      "Meeting Denied",
+      "Meeting Granted"
+    ],
+    "tables": [
+      {
+        "name": "Table 1: FDA Meeting Request Response Timelines (page 15; complete)",
+        "rows": [
+          [
+            "Meeting Type",
+            "Response Time (calendar days from receipt of meeting request)"
+          ],
+          [
+            "BIA",
+            "21 days"
+          ],
+          [
+            "BPD 1",
+            "14 days"
+          ],
+          [
+            "BPD 2a",
+            "21 days"
+          ],
+          [
+            "BPD 2b",
+            "21 days"
+          ],
+          [
+            "BPD 3",
+            "21 days"
+          ],
+          [
+            "BPD 4",
+            "21 days"
+          ]
+        ]
+      },
+      {
+        "name": "Table 2: FDA Meeting Scheduling Time Frames (page 15; complete)",
+        "rows": [
+          [
+            "Meeting Type",
+            "Meeting Scheduling (calendar days from receipt of meeting request)"
+          ],
+          [
+            "BIA",
+            "75 days"
+          ],
+          [
+            "BPD 1",
+            "30 days"
+          ],
+          [
+            "BPD 2a",
+            "60 days"
+          ],
+          [
+            "BPD 2b",
+            "90 days"
+          ],
+          [
+            "BPD 3",
+            "120 days"
+          ],
+          [
+            "BPD 4",
+            "60 days"
+          ]
+        ]
+      },
+      {
+        "name": "Table 3: FDA WRO Response Timelines (page 15; complete)",
+        "rows": [
+          [
+            "Meeting Type",
+            "WRO Response Time (calendar days from receipt of WRO meeting request)"
+          ],
+          [
+            "BIA",
+            "75 days"
+          ],
+          [
+            "BPD 2a",
+            "60 days"
+          ],
+          [
+            "BPD 2b",
+            "90 days"
+          ]
+        ]
+      }
+    ],
+    "noise": [
+      {
+        "text": "Contains Nonbinding Recommendations",
+        "max": 1
+      }
+    ],
+    "absent": []
+  },
+  "notes": "FDA guidance PDF (23 pages as served, tagged), cut to pages 1-15 with pypdf (see holdout2/SELECTION.md): page 1 cover, page 2 inner cover with contact addresses, page 3 table of contents, pages 4-15 = guidance pages 1-12 (sections I-VII; section VIII starts on the next page, which is not in the file). Headings: the title (its first printed line 'Formal Meetings' on the covers; on page 4 the title is three bold centred lines starting 'Formal Meetings Between the FDA and Sponsors'), 'TABLE OF CONTENTS', the seven Roman-numbered bold section headings and the eight lettered bold subsection headings in sections III and VII, each listed without its number or letter so that either form matches; 'MEETING TYPES' carries a superscript footnote mark 7 in print. 'MEETING REQUESTS' (VI.) also occurs inside the VII. heading; the one-to-one heading match keeps them apart. The table-of-contents entries repeat the headings but are not headings. The bold lead-ins of the numbered list in section V ('Face-to-Face:', 'In-person:', 'Teleconference:') are list text, not headings. Table captions ('Table 1:' ...) are captions. Tables: the three page-15 tables are complete; each header cell is printed on two or three centred lines and is written joined with spaces. Footnotes: 2 of the 33 must_contain phrases are footnotes (1 and 18); 2 are list items with dash markers (section III.E), 4 are numbered list items. Many sentences in the file contain curly quotes or typographic apostrophes ('FDA’s', '“core”'); no phrase or anchor contains a quote, apostrophe, dash or footnote mark. ordered: 8 body-text anchors on guidance pages 1, 2, 3, 5, 6, 7, 10 and 11 (PDF pages 4-14). Noise: the running header 'Contains Nonbinding Recommendations' is printed at the top of pages 3-15 (13 times), max 1; page numbers are too short to count. The two covers repeat the title and the HHS/FDA/CDER/CBER block by design; that is document text, not page furniture, and is not counted. The text is ragged-right; its only line-end hyphens are in compounds ('non-/core', 'non-/U.S.-licensed') or URLs, so absent is empty. BLIND PROTOCOL: chosen and answered before any converter or text extractor was run on the file; every check was typed from the rendered pages (pdftoppm at 90-230 dpi, read as images), and the PDF text layer was never read. Consequences: (1) text that may be an image (logos, mastheads, cover art, chart labels) is not checked; (2) invisible text-layer content cannot be known, so noise lists only VISIBLE repeated page furniture; (3) where the exact code point of a glyph cannot be seen (curly vs straight quotes, dash and minus variants), must_contain phrases and ordered anchors avoid it; headings, table cells and absent entries that cannot avoid it are noted per file."
+}

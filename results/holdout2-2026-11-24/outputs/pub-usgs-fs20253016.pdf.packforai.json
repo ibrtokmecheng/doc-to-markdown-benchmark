@@ -1,0 +1,213 @@
+{
+  "schema": "packforai-benchmark-result@1",
+  "tool": "PackForAI",
+  "file": "pub-usgs-fs20253016.pdf",
+  "ok": true,
+  "error": null,
+  "input": {
+    "fileName": "pub-usgs-fs20253016.pdf",
+    "fileType": "pdf",
+    "bytes": 1590508,
+    "sha256": "76523873e3be1f9bf116beb5be1ed558c8652ae30f65207f7f7c554256d84ea2"
+  },
+  "outputs": {
+    "document": {
+      "file": "pub-usgs-fs20253016.pdf.packforai.document.md",
+      "bytes": 21423,
+      "codePoints": 21312,
+      "sha256": "21249e545d7adbb5ff26ea9ad514d22c84ffac5285c7632d9d8e26dd4bc050d9",
+      "tokensO200k": 6691
+    },
+    "compact": {
+      "file": "pub-usgs-fs20253016.pdf.packforai.compact.md",
+      "bytes": 21407,
+      "codePoints": 21296,
+      "sha256": "75df6bf6ddcf69044d8f6b47dd0496fe5cf40a325c502b955bb843aeaaa5e851",
+      "tokensO200k": 6687
+    }
+  },
+  "tokenAnalysis": {
+    "tokenizerName": "o200k_base",
+    "tokenizerVersion": "gpt-tokenizer@3.4.0",
+    "originalTokenEstimate": 5964,
+    "optimizedTokenEstimate": 6687,
+    "savingsPercent": -12.1
+  },
+  "textQuality": {
+    "status": "good",
+    "score": 100,
+    "signals": [],
+    "warning": null
+  },
+  "processingNotes": [
+    "PDF extraction uses the embedded text layer. Request OCR recovery for scanned or broken-text PDFs.",
+    "Rebuilt 3 tables from aligned text positions. Check numbers and cell placement against the original PDF; a wrapped cell stays on its own row.",
+    "Generated compact.md from the structured PDF text without repeated page headers, footers and table-of-contents lines."
+  ],
+  "ocr": {
+    "requested": false,
+    "status": "not_requested",
+    "provider": "none",
+    "pageCount": null,
+    "costEstimateUsd": null,
+    "reason": "OCR was not requested for this job.",
+    "used": false
+  },
+  "stats": {
+    "pageCount": 4,
+    "sectionCount": 20,
+    "tableCount": 3,
+    "imageCount": null
+  },
+  "elapsedMs": 110.713,
+  "workerGitCommit": "7d693af2c1d44363d8678290134909b691ca27d1",
+  "nodeVersion": "v24.22.1",
+  "admission": {
+    "rejectedByProduction": false,
+    "freePlanUpload": true,
+    "notes": []
+  },
+  "job": {
+    "jobId": "bench_76523873e3be1f9bf116beb5be1ed558",
+    "userId": "benchmark-local",
+    "documentId": "bench_76523873e3be1f9bf116beb5be1ed558",
+    "fileName": "pub-usgs-fs20253016.pdf",
+    "fileType": "pdf",
+    "fileSize": 1590508,
+    "uploadPath": "uploads/benchmark-local/bench_76523873e3be1f9bf116beb5be1ed558/original.pdf",
+    "status": "processing",
+    "createdAt": null,
+    "startedAt": null,
+    "completedAt": null,
+    "leaseExpiresAt": null,
+    "attemptCount": 1,
+    "maxAttempts": 3,
+    "processingVersion": "mvp-0.1.0",
+    "ocrRequested": false,
+    "ocrUsed": false,
+    "webhookUrl": null,
+    "webhookSecret": null,
+    "ocr": {
+      "requested": false,
+      "used": false,
+      "provider": "none",
+      "status": "not_requested",
+      "pageCount": null,
+      "costEstimateUsd": null,
+      "reason": "OCR was not requested for this job."
+    },
+    "ocrMonthlyLimit": 0,
+    "ocrPageLimitPerJob": 0,
+    "ocrUsageId": null,
+    "ocrMonthKey": null,
+    "plan": "free",
+    "dailyConversionLimit": 3,
+    "maxActiveJobs": 1,
+    "originalTokenEstimate": null,
+    "optimizedTokenEstimate": null,
+    "savingsPercent": null,
+    "pageCount": null,
+    "sectionCount": null,
+    "tableCount": null,
+    "imageCount": null,
+    "outputPath": null,
+    "zipPath": null,
+    "errorCode": null,
+    "errorMessage": null,
+    "processingNotes": [],
+    "usageLimitId": "benchmark-local_2026-11-24",
+    "retentionExpiresAt": null,
+    "ocrReservedPages": 0
+  },
+  "isolation": {
+    "networkAttempts": [],
+    "consoleOutput": {
+      "lines": [],
+      "total": 0
+    }
+  },
+  "run": {
+    "startedAt": "2026-11-24T12:57:54.554Z",
+    "runner": "aireadydoc/benchmarks/doc-to-markdown/run-packforai.mjs",
+    "runnerSha256": "ff664fce9d010eb447165541167aed1ebded57ac6ac7aebe11460924f8569abd",
+    "inputFolder": "holdout2",
+    "worker": {
+      "processor": "aireadydoc/services/worker/dist/processor.js",
+      "distSha256": "1851e3b1132c6638cb269c56ed83c3ede91aea95e55ce85317fc6ec2e5019e6b",
+      "distPossiblyStale": [],
+      "gitDirtyPaths": []
+    },
+    "dependencies": {
+      "pdf-parse": {
+        "installed": "1.1.4",
+        "lockfile": "1.1.4"
+      },
+      "mammoth": {
+        "installed": "1.12.0",
+        "lockfile": "1.12.0"
+      },
+      "turndown": {
+        "installed": "7.2.4",
+        "lockfile": "7.2.4"
+      },
+      "@mixmark-io/domino": {
+        "installed": "2.2.0",
+        "lockfile": "2.2.0"
+      },
+      "fast-xml-parser": {
+        "installed": "5.12.0",
+        "lockfile": "5.12.0"
+      },
+      "fflate": {
+        "installed": "0.8.3",
+        "lockfile": "0.8.3"
+      },
+      "gpt-tokenizer": {
+        "installed": "3.4.0",
+        "lockfile": "3.4.0"
+      },
+      "firebase-admin": {
+        "installed": "14.1.0",
+        "lockfile": "14.1.0"
+      },
+      "@google-cloud/firestore": {
+        "installed": "8.6.0",
+        "lockfile": "8.6.0"
+      },
+      "google-auth-library": {
+        "installed": "10.9.0",
+        "lockfile": "10.9.0"
+      }
+    },
+    "runtime": {
+      "nodeVersion": "v24.22.1",
+      "v8": "13.6.233.17-node.58",
+      "icu": "78.3",
+      "unicode": "17.0",
+      "platform": "darwin-arm64",
+      "nodeEnv": "production",
+      "timeZone": "UTC",
+      "locale": "en-US",
+      "tokenizer": "o200k_base via node_modules/gpt-tokenizer/esm/encoding/o200k_base.js"
+    },
+    "productionRuntime": "node:22-slim with NODE_ENV=production (aireadydoc/services/worker/Dockerfile)",
+    "timing": "elapsedMs is the wall time of processInput(job, bytes) in a long-lived conversion process that first converted one small generated file of each type. It excludes reading the file, the Storage download and upload, Firestore updates and queueing.",
+    "warmup": {
+      "ms": 196.467,
+      "results": {
+        "pdf": "ok",
+        "docx": "ok",
+        "pptx": "ok",
+        "xlsx": "ok",
+        "csv": "ok",
+        "json": "ok"
+      },
+      "consoleLines": 0
+    },
+    "fileTimeoutMs": 300000,
+    "conversionProcess": {
+      "pid": 80308,
+      "start": 1
+    }
+  }
+}

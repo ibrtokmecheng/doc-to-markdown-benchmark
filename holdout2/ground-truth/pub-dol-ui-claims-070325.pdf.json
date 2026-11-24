@@ -1,0 +1,963 @@
+{
+  "file": "pub-dol-ui-claims-070325.pdf",
+  "format": "pdf",
+  "origin": "public",
+  "source_url": "https://oui.doleta.gov/press/2025/070325.pdf",
+  "title": "Unemployment Insurance Weekly Claims (news release, U.S. Department of Labor, Employment and Training Administration, Thursday, July 3, 2025; USDL 25-1090-NAT)",
+  "publisher": "Employment and Training Administration, U.S. Department of Labor",
+  "license": "Public domain in the United States: work of the U.S. Government (17 U.S.C. 105).",
+  "sha256": "42f93aff03d17a37811ff827353107f5066ed6957f672f47d73d430bf236b655",
+  "pages_or_sheets": 9,
+  "stresses": [
+    "weekly statistical news release from Microsoft Word: masthead, embargo line, all-caps and underlined section titles in body-text size (no bold headings), narrative paragraphs with many figures",
+    "line charts between paragraphs (pages 1-2)",
+    "space-aligned tables without rules between cells: two blocks under one title separated by a blank line and a repeated 'WEEK ENDING' header row, superscript footnote digits in header and label cells, signed changes",
+    "a 54-row state table with a group header spanning three columns over each half (page 5)",
+    "a 55-row weekly table with stacked multi-line column headers (page 6) and a 13-column state table with stacked headers (page 7)",
+    "two small tables whose comment column wraps to a second line (page 8)",
+    "letter-spaced glyph placement (uneven word spacing on the rendered page), page numbers on every page"
+  ],
+  "checks": {
+    "must_contain": [
+      "TRANSMISSION OF MATERIALS IN THIS RELEASE IS EMBARGOED UNTIL",
+      "In the week ending June 28, the advance figure for seasonally adjusted initial claims was 233,000, a decrease of 4,000 from the previous",
+      "The advance seasonally adjusted insured unemployment rate was 1.3 percent for the week ending June 21",
+      "This is the highest level for this average since November 20, 2021 when it was 2,004,250.",
+      "The advance number of actual initial claims under state programs, unadjusted, totaled 231,548 in the week ending June 28",
+      "There were 239,379 initial claims in the comparable week in 2024.",
+      "A year earlier the rate was 1.2 percent and the volume was 1,820,786.",
+      "The total number of continued weeks claimed for benefits in all programs for the week ending June 14 was 1,890,509",
+      "Initial claims for UI benefits filed by former Federal civilian employees totaled 453 in the week ending June 21",
+      "Newly discharged veterans claiming benefits totaled 4,394, a decrease of 107 from the prior week.",
+      "The highest insured unemployment rates in the week ending June 14 were in California (2.2), Minnesota (2.2)",
+      "The largest increases in initial claims for the week ending June 21 were in New Jersey (+5,923), Connecticut (+2,333)",
+      "UNEMPLOYMENT INSURANCE DATA FOR REGULAR STATE PROGRAMS",
+      "CONTINUED WEEKS CLAIMED FILED FOR UI BENEFITS IN ALL PROGRAMS (UNADJUSTED)",
+      "Continued weeks claimed represent all weeks of benefits claimed during the week being reported, and do not represent weeks claimed by unique individuals.",
+      "Most recent week used covered employment of 152,470,762 as denominator.",
+      "Advance claims are not directly comparable to claims reported in prior weeks.",
+      "Seasonally Adjusted US Weekly UI Claims (in thousands)",
+      "reflect all revisions in data for prior week submitted by state agencies.",
+      "Rate is not seasonally adjusted. The source of U.S. total covered employment is BLS.",
+      "STATES WITH AN INCREASE OF MORE THAN 1,000",
+      "These data come from ETA 538, Advance Weekly Initial and Continued Claims Report.",
+      "An initial claim is a claim filed by an unemployed individual after a separation from an employer.",
+      "The count of U.S. continued weeks claimed is also a good indicator of labor market conditions.",
+      "At the beginning of each calendar year, the Bureau of Labor Statistics provides the Employment and Training Administration (ETA) with a set of seasonal factors to apply to the unadjusted data during that year."
+    ],
+    "ordered": [
+      "In the week ending June 28, the advance figure for seasonally adjusted initial claims",
+      "The advance unadjusted insured unemployment rate was 1.3 percent",
+      "No state was triggered",
+      "The largest increases in initial claims for the week ending June 21",
+      "Advance claims are not directly comparable to claims reported in prior weeks",
+      "An initial claim is a claim filed by an unemployed individual",
+      "Over the course of a year, the weekly changes in the levels of initial claims"
+    ],
+    "headings": [
+      "UNEMPLOYMENT INSURANCE WEEKLY CLAIMS",
+      "SEASONALLY ADJUSTED DATA",
+      "UNADJUSTED DATA",
+      "TECHNICAL NOTES",
+      "A. Initial Claims",
+      "B. Continued Weeks Claimed",
+      "C. Seasonal Adjustments and Annual Revisions"
+    ],
+    "tables": [
+      {
+        "name": "Page 4, UNEMPLOYMENT INSURANCE DATA FOR REGULAR STATE PROGRAMS, first block: initial claims (complete)",
+        "rows": [
+          [
+            "WEEK ENDING",
+            "June 28",
+            "June 21",
+            "Change",
+            "June 14",
+            "Prior Year¹"
+          ],
+          [
+            "Initial Claims (SA)",
+            "233,000",
+            "237,000",
+            "-4,000",
+            "246,000",
+            "238,000"
+          ],
+          [
+            "Initial Claims (NSA)",
+            "231,548",
+            "227,516",
+            "+4,032",
+            "236,518",
+            "239,379"
+          ],
+          [
+            "4-Wk Moving Average (SA)",
+            "241,500",
+            "245,250",
+            "-3,750",
+            "245,750",
+            "237,250"
+          ]
+        ]
+      },
+      {
+        "name": "Page 4, same title, second block: insured unemployment (complete; printed below the first block after a blank line with its own WEEK ENDING row)",
+        "rows": [
+          [
+            "WEEK ENDING",
+            "June 21",
+            "June 14",
+            "Change",
+            "June 7",
+            "Prior Year¹"
+          ],
+          [
+            "Insured Unemployment (SA)",
+            "1,964,000",
+            "1,964,000",
+            "0",
+            "1,937,000",
+            "1,864,000"
+          ],
+          [
+            "Insured Unemployment (NSA)",
+            "1,909,465",
+            "1,861,892",
+            "+47,573",
+            "1,813,467",
+            "1,820,786"
+          ],
+          [
+            "4-Wk Moving Average (SA)",
+            "1,954,000",
+            "1,938,500",
+            "+15,500",
+            "1,924,250",
+            "1,841,250"
+          ],
+          [
+            "Insured Unemployment Rate (SA)²",
+            "1.3%",
+            "1.3%",
+            "0.0",
+            "1.3%",
+            "1.2%"
+          ],
+          [
+            "Insured Unemployment Rate (NSA)²",
+            "1.3%",
+            "1.2%",
+            "+0.1",
+            "1.2%",
+            "1.2%"
+          ]
+        ]
+      },
+      {
+        "name": "Page 4, INITIAL CLAIMS FILED IN FEDERAL PROGRAMS (UNADJUSTED) (complete)",
+        "rows": [
+          [
+            "WEEK ENDING",
+            "June 21",
+            "June 14",
+            "Change",
+            "Prior Year¹"
+          ],
+          [
+            "Federal Employees (UCFE)",
+            "453",
+            "480",
+            "-27",
+            "335"
+          ],
+          [
+            "Newly Discharged Veterans (UCX)",
+            "351",
+            "376",
+            "-25",
+            "382"
+          ]
+        ]
+      },
+      {
+        "name": "Page 4, CONTINUED WEEKS CLAIMED FILED FOR UI BENEFITS IN ALL PROGRAMS (UNADJUSTED) (complete)",
+        "rows": [
+          [
+            "WEEK ENDING",
+            "June 14",
+            "June 7",
+            "Change",
+            "Prior Year¹"
+          ],
+          [
+            "Regular State",
+            "1,856,289",
+            "1,807,877",
+            "+48,412",
+            "1,743,076"
+          ],
+          [
+            "Federal Employees",
+            "7,103",
+            "6,737",
+            "+366",
+            "4,526"
+          ],
+          [
+            "Newly Discharged Veterans",
+            "4,394",
+            "4,501",
+            "-107",
+            "4,469"
+          ],
+          [
+            "Extended Benefits³",
+            "36",
+            "34",
+            "+2",
+            "262"
+          ],
+          [
+            "State Additional Benefits⁴",
+            "2,773",
+            "2,764",
+            "+9",
+            "2,311"
+          ],
+          [
+            "STC / Workshare ⁵",
+            "19,914",
+            "19,986",
+            "-72",
+            "17,409"
+          ],
+          [
+            "TOTAL",
+            "1,890,509",
+            "1,841,899",
+            "+48,610",
+            "1,772,053"
+          ]
+        ]
+      },
+      {
+        "name": "Page 5, Advance State Claims - Not Seasonally Adjusted (complete: both header rows, 53 states and territories, US Total)",
+        "rows": [
+          [
+            "",
+            "Initial Claims Filed During Week Ended June 28",
+            "",
+            "",
+            "Insured Unemployment For Week Ended June 21",
+            "",
+            ""
+          ],
+          [
+            "STATE",
+            "Advance",
+            "Prior Wk",
+            "Change",
+            "Advance",
+            "Prior Wk",
+            "Change"
+          ],
+          [
+            "Alabama",
+            "2,401",
+            "2,452",
+            "-51",
+            "9,221",
+            "9,720",
+            "-499"
+          ],
+          [
+            "Alaska",
+            "477",
+            "430",
+            "47",
+            "3,614",
+            "3,742",
+            "-128"
+          ],
+          [
+            "Arizona",
+            "3,231",
+            "3,473",
+            "-242",
+            "30,937",
+            "31,679",
+            "-742"
+          ],
+          [
+            "Arkansas",
+            "1,278",
+            "1,348",
+            "-70",
+            "9,209",
+            "9,697",
+            "-488"
+          ],
+          [
+            "California",
+            "44,077",
+            "46,498",
+            "-2,421",
+            "390,650",
+            "386,560",
+            "4,090"
+          ],
+          [
+            "Colorado",
+            "2,637",
+            "2,694",
+            "-57",
+            "31,546",
+            "30,780",
+            "766"
+          ],
+          [
+            "Connecticut",
+            "4,329",
+            "6,660",
+            "-2,331",
+            "29,336",
+            "23,290",
+            "6,046"
+          ],
+          [
+            "Delaware",
+            "338",
+            "815",
+            "-477",
+            "6,190",
+            "4,944",
+            "1,246"
+          ],
+          [
+            "District of Columbia",
+            "945",
+            "727",
+            "218",
+            "11,778",
+            "10,795",
+            "983"
+          ],
+          [
+            "Florida",
+            "6,892",
+            "6,516",
+            "376",
+            "33,667",
+            "38,342",
+            "-4,675"
+          ],
+          [
+            "Georgia",
+            "4,401",
+            "4,108",
+            "293",
+            "27,911",
+            "28,430",
+            "-519"
+          ],
+          [
+            "Hawaii",
+            "890",
+            "1,015",
+            "-125",
+            "6,074",
+            "6,129",
+            "-55"
+          ],
+          [
+            "Idaho",
+            "877",
+            "816",
+            "61",
+            "5,296",
+            "5,640",
+            "-344"
+          ],
+          [
+            "Illinois",
+            "10,109",
+            "8,237",
+            "1,872",
+            "100,359",
+            "99,397",
+            "962"
+          ],
+          [
+            "Indiana",
+            "2,528",
+            "2,436",
+            "92",
+            "20,868",
+            "20,394",
+            "474"
+          ],
+          [
+            "Iowa",
+            "2,399",
+            "1,921",
+            "478",
+            "9,109",
+            "8,811",
+            "298"
+          ],
+          [
+            "Kansas",
+            "1,276",
+            "841",
+            "435",
+            "8,537",
+            "8,474",
+            "63"
+          ],
+          [
+            "Kentucky",
+            "1,594",
+            "1,602",
+            "-8",
+            "10,533",
+            "10,201",
+            "332"
+          ],
+          [
+            "Louisiana",
+            "1,805",
+            "1,874",
+            "-69",
+            "10,667",
+            "11,996",
+            "-1,329"
+          ],
+          [
+            "Maine",
+            "544",
+            "602",
+            "-58",
+            "5,731",
+            "5,535",
+            "196"
+          ],
+          [
+            "Maryland",
+            "2,785",
+            "3,935",
+            "-1,150",
+            "27,819",
+            "25,678",
+            "2,141"
+          ],
+          [
+            "Massachusetts",
+            "8,076",
+            "5,766",
+            "2,310",
+            "69,428",
+            "65,109",
+            "4,319"
+          ],
+          [
+            "Michigan",
+            "6,748",
+            "5,957",
+            "791",
+            "45,783",
+            "45,074",
+            "709"
+          ],
+          [
+            "Minnesota",
+            "5,834",
+            "7,401",
+            "-1,567",
+            "67,964",
+            "63,907",
+            "4,057"
+          ],
+          [
+            "Mississippi",
+            "925",
+            "1,079",
+            "-154",
+            "8,114",
+            "8,603",
+            "-489"
+          ],
+          [
+            "Missouri",
+            "3,042",
+            "2,591",
+            "451",
+            "19,652",
+            "19,977",
+            "-325"
+          ],
+          [
+            "Montana",
+            "438",
+            "525",
+            "-87",
+            "4,608",
+            "4,627",
+            "-19"
+          ],
+          [
+            "Nebraska",
+            "865",
+            "593",
+            "272",
+            "5,838",
+            "5,884",
+            "-46"
+          ],
+          [
+            "Nevada *",
+            "2,964",
+            "2,594",
+            "370",
+            "24,192",
+            "23,044",
+            "1,148"
+          ],
+          [
+            "New Hampshire",
+            "696",
+            "811",
+            "-115",
+            "3,483",
+            "3,686",
+            "-203"
+          ],
+          [
+            "New Jersey",
+            "19,322",
+            "14,739",
+            "4,583",
+            "95,833",
+            "93,258",
+            "2,575"
+          ],
+          [
+            "New Mexico",
+            "840",
+            "804",
+            "36",
+            "10,890",
+            "10,763",
+            "127"
+          ],
+          [
+            "New York",
+            "15,713",
+            "12,287",
+            "3,426",
+            "149,796",
+            "146,373",
+            "3,423"
+          ],
+          [
+            "North Carolina",
+            "3,342",
+            "3,184",
+            "158",
+            "21,986",
+            "22,587",
+            "-601"
+          ],
+          [
+            "North Dakota",
+            "402",
+            "311",
+            "91",
+            "2,759",
+            "2,453",
+            "306"
+          ],
+          [
+            "Ohio",
+            "5,266",
+            "4,930",
+            "336",
+            "49,329",
+            "49,131",
+            "198"
+          ],
+          [
+            "Oklahoma",
+            "1,288",
+            "1,297",
+            "-9",
+            "11,437",
+            "11,397",
+            "40"
+          ],
+          [
+            "Oregon",
+            "6,796",
+            "6,891",
+            "-95",
+            "36,632",
+            "31,408",
+            "5,224"
+          ],
+          [
+            "Pennsylvania",
+            "12,034",
+            "15,019",
+            "-2,985",
+            "106,969",
+            "100,796",
+            "6,173"
+          ],
+          [
+            "Puerto Rico",
+            "1,958",
+            "2,291",
+            "-333",
+            "21,352",
+            "20,361",
+            "991"
+          ],
+          [
+            "Rhode Island",
+            "2,097",
+            "1,529",
+            "568",
+            "10,799",
+            "9,396",
+            "1,403"
+          ],
+          [
+            "South Carolina",
+            "2,178",
+            "2,059",
+            "119",
+            "16,858",
+            "16,839",
+            "19"
+          ],
+          [
+            "South Dakota",
+            "175",
+            "160",
+            "15",
+            "1,266",
+            "1,212",
+            "54"
+          ],
+          [
+            "Tennessee",
+            "3,166",
+            "2,740",
+            "426",
+            "18,781",
+            "18,598",
+            "183"
+          ],
+          [
+            "Texas",
+            "16,359",
+            "16,914",
+            "-555",
+            "171,458",
+            "171,762",
+            "-304"
+          ],
+          [
+            "Utah",
+            "1,240",
+            "1,245",
+            "-5",
+            "12,046",
+            "12,225",
+            "-179"
+          ],
+          [
+            "Vermont",
+            "518",
+            "648",
+            "-130",
+            "2,889",
+            "2,380",
+            "509"
+          ],
+          [
+            "Virgin Islands",
+            "19",
+            "37",
+            "-18",
+            "266",
+            "272",
+            "-6"
+          ],
+          [
+            "Virginia",
+            "2,666",
+            "2,766",
+            "-100",
+            "22,101",
+            "21,399",
+            "702"
+          ],
+          [
+            "Washington",
+            "5,922",
+            "5,584",
+            "338",
+            "75,311",
+            "70,083",
+            "5,228"
+          ],
+          [
+            "West Virginia",
+            "825",
+            "728",
+            "97",
+            "7,535",
+            "6,401",
+            "1,134"
+          ],
+          [
+            "Wisconsin",
+            "3,755",
+            "4,777",
+            "-1,022",
+            "23,164",
+            "20,940",
+            "2,224"
+          ],
+          [
+            "Wyoming",
+            "266",
+            "259",
+            "7",
+            "1,894",
+            "1,713",
+            "181"
+          ],
+          [
+            "US Total",
+            "231,548",
+            "227,516",
+            "4,032",
+            "1,909,465",
+            "1,861,892",
+            "47,573"
+          ]
+        ]
+      },
+      {
+        "name": "Page 6, Seasonally Adjusted US Weekly UI Claims (in thousands) (PARTIAL: header row, the first 4 and the last 8 of 54 weeks)",
+        "rows": [
+          [
+            "Week Ending",
+            "Initial Claims",
+            "Change from Prior Week",
+            "4-Week Average",
+            "Insured Unemployment",
+            "Change from Prior Week",
+            "4-Week Average",
+            "IUR"
+          ],
+          [
+            "June 22, 2024",
+            "233",
+            "-4",
+            "235.00",
+            "1,864",
+            "20",
+            "1,841.25",
+            "1.2"
+          ],
+          [
+            "June 29, 2024",
+            "238",
+            "5",
+            "237.25",
+            "1,856",
+            "-8",
+            "1,849.00",
+            "1.2"
+          ],
+          [
+            "July 6, 2024",
+            "222",
+            "-16",
+            "232.50",
+            "1,866",
+            "10",
+            "1,857.50",
+            "1.2"
+          ],
+          [
+            "July 13, 2024",
+            "240",
+            "18",
+            "233.25",
+            "1,853",
+            "-13",
+            "1,859.75",
+            "1.2"
+          ],
+          [
+            "May 10, 2025",
+            "228",
+            "-1",
+            "230.25",
+            "1,893",
+            "16",
+            "1,887.50",
+            "1.2"
+          ],
+          [
+            "May 17, 2025",
+            "226",
+            "-2",
+            "231.00",
+            "1,907",
+            "14",
+            "1,887.25",
+            "1.3"
+          ],
+          [
+            "May 24, 2025",
+            "239",
+            "13",
+            "230.50",
+            "1,902",
+            "-5",
+            "1,894.75",
+            "1.2"
+          ],
+          [
+            "May 31, 2025",
+            "248",
+            "9",
+            "235.25",
+            "1,951",
+            "49",
+            "1,913.25",
+            "1.3"
+          ],
+          [
+            "June 7, 2025",
+            "250",
+            "2",
+            "240.75",
+            "1,937",
+            "-14",
+            "1,924.25",
+            "1.3"
+          ],
+          [
+            "June 14, 2025",
+            "246",
+            "-4",
+            "245.75",
+            "1,964",
+            "27",
+            "1,938.50",
+            "1.3"
+          ],
+          [
+            "June 21, 2025",
+            "237",
+            "-9",
+            "245.25",
+            "1,964",
+            "0",
+            "1,954.00",
+            "1.3"
+          ],
+          [
+            "June 28, 2025",
+            "233",
+            "-4",
+            "241.50",
+            "",
+            "",
+            "",
+            ""
+          ]
+        ]
+      },
+      {
+        "name": "Page 8, STATES WITH AN INCREASE OF MORE THAN 1,000 (complete)",
+        "rows": [
+          [
+            "State",
+            "Change",
+            "State Supplied Comment"
+          ],
+          [
+            "NJ",
+            "+5,923",
+            "Layoffs in the educational services and public administration industries."
+          ],
+          [
+            "CT",
+            "+2,333",
+            "No comment."
+          ],
+          [
+            "OR",
+            "+1,171",
+            "Layoffs in the educational services industry."
+          ],
+          [
+            "MA",
+            "+1,091",
+            "Layoffs in transportation and warehousing, public administration, and the educational services industries"
+          ]
+        ]
+      },
+      {
+        "name": "Page 8, STATES WITH A DECREASE OF MORE THAN 1,000 (complete)",
+        "rows": [
+          [
+            "State",
+            "Change",
+            "State Supplied Comment"
+          ],
+          [
+            "MN",
+            "-5,193",
+            "Fewer layoffs in the educational services industry."
+          ],
+          [
+            "PA",
+            "-3,515",
+            "Fewer layoffs in transportation and warehousing, accommodations and food services, and health care and social assistance industries."
+          ],
+          [
+            "TX",
+            "-2,419",
+            "No comment."
+          ],
+          [
+            "IL",
+            "-1,849",
+            "No comment."
+          ],
+          [
+            "VA",
+            "-1,206",
+            "Fewer layoffs in the manufacturing industry."
+          ],
+          [
+            "FL",
+            "-1,096",
+            "Fewer layoffs in agriculture, forestry, fishing and hunting; construction; manufacturing; wholesale trade; and retail trade industries."
+          ]
+        ]
+      }
+    ],
+    "noise": [],
+    "absent": []
+  },
+  "notes": "DOL weekly claims news release exactly as served (9 pages, US Letter, made with Microsoft Word, tagged). Page 1: 'News Release' masthead with the DOL seal and social icons (not checked: may be images), the embargo line, the release title, 'SEASONALLY ADJUSTED DATA' and two paragraphs, two line charts. Page 2: 'UNADJUSTED DATA', two paragraphs, two charts, four short paragraphs. Page 3: two paragraphs. Page 4: three tables with footnotes. Page 5: advance state claims. Page 6: weekly seasonally adjusted series. Page 7: state table for the prior week. Page 8: states with changes over 1,000. Page 9: technical notes, contacts. Headings: the release has no bold or large headings; its section titles are body-size lines in capitals ('UNEMPLOYMENT INSURANCE WEEKLY CLAIMS', 'TECHNICAL NOTES'), underlined capitals ('SEASONALLY ADJUSTED DATA', 'UNADJUSTED DATA') and the lettered technical-note titles; these seven are listed. Table titles in capitals (pages 4 and 8) and above the tables of pages 5-6 are captions, not headings; the underlined 'FOOTNOTES' label under the page-4 tables is a notes label and is not listed. Tables: the two page-4 blocks under one title are listed as two tables because a blank line and a repeated 'WEEK ENDING' row separate them. Superscript footnote digits are written attached to the word ('Prior Year¹', 'Benefits³'; NFKC makes them '1', '3'); 'STC / Workshare ⁵' keeps the visible space before its marker; whether the text layer has a space before a marker could not be seen. 'Nevada *' keeps its estimate mark (normalization deletes '*'). In the page-5 table the two group headers span three columns each and are written in the first column they cover; covered and empty cells are empty strings (not scored). The page-6 table is PARTIAL (header row plus 12 of 54 week rows; the last week has no insured-unemployment values, so those cells are empty); its stacked header lines are joined with spaces ('Change from Prior Week'). The page-7 table (13 columns, stacked three-line headers over two groups) is not checked: its header grouping cannot be written as one grid without guessing. Comment cells that wrap to a second line (page 8) are joined with a space. Signs: negative values and the spaced dash in 'Advance State Claims - Not Seasonally Adjusted' are written with ASCII hyphen-minus (printed hyphen-width; the code point could not be seen), so phrases and anchors avoid them, but table cells with negative values assume hyphen-minus. Arithmetic checked while typing: every Change cell equals the difference of its two columns, the page-5 state columns sum to the US Total row, the continued-weeks rows sum to TOTAL, and the page-6 4-week averages equal the mean of the last four weeks. must_contain: 25 phrases, each printed once, none containing an apostrophe or quotation mark ('previous week's', '\"on\"' are cut out). ordered: 7 body-text anchors on pages 1, 2, 2, 3, 5 (the note under the state table), 9, 9. Noise: only page numbers repeat, so noise is empty; the text is ragged-right with no line-end hyphenation, so absent is empty. BLIND PROTOCOL: chosen and answered before any converter or text extractor was run on the file; every check was typed from the rendered pages (pdftoppm at 90-230 dpi, read as images), and the PDF text layer was never read. Consequences: (1) text that may be an image (logos, mastheads, cover art, chart labels) is not checked; (2) invisible text-layer content cannot be known, so noise lists only VISIBLE repeated page furniture; (3) where the exact code point of a glyph cannot be seen (curly vs straight quotes, dash and minus variants), must_contain phrases and ordered anchors avoid it; headings, table cells and absent entries that cannot avoid it are noted per file."
+}

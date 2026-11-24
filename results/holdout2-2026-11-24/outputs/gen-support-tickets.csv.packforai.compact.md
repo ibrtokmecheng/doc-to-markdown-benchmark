@@ -1,0 +1,41 @@
+# gen-support-tickets
+
+Source: gen-support-tickets.csv (CSV)
+
+ticket_id,created_at,channel,priority,status,customer,subject,description,assignee,first_response_min,csat,order_value_usd,tags
+HP-48120,2026-09-01T08:00:00Z,email,normal,solved,Café Lumière,Short delivery on invoice 5581203,"Received 18 cases of 12 oz cups, invoice shows 20.",Ana Lucía Torres,12,5,180.00,delivery;shortage
+HP-48123,2026-09-01T18:37:00Z,phone,high,solved,Zoë's Bakery,Credit memo not applied,"Credit memo CM-2209 for $312.40 still shows as ""open"" on the statement.",Ben Okafor,35,,"4,693.29",billing;credit
+HP-48126,2026-09-01T23:14:00Z,web form,normal,solved,Mesa Verde Urgent Care,Price on quote does not match invoice,"Quote Q-77812 says $41.20 per case, invoice billed $44.80.",Chloe Nguyen,58,5,206.58,billing;pricing
+HP-48129,2026-09-02T09:51:00Z,chat,low,pending,Northgate Animal Hospital,Damaged case of nitrile gloves,"Outer box marked ""THIS SIDE UP"" arrived upside down, two boxes crushed.",Diego Marchetti,81,,"4,719.87",damage;claim
+HP-48132,2026-09-02T14:28:00Z,email,urgent,open,Lakeshore Medical Group,Add new ship-to address,"New clinic opens on October 1:
+4410 Alder Street, Suite 200, Denver, CO 80216",Ana Lucía Torres,104,,232.16,account;address
+HP-48135,2026-09-02T19:05:00Z,phone,normal,solved,Bayview Senior Living,Online portal login fails,"Password reset email never arrives.
+Tried twice on Monday.",Ben Okafor,,,"4,745.45",portal;access
+HP-48138,2026-09-03T05:42:00Z,web form,high,solved,Greenfield Food Bank,Request copy of W-9,Accounts payable needs the current W-9 before paying the open invoices.,Chloe Nguyen,150,5,258.74,billing
+HP-48141,2026-09-03T10:19:00Z,chat,normal,solved,Peña Family Dental,Backorder status for sanitizer,When will item JS-4471 be back in stock? We are down to two cases.,Diego Marchetti,173,5,"4,771.03",inventory;backorder
+HP-48144,2026-09-03T20:56:00Z,email,low,solved,Pinecrest School District,Substitute product received,"Ordered compostable lids, received plastic lids instead, please advise.",Ana Lucía Torres,26,5,284.32,delivery;substitution
+HP-48147,2026-09-04T01:33:00Z,phone,urgent,solved,Silver Creek Casino Resort,Change delivery window,Please deliver after 10:00 a.m. on Tuesdays and Fridays; the dock is closed earlier.,Ben Okafor,49,,"4,797.61",delivery;schedule
+HP-48150,2026-09-04T06:10:00Z,web form,normal,open,Café Lumière,Short delivery on invoice 5581203,"Received 18 cases of 12 oz cups, invoice shows 20.",Chloe Nguyen,72,,310.90,delivery;shortage
+HP-48153,2026-09-04T16:47:00Z,chat,high,solved,Zoë's Bakery,Credit memo not applied,"Credit memo CM-2209 for $312.40 still shows as ""open"" on the statement.",Diego Marchetti,95,5,"4,823.19",billing;credit
+HP-48156,2026-09-04T21:24:00Z,email,normal,solved,Mesa Verde Urgent Care,Price on quote does not match invoice,"Quote Q-77812 says $41.20 per case, invoice billed $44.80.",Ana Lucía Torres,118,5,336.48,billing;pricing
+HP-48159,2026-09-05T07:01:00Z,phone,low,solved,Northgate Animal Hospital,Damaged case of nitrile gloves,"Outer box marked ""THIS SIDE UP"" arrived upside down, two boxes crushed.",Ben Okafor,141,,"4,849.77",damage;claim
+HP-48162,2026-09-05T12:38:00Z,web form,urgent,solved,Lakeshore Medical Group,Add new ship-to address,"New clinic opens on October 1:
+4410 Alder Street, Suite 200, Denver, CO 80216",Chloe Nguyen,,5,362.06,account;address
+HP-48165,2026-09-05T17:15:00Z,chat,normal,solved,Bayview Senior Living,Online portal login fails,"Password reset email never arrives.
+Tried twice on Monday.",Diego Marchetti,17,5,"4,875.35",portal;access
+HP-48168,2026-09-06T03:52:00Z,email,high,open,Greenfield Food Bank,Request copy of W-9,Accounts payable needs the current W-9 before paying the open invoices.,Ana Lucía Torres,40,,388.64,billing
+HP-48171,2026-09-06T08:29:00Z,phone,normal,pending,Peña Family Dental,Backorder status for sanitizer,When will item JS-4471 be back in stock? We are down to two cases.,Ben Okafor,63,,"4,901.93",inventory;backorder
+HP-48174,2026-09-06T18:06:00Z,web form,low,solved,Pinecrest School District,Substitute product received,"Ordered compostable lids, received plastic lids instead, please advise.",Chloe Nguyen,86,5,414.22,delivery;substitution
+HP-48177,2026-09-06T23:43:00Z,chat,urgent,solved,Silver Creek Casino Resort,Change delivery window,Please deliver after 10:00 a.m. on Tuesdays and Fridays; the dock is closed earlier.,Diego Marchetti,109,5,"4,927.51",delivery;schedule
+HP-48180,2026-09-07T04:20:00Z,email,normal,solved,Café Lumière,Short delivery on invoice 5581203,"Received 18 cases of 12 oz cups, invoice shows 20.",Ana Lucía Torres,132,5,440.80,delivery;shortage
+HP-48183,2026-09-07T14:57:00Z,phone,high,solved,Zoë's Bakery,Credit memo not applied,"Credit memo CM-2209 for $312.40 still shows as ""open"" on the statement.",Ben Okafor,155,,"4,953.09",billing;credit
+HP-48186,2026-09-07T19:34:00Z,web form,normal,open,Mesa Verde Urgent Care,Price on quote does not match invoice,"Quote Q-77812 says $41.20 per case, invoice billed $44.80.",Chloe Nguyen,178,,466.38,billing;pricing
+HP-48189,2026-09-08T05:11:00Z,chat,low,solved,Northgate Animal Hospital,Damaged case of nitrile gloves,"Outer box marked ""THIS SIDE UP"" arrived upside down, two boxes crushed.",Diego Marchetti,,5,"4,979.67",damage;claim
+HP-48192,2026-09-08T10:48:00Z,email,urgent,pending,Lakeshore Medical Group,Add new ship-to address,"New clinic opens on October 1:
+4410 Alder Street, Suite 200, Denver, CO 80216",Ana Lucía Torres,54,,492.96,account;address
+HP-48195,2026-09-08T15:25:00Z,phone,normal,solved,Bayview Senior Living,Online portal login fails,"Password reset email never arrives.
+Tried twice on Monday.",Ben Okafor,77,,"5,005.25",portal;access
+HP-48198,2026-09-09T01:02:00Z,web form,high,solved,Greenfield Food Bank,Request copy of W-9,Accounts payable needs the current W-9 before paying the open invoices.,Chloe Nguyen,100,5,518.54,billing
+HP-48201,2026-09-09T06:39:00Z,chat,normal,solved,Peña Family Dental,Backorder status for sanitizer,When will item JS-4471 be back in stock? We are down to two cases.,Diego Marchetti,123,5,"5,031.83",inventory;backorder
+HP-48204,2026-09-09T16:16:00Z,email,low,open,Pinecrest School District,Substitute product received,"Ordered compostable lids, received plastic lids instead, please advise.",Ana Lucía Torres,146,,544.12,delivery;substitution
+HP-48207,2026-09-09T21:53:00Z,phone,urgent,solved,Silver Creek Casino Resort,Change delivery window,Please deliver after 10:00 a.m. on Tuesdays and Fridays; the dock is closed earlier.,Ben Okafor,169,,"5,057.41",delivery;schedule

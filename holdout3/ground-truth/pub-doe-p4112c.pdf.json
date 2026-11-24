@@ -1,0 +1,98 @@
+{
+  "file": "pub-doe-p4112c.pdf",
+  "format": "pdf",
+  "origin": "public",
+  "source_url": "https://energy.gov/media/360704",
+  "title": "DOE P 411.2C, DOE Scientific Integrity Policy (U.S. Department of Energy directive; approved 07-24-2025, effective 8/20/2025 per DOE's directives listing)",
+  "publisher": "U.S. Department of Energy (Office of Science, initiating office)",
+  "license": "Public domain in the United States: work of the U.S. Government (17 U.S.C. 105).",
+  "sha256": "bc645a79f368bf21beb4d376cc4168c1b3a79b5b2e7bd0d1d34e93330ff9df95",
+  "pages_or_sheets": 7,
+  "stresses": [
+    "agency directive (Word-generated, tagged PDF) with a page-1 masthead: department name, document type, a boxed directive number and the approval date",
+    "bold capital section headings (PURPOSE AND SCOPE, POLICY) followed by ten numbered, underlined capital section headings (1. to 10.)",
+    "three-level lists under the numbered sections: lettered items (a.-n.) and parenthesized numbers ((1)-(5)) with hanging indents, underlined lead-ins in the definitions list",
+    "seven footnotes with superscript reference numbers, hyperlinks in body text, footnotes and the reference list, italic titles inside sentences",
+    "running header on pages 2-7 (page number, directive number, approval date) and a page-1 footer block",
+    "a signature block with the DOE seal (image)"
+  ],
+  "checks": {
+    "must_contain": [
+      "Science and technology lie at the heart of the Department of Energy",
+      "DOE is obliged to uphold the highest standards in the sponsorship, management, and conduct of research.",
+      "Among these standards is the core value of scientific integrity.",
+      "the DOE is firmly committed to maintaining a culture of scientific integrity.",
+      "This Policy supersedes DOE P 411.2B, DOE Scientific Integrity Policy, dated January 19, 2024.",
+      "This Policy applies to scientific personnel at the DOE laboratories",
+      "In the OSTP memorandum, the term scientific integrity encompasses a range of topics",
+      "establish principles for conveying scientific and technological information to the public.",
+      "The cornerstone of the scientific integrity policy at DOE is that all scientists, engineers, or others supported by DOE are free and encouraged to share their scientific findings and views.",
+      "Scientific and Technical information is defined in Attachment 2 of DOE O 241.1B",
+      "These personnel are also free to share their personal views and opinions on scientific or technical related policy matters, provided they do not attribute these views to the U.S. Government.",
+      "Unless otherwise stated, the policy also applies to recipients of financial assistance from DOE.",
+      "Covered personnel are free and encouraged to discuss their scientific work and research openly",
+      "DOE supports the free flow of scientific information, within the scientific community and between scientists and the public",
+      "Under no circumstance may anyone, including a public affairs officer, ask or direct any researcher to alter the record of scientific findings or conclusions.",
+      "Covered personnel will not suppress or alter scientific or technological findings",
+      "Covered personnel have the right to the correction of errors in scientific and technical information",
+      "Public communications by all federal staff concerning scientific and technological matters shall comply with the Standards of Ethical Conduct for Employees of the Executive Branch",
+      "that is supported by a DOE financial assistance award, openly, whether in scientific or public fora or with the media",
+      "and their respective institutions have no responsibility to coordinate with the DOE on public communication",
+      "Documents in a classified subject area that are intended for public release must be reviewed for classification prior to public release.",
+      "DOE does not and will not use classification to suppress scientific results",
+      "Proprietary information that is generated under a DOE award or a Laboratory partnering mechanism such as a cooperative research and development agreement (CRADA) may be protected from public release",
+      "the DOE is fully committed to the Whistleblower Protection Act of 1989",
+      "The Secretary of Energy will designate a Scientific Integrity Official within the Office of the Deputy Secretary of Energy",
+      "DOE is committed to ensuring the integrity of its policy on the use of scientific and technical Federal Advisory Committees (FACs)",
+      "Recognizing that attendance at scientific and technical conferences is an integral part of professional development",
+      "Scientists and engineers are encouraged to publish research findings in",
+      "DOE regulations governing procedures for handling of research misconduct allegations concerning research supported by DOE contracts and agreements, are specified in 10 CFR Part 733.",
+      "Federal research scientists and engineers directly employed by the Department, primarily, but not exclusively, at the National Energy Technology Laboratory;",
+      "Other contractors at DOE laboratories, sites, or headquarters who support the personnel listed above; and",
+      "One of the 17 research laboratories owned by the DOE and specified in Section 2 of the Energy Policy Act of 2005",
+      "Examples of digital media can include, but are not limited to, blogs, wikis, online newspapers, video games, podcasts, and social media.",
+      "An independent assessment of the scientific merit of research by experts having knowledge of the research area equivalent to that of the performers of the work.",
+      "DOE financial assistance rules are codified in 2 CFR Part 910",
+      "Executive Order 13526, Classified National Security Information.",
+      "from the Office of Science and Technology Policy, December 17, 2010.",
+      "BY ORDER OF THE SECRETARY OF ENERGY:"
+    ],
+    "ordered": [
+      "SUBJECT: DOE SCIENTIFIC INTEGRITY POLICY",
+      "Science and technology lie at the heart of the Department of Energy",
+      "These personnel are also free to share their personal views",
+      "Documents in a classified subject area that are intended for public release",
+      "The Secretary of Energy will designate a Scientific Integrity Official",
+      "Federal research scientists and engineers directly employed by the Department",
+      "An independent assessment of the scientific merit of research",
+      "BY ORDER OF THE SECRETARY OF ENERGY"
+    ],
+    "headings": [
+      "PURPOSE AND SCOPE",
+      "POLICY",
+      "FREEDOM OF EXPRESSION",
+      "PUBLIC COMMUNICATION",
+      "CLASSIFIED AND OTHER PROTECTED INFORMATION",
+      "WHISTLEBLOWER PROTECTIONS",
+      "SCIENTIFIC INTEGRITY OFFICIAL",
+      "FEDERAL ADVISORY COMMITTEES",
+      "PROFESSIONAL DEVELOPMENT OF SCIENTISTS AND ENGINEERS",
+      "RESEARCH MISCONDUCT",
+      "DEFINITIONS",
+      "REFERENCES"
+    ],
+    "tables": [],
+    "noise": [
+      {
+        "text": "07-24-2025",
+        "max": 1
+      },
+      {
+        "text": "DOE P 411.2C",
+        "max": 1
+      }
+    ],
+    "absent": []
+  },
+  "notes": "DOE directive PDF exactly as served (7 pages, US Letter, single column, tagged; produced from Word with Acrobat PDFMaker; the PDF's creation date is March 2026, see holdout3/SELECTION.md). Page 1: masthead 'U.S. Department of Energy / Washington, D.C.' with 'POLICY' and the boxed 'DOE P 411.2C' at the right, 'Approved: 07-24-2025', the 'SUBJECT: DOE SCIENTIFIC INTEGRITY POLICY' line, the bold section headings 'PURPOSE AND SCOPE' and 'POLICY', footnotes 1-2 and a footer block ('AVAILABLE ONLINE AT: www.directives.doe.gov' / 'INITIATED BY: Office of Science'). Pages 2-7: the ten numbered sections, each introduced by a number and an underlined capital title ('1. FREEDOM OF EXPRESSION.' ... '10. REFERENCES.'), with lettered and parenthesized-number list items; footnotes 3-7; the signature block on page 7 (the DOE seal may be an image and is not checked). Headings: the two bold section headings and the ten numbered underlined section titles, each listed without its number and final period so that either form matches. 'POLICY' is also the document-type label at the top right of page 1; the one-to-one heading match counts it once. The underlined lead-ins of the definitions list ('Covered Personnel.', 'Federal Financial Assistance.', ...) are list text, not headings. The SUBJECT line is the document title and is the first ordered anchor, not a heading (it is not set as a heading in the source). must_contain: 38 phrases, each printed once, none crossing a page break; 3 are footnotes (2, 3 and 7), 19 are lettered or numbered list items; phrases avoid every curly quote or apostrophe ('Department of Energy’s', '“No Comment”'), every dash and hyphen ('non-federal', 'sub-awards', 'S-2', '2 CFR 910.132 –') and the section sign, because their code points cannot be seen; superscript footnote marks fall outside the phrases. ordered: 8 body-text anchors, one per page (page 1 twice, page 2 to page 7). Tables: none (the document has no tables). Noise: the running header on pages 2-7 prints the page number, 'DOE P 411.2C' and '07-24-2025' (6 times each); each also occurs once in the page-1 masthead ('DOE P 411.2C' box, 'Approved: 07-24-2025'), so max is 1 for both; page numbers are too short to count. Absent: the text is ragged-right; its only line-end hyphens are in compounds ('Government-/sponsored', 'non-/federal', 'peer-/reviewed', 'non-/profit') and dates ('12-13-/2010', '9-/23-2014'), which are not one-word hyphenation, so absent is empty. BLIND PROTOCOL: chosen and answered before any converter or text extractor was run on the file; every check was typed from the rendered pages (pdftoppm at 100-200 dpi, read as images), and the PDF text layer was never read. Consequences: (1) text that may be an image (logos, seals, signatures) is not checked; (2) invisible text-layer content cannot be known, so noise lists only VISIBLE repeated page furniture; (3) where the exact code point of a glyph cannot be seen (curly vs straight quotes, dash and minus variants), must_contain phrases and ordered anchors avoid it; headings, table cells and absent entries that cannot avoid it are noted per file."
+}

@@ -1,0 +1,676 @@
+{
+  "file": "pub-fema-drf-202509.pdf",
+  "format": "pdf",
+  "origin": "public",
+  "source_url": "https://www.fema.gov/sites/default/files/documents/fema_ocfo_disaster-relief-fund-report_102025.pdf",
+  "title": "FEMA, Disaster Relief Fund: Monthly Report as of September 30, 2025 (the 'September 2025 Disaster Relief Fund Report', final report to Congress for fiscal year 2025, dated October 22, 2025, listed October 23, 2025); pages 1-15 of 23",
+  "publisher": "Federal Emergency Management Agency (Office of the Chief Financial Officer), U.S. Department of Homeland Security",
+  "license": "Public domain in the United States: work of the U.S. Government (17 U.S.C. 105). The cover photograph, the agency seals and the Administrator's photograph and signature are images and are not checked.",
+  "sha256": "2792e6ea3322c2cb53e29cd87bf6325acc3b1ab524ea905f0a76be01588b2cba",
+  "pages_or_sheets": 15,
+  "stresses": [
+    "financial report to Congress made mostly of tables: printed from Office/Excel through PScript5 and Acrobat Distiller, modified with iText; tagged as served, untagged after the cut; letter pages, portrait and landscape",
+    "front matter: cover with a full-width photograph and large title, a signed message with an inset photograph and an indented list of addressees, a table of contents with dot leaders and page numbers",
+    "quoted statute text with nested indented paragraphs and labels (A)-(E), (i)-(iv), italic run-in words, backtick and straight quotation marks",
+    "a numbered list (1-7) of report elements",
+    "a boxed appropriations table with a centered title block, a header row over three amount columns, footnote markers in row labels, dollar signs set apart from the amounts, negative amounts in parentheses, bold subtotal rows with rules and a boxed notes area",
+    "two landscape pages of a 14-column monthly table in small type with bold section rows, shaded row bands and a notes block; four landscape pages of detailed obligations by disaster and state",
+    "a page of six sub-tables with identical three-line headers, shaded column groups, zero amounts shown as dashes, bold total rows with double rules",
+    "a page of four bar charts, each above a small ruled data table, the tables placed two by two",
+    "page range cut from a longer PDF (pages 16-23, Appendix D continued and Appendices E-G, not kept)"
+  ],
+  "checks": {
+    "must_contain": [
+      "Final Report to Congress for Fiscal Year 2025",
+      "which has been prepared by the Federal Emergency Management Agency.",
+      "Pursuant to congressional requirements, this report is being provided to the following Members of Congress:",
+      "Ranking Member, House Appropriations Committee",
+      "Vice Chair, Senate Appropriations Committee",
+      "Inquiries relating to this report may be directed to Greg James",
+      "Senior Official Performing the Duties of Administrator",
+      "Appendix C: Obligations and Estimates by Spending Category",
+      "Appendix E: Fund Exhaustion Date",
+      "Appendix F: Disaster Relief Fund Cost Estimation Bridge Table",
+      "which extends the terms and conditions of Fiscal Year 2024 Department of Homeland Security Appropriations Act",
+      "The following sums are hereby appropriated, out of any money in the Treasury not otherwise appropriated",
+      "for the several departments, agencies, corporations, and other organizational units of Government for fiscal year 2025, and for other purposes, namely:",
+      "Such amounts as may be necessary, at the level specified in subsection (c) and under the authority and conditions provided in applicable appropriations Acts for fiscal year 2024",
+      "for projects or activities (including the costs of direct loans and loan guarantees) that are not otherwise specifically provided for",
+      "except sections 543 through 546, and including sections 102 through 105 of title I of division G",
+      "The reporting requirements in paragraphs (1) and (2) under the heading",
+      "related to reporting on the Disaster Relief Fund, shall be applied in fiscal year 2024 with respect to budget year 2025 and current fiscal year 2024, respectively",
+      "shall submit to the Committees on Appropriations of the Senate and the House of Representatives the following reports, including a specific description of the methodology and the source data used in developing such reports",
+      "an estimate or actual amounts, if available, of the following for the current fiscal year shall be submitted not later than the fifth day of each month",
+      "a summary of the amount of appropriations made available by source",
+      "a table of disaster relief activity delineated by month,",
+      "the total obligations to include amounts obligated for fire assistance, emergencies, surge, and disaster support activities;",
+      "the obligations for catastrophic events delineated by event and by state; and",
+      "the amount of previously obligated funds that are recovered;",
+      "a summary of allocations, obligations, and expenditures for catastrophic events delineated by event;",
+      "in addition, for a disaster declaration related to Hurricane Sandy, the cost of the following categories of spending:",
+      "public assistance, individual assistance, mitigation, administrative, operations, and any other relevant category (including emergency measures and disaster resources); and",
+      "the date on which funds appropriated will be exhausted",
+      "That every 30 days the Administrator shall provide the Committees on Appropriations of the Senate and the House of Representatives both projected and actual costs for funds provided under this heading for major disasters and any other expenses",
+      "This report covers activities as of September 30, 2025.",
+      "requires that the Federal Emergency Management Agency Administrator provide a report by the fifth business day of each month on the Disaster Relief Fund that includes a funding summary",
+      "a table delineating Disaster Relief Fund funding activities each month by state and event, a summary of the funding for the catastrophic events, and the fund exhaustion date",
+      "requires that both projected and actual costs for funds provided by it for major disasters and any other expenses be provided to the House and Senate Appropriations Committees.",
+      "Consequently, the following report elements are included:",
+      "Appendix A is an appropriations summary that includes a synopsis of the amount of appropriations made available by source",
+      "Appendix B presents details on the Disaster Relief Fund funding activities delineated by month.",
+      "Appendix C presents obligations and estimates by spending category for Hurricanes Sandy, Harvey, Irma, and Maria; Coronavirus Disease 2019; and declarations since August 1, 2017.",
+      "Appendix D presents funding summaries for the current active catastrophic events including the allocations, obligations, and expenditures.",
+      "Appendix F presents a bridge table that provides explanation for the monthly and baseline change for all activities to include details for catastrophic events.",
+      "Appendix G presents the fund history and current status of the Building Resilient Infrastructure and Communities/Predisaster Mitigation program.",
+      "Disaster Relief Fund Congressional Monthly Report",
+      "which appropriated $29 billion to the DRF.",
+      "unobligated commitments and uncommitted/unobligated allocations totaled $0.",
+      "Amounts subject to change pending Fiscal Year 2025 closeout of the accounting system during the month of October 2025.",
+      "Source of financial information is the Integrated Financial Management Information System.",
+      "Disaster Readiness and Support Monthly Actual Obligations",
+      "Total Disaster Relief Fund Base Actual Obligations",
+      "Disaster Relief Fund Available at End of Month (Including Recoveries)",
+      "Hurricanes Sandy, Harvey, Irma and Maria, Coronavirus Disease 2019, and Disasters Declared Since August 1, 2017",
+      "Adjusted for recoveries that occur in Fiscal Year 2025 against",
+      "Source of financial information is Integrated Financial Management Information System."
+    ],
+    "ordered": [
+      "Final Report to Congress for Fiscal Year 2025",
+      "Appendix F: Disaster Relief Fund Cost Estimation Bridge Table",
+      "except sections 543 through 546",
+      "the amount of previously obligated funds that are recovered",
+      "Appendix D presents funding summaries",
+      "Disaster Relief Fund Congressional Monthly Report",
+      "Disaster Relief Fund Available at End of Month",
+      "Adjusted for recoveries that occur in Fiscal Year 2025"
+    ],
+    "headings": [
+      "Disaster Relief Fund: Monthly Report",
+      "Message from the Administrator",
+      "Table of Contents",
+      "I. Legislative Language",
+      "II. Background"
+    ],
+    "tables": [
+      {
+        "name": "Appendix A: Disaster Relief Fund Congressional Monthly Report as of September 30, 2025 (page 7; complete: header row and all 15 rows; the three title lines above the header and the notes below are checked as phrases)",
+        "rows": [
+          [
+            "",
+            "Major Declarations",
+            "Base",
+            "Total"
+          ],
+          [
+            "Carryover From Fiscal Year 2024",
+            "$ 2,033",
+            "$ 497",
+            "$ 2,530"
+          ],
+          [
+            "Full-Year Continuing Appropriations and Extensions Act, 2025 (1)",
+            "22,510",
+            "",
+            "22,510"
+          ],
+          [
+            "Disaster Relief Supplemental Appropriations Act, 2025 (1)",
+            "28,000",
+            "1,000",
+            "29,000"
+          ],
+          [
+            "Fiscal Year 2025 Recoveries",
+            "8,170",
+            "311",
+            "8,481"
+          ],
+          [
+            "Total Budget Authority",
+            "60,713",
+            "1,808",
+            "62,521"
+          ],
+          [
+            "Actual Transfers to Disaster Assistance Direct Loan Program (2)",
+            "(94)",
+            "",
+            "(94)"
+          ],
+          [
+            "Actual Transfer to Operations and Support (3)",
+            "",
+            "(8)",
+            "(8)"
+          ],
+          [
+            "Actual 6% for Predisaster Mitigation per Disaster Recovery Reform Act (4)",
+            "(276)",
+            "",
+            "(276)"
+          ],
+          [
+            "Building Resilient Infrastructure and Communities Set Aside Balance (4)",
+            "4,071",
+            "",
+            "4,071"
+          ],
+          [
+            "Actual Transfers to Office of the Inspector General (1)",
+            "",
+            "(4)",
+            "(4)"
+          ],
+          [
+            "Revised Budget Authority",
+            "64,414",
+            "1,796",
+            "66,210"
+          ],
+          [
+            "Less Building Resilient Infrastructure and Communities Set Aside",
+            "(4,071)",
+            "",
+            "(4,071)"
+          ],
+          [
+            "Budget Authority After Building Resilient Infrastructure and Communities Set Aside",
+            "60,343",
+            "1,796",
+            "62,139"
+          ],
+          [
+            "Obligations (5)",
+            "(51,930)",
+            "(633)",
+            "(52,563)"
+          ],
+          [
+            "Balance (6)",
+            "$ 8,413",
+            "$ 1,163",
+            "$ 9,576"
+          ]
+        ]
+      },
+      {
+        "name": "Appendix B: DRF Monthly Spend Plan (FY 2025), details (page 8; PARTIAL: the month header row and the first ten rows, 'Beginning of Month Disaster Relief Fund Balance' to 'Base'; the activity rows below them on pages 8-9 are not included)",
+        "rows": [
+          [
+            "",
+            "October-24",
+            "November-24",
+            "December-24",
+            "January-25",
+            "February-25",
+            "March-25",
+            "April-25",
+            "May-25",
+            "June-25",
+            "July-25",
+            "August-25",
+            "September-25",
+            "Total"
+          ],
+          [
+            "Beginning of Month Disaster Relief Fund Balance",
+            "$ 2,484",
+            "$ 6,830",
+            "$ 4,045",
+            "$ 30,399",
+            "$ 18,807",
+            "$ 14,133",
+            "$ 15,816",
+            "$ 15,796",
+            "$ 14,735",
+            "$ 14,707",
+            "$ 14,831",
+            "$ 10,107",
+            "$ 9,576"
+          ],
+          [
+            "Fiscal Year 2025 Continuing Appropriations Act (1)",
+            "20,261",
+            "",
+            "",
+            "",
+            "",
+            "2,249",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "Fiscal Year 2025 Supplemental (1)",
+            "",
+            "",
+            "29,000",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "Actual Transfers to/from Disaster Assistance Direct Loan Program (2)",
+            "(137)",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "43",
+            "",
+            ""
+          ],
+          [
+            "Predisaster Mitigation (3)",
+            "(22)",
+            "",
+            "(103)",
+            "(82)",
+            "(35)",
+            "(34)",
+            "4,000",
+            "71",
+            "",
+            "",
+            "(4,071)",
+            "",
+            ""
+          ],
+          [
+            "Actual Transfers to Office of the Inspector General (1)",
+            "",
+            "",
+            "(4)",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ],
+          [
+            "Actual Transfer to Operations and Support for Deployment Tracking System (4)",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "(8)",
+            ""
+          ],
+          [
+            "Total Available",
+            "22,576",
+            "6,830",
+            "32,938",
+            "30,327",
+            "18,772",
+            "16,348",
+            "19,816",
+            "15,867",
+            "14,735",
+            "14,707",
+            "10,803",
+            "10,099",
+            "9,576"
+          ],
+          [
+            "Major Declarations",
+            "22,094",
+            "6,381",
+            "31,505",
+            "28,862",
+            "17,357",
+            "14,965",
+            "18,423",
+            "14,554",
+            "13,439",
+            "13,413",
+            "9,529",
+            "8,901",
+            "8,413"
+          ],
+          [
+            "Base",
+            "482",
+            "449",
+            "1,433",
+            "1,465",
+            "1,415",
+            "1,383",
+            "1,393",
+            "1,313",
+            "1,296",
+            "1,294",
+            "1,274",
+            "1,198",
+            "1,163"
+          ]
+        ]
+      },
+      {
+        "name": "Appendix C: MARIA sub-table (page 14; complete: header row and 6 rows)",
+        "rows": [
+          [
+            "MARIA",
+            "Cumulative Obligations Through Fiscal Year 2024 (1)",
+            "Actual 1st Quarter",
+            "Actual 2nd Quarter",
+            "Actual 3rd Quarter",
+            "Actual 4th Quarter",
+            "Fiscal Year 2025 Totals",
+            "Totals Through Fiscal Year 2025"
+          ],
+          [
+            "Public Assistance",
+            "$ 44,655",
+            "$ 4,600",
+            "$ 5,962",
+            "$ 242",
+            "$ 310",
+            "$ 11,114",
+            "$ 55,769"
+          ],
+          [
+            "Individual Assistance",
+            "3,020",
+            "-",
+            "1",
+            "-",
+            "-",
+            "1",
+            "3,021"
+          ],
+          [
+            "Mitigation",
+            "602",
+            "44",
+            "51",
+            "31",
+            "1",
+            "127",
+            "729"
+          ],
+          [
+            "Operations",
+            "4,336",
+            "-",
+            "-",
+            "-",
+            "-",
+            "-",
+            "4,336"
+          ],
+          [
+            "Administrative",
+            "4,225",
+            "30",
+            "35",
+            "29",
+            "22",
+            "116",
+            "4,341"
+          ],
+          [
+            "Total",
+            "$ 56,838",
+            "$ 4,674",
+            "$ 6,049",
+            "$ 302",
+            "$ 333",
+            "$ 11,358",
+            "$ 68,196"
+          ]
+        ]
+      },
+      {
+        "name": "Appendix C: Coronavirus Disease 2019 sub-table (page 14; complete: header row and 6 rows)",
+        "rows": [
+          [
+            "Coronavirus Disease 2019",
+            "Cumulative Obligations Through Fiscal Year 2024 (1)",
+            "Actual 1st Quarter",
+            "Actual 2nd Quarter",
+            "Actual 3rd Quarter",
+            "Actual 4th Quarter",
+            "Fiscal Year 2025 Totals",
+            "Totals Through Fiscal Year 2025"
+          ],
+          [
+            "Public Assistance",
+            "$ 77,532",
+            "$ 6,226",
+            "$ 4,789",
+            "$ 1,681",
+            "$ (245)",
+            "$ 12,451",
+            "$ 89,983"
+          ],
+          [
+            "Individual Assistance",
+            "40,346",
+            "19",
+            "27",
+            "9",
+            "7",
+            "62",
+            "40,408"
+          ],
+          [
+            "Mitigation",
+            "878",
+            "176",
+            "47",
+            "34",
+            "(1)",
+            "256",
+            "1,134"
+          ],
+          [
+            "Operations",
+            "6,054",
+            "7",
+            "21",
+            "6",
+            "-",
+            "34",
+            "6,088"
+          ],
+          [
+            "Administrative",
+            "1,608",
+            "46",
+            "45",
+            "44",
+            "39",
+            "174",
+            "1,782"
+          ],
+          [
+            "Total",
+            "$ 126,418",
+            "$ 6,474",
+            "$ 4,929",
+            "$ 1,774",
+            "$ (200)",
+            "$ 12,977",
+            "$ 139,395"
+          ]
+        ]
+      },
+      {
+        "name": "Appendix D: data table under the chart for Hurricanes Katrina, Rita, Wilma and Sandy (page 15, top left; complete)",
+        "rows": [
+          [
+            "",
+            "Katrina",
+            "Rita",
+            "Wilma",
+            "Sandy",
+            "Total"
+          ],
+          [
+            "Allocations",
+            "$ 44,333",
+            "$ 3,793",
+            "$ 2,565",
+            "$ 22,586",
+            "$ 73,277"
+          ],
+          [
+            "Obligations",
+            "44,333",
+            "3,793",
+            "2,565",
+            "22,586",
+            "73,277"
+          ],
+          [
+            "Expenditures",
+            "$ 43,162",
+            "$ 3,777",
+            "$ 2,565",
+            "$ 18,464",
+            "$ 67,968"
+          ]
+        ]
+      },
+      {
+        "name": "Appendix D: data table under the chart for Hurricane Ike, West Virginia and Louisiana Floods and Hurricane Matthew (page 15, top right; complete)",
+        "rows": [
+          [
+            "",
+            "Ike",
+            "West Virginia Floods",
+            "Louisiana Floods 4277",
+            "Matthew",
+            "Total"
+          ],
+          [
+            "Allocations",
+            "$ 4,819",
+            "$ 644",
+            "$ 2,771",
+            "$ 1,798",
+            "$ 10,032"
+          ],
+          [
+            "Obligations",
+            "4,819",
+            "644",
+            "2,771",
+            "1,798",
+            "10,032"
+          ],
+          [
+            "Expenditures",
+            "$ 4,807",
+            "$ 545",
+            "$ 2,648",
+            "$ 1,634",
+            "$ 9,634"
+          ]
+        ]
+      },
+      {
+        "name": "Appendix D: data table under the chart for Hurricanes Harvey, Irma and Maria (page 15, bottom left; complete)",
+        "rows": [
+          [
+            "",
+            "Harvey",
+            "Irma",
+            "Maria",
+            "Total"
+          ],
+          [
+            "Allocations",
+            "$ 8,234",
+            "$ 5,878",
+            "$ 68,196",
+            "$ 82,308"
+          ],
+          [
+            "Obligations",
+            "8,234",
+            "5,878",
+            "68,196",
+            "82,308"
+          ],
+          [
+            "Expenditures",
+            "$ 7,308",
+            "$ 5,338",
+            "$ 25,561",
+            "$ 38,207"
+          ]
+        ]
+      },
+      {
+        "name": "Appendix D: data table under the chart for California Winter Storms, Hurricanes Florence and Michael and the Puerto Rico Earthquake (page 15, bottom right; complete)",
+        "rows": [
+          [
+            "",
+            "California Winter Storms",
+            "Florence",
+            "Michael",
+            "Puerto Rico Earthquake",
+            "Total"
+          ],
+          [
+            "Allocations",
+            "$ 1,034",
+            "$ 1,828",
+            "$ 3,605",
+            "$ 1,322",
+            "$ 7,789"
+          ],
+          [
+            "Obligations",
+            "1,034",
+            "1,828",
+            "3,605",
+            "1,322",
+            "7,789"
+          ],
+          [
+            "Expenditures",
+            "$ 885",
+            "$ 1,581",
+            "$ 2,976",
+            "$ 763",
+            "$ 6,205"
+          ]
+        ]
+      }
+    ],
+    "noise": [],
+    "absent": []
+  },
+  "notes": "FEMA 'Disaster Relief Fund: Monthly Report as of September 30, 2025' (23 pages as served, letter, PScript5 / Acrobat Distiller 25 modified with iText 7.1.10, tagged; Last-Modified October 23, 2025; the FEMA listing dates it October 23, 2025, the cover October 22, 2025), cut to pages 1-15 with pypdf. Page 1: cover (photograph, title, date, 'Final Report to Congress for Fiscal Year 2025', DHS logo, agency name); page 2: 'Message from the Administrator' (photograph, four addressees, signature image); page 3: seal, title and 'Table of Contents'; pages 4-5: 'I. Legislative Language'; page 6: 'II. Background' with a numbered list; page 7: Appendix A; pages 8-9 (landscape): Appendix B details; pages 10-13 (landscape): Appendix B by catastrophic disaster; page 14: Appendix C; page 15 (landscape): Appendix D, four charts with data tables. Page 16 repeats the Appendix D running head and date and then starts new chart and table titles, as each Appendix D page does, so 15 is the largest k of at most 15 at whose end a table ends (judgement disclosed in holdout6/SELECTION.md; page 14 ends Appendix C). Headings: the cover title (vector text, checked at 400 dpi), 'Message from the Administrator', 'Table of Contents', 'I. Legislative Language' and 'II. Background' (large type, own line). The page-3 title (two lines in large type) and the small bold appendix running heads are not listed: the running heads repeat on every page of an appendix, like the table-page title blocks of the earlier sets, and the table titles are checked as phrases. Tables: eight are transcribed, see their names. Conventions (apply to every tool alike): a footnote marker printed as a superscript after a row or column label is written after one space ('Obligations (5)', 'Fiscal Year 2024 (1)'); a dollar sign printed at the left edge of an amount cell (accounting format) is written before the amount with one space ('$ 2,033', '$ (245)'), so the table rule keeps the comma there; multi-line header cells are joined with single spaces; the zero dashes of Appendix C and the hyphens of 'Full-Year' and the month headers ('October-24') are written as ASCII hyphen-minus (assumed); a merged or blank position is an empty string (not scored). Arithmetic checked while typing (a throwaway script): Appendix A: every subtotal and balance in all three columns and every Total = Major Declarations + Base, exactly; Appendix B block: Major Declarations + Base = Total Available in all 13 columns, and Total Available = beginning balance plus the rows between them in 10 of 12 months (October-24 sums to 22,586 and January-25 to 30,317 against 22,576 and 30,327 printed; both re-read at 400 dpi and kept as printed; the Total column, 9,576 / 8,413 / 1,163, equals the Appendix A balance); Appendix C: every row (cumulative + fiscal-year total = total through FY 2025, quarters sum to the fiscal-year total) and every column total, exactly; Appendix D: each Total column, exactly, and the obligations of Sandy, Harvey, Irma, Maria and COVID-19 equal Appendix C's totals through fiscal year 2025. must_contain: 52 items, each printed once in the kept pages and none crossing a page break: the cover line, addressee and signature lines, three contents entries whose appendices are not kept or are titled differently in the body, the statute text of pages 4-5 as phrases between labels, the background paragraphs and list items, the Appendix A title and notes, four row labels of Appendix B and the Appendix C title and note. Phrases avoid every hyphen ('Full-Year', 'Public Law 119-4', 'end-of-fiscal-year', 'prior-year', 'non-catastrophic'), the curly, straight and backtick quotation marks, the en dash in 'Agency-Disaster Relief Fund' and the apostrophe of 'Agency's'. The notes 'Actual transfer to Operations and Support for the Deployment Tracking System.', 'See Appendix G for additional information regarding the BRIC program balance.' and the 2021 act are printed on both pages 7 and 9 and are not used. ordered: 8 anchors on pages 1, 3, 4, 5, 6, 7, 9 and 14. Noise: none; page numbers are too short and the repeated appendix running heads and table titles are part of the table pages. Chart titles, axis labels and legend text of page 15 are not checked (chart art). Absent: no line-end hyphenation, so absent is empty. BLIND PROTOCOL: chosen and answered before any converter or text extractor was run on the file; every check was typed from the rendered pages (pdftoppm at 40-400 dpi, read as images), and the PDF text layer was never read. Consequences: (1) text that may be an image (logos, seals, signatures, photographs, chart art) is not checked; (2) invisible text-layer content cannot be known, so noise lists only VISIBLE repeated page furniture; (3) where the exact code point of a glyph cannot be seen (curly vs straight quotes, dash and minus variants, line-end hyphens), must_contain phrases and ordered anchors avoid it; headings, table cells and absent entries that cannot avoid it are noted per file."
+}

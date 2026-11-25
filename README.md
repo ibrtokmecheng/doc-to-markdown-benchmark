@@ -15,11 +15,12 @@ held-out set was chosen and answered by a reviewer who never ran either tool, an
 | `holdout2/` | Second held-out set: 4 public U.S. government PDFs and 6 generated files, chosen and answered blind the same way (`holdout2/SELECTION.md`). Development data since the PDF reader changed. |
 | `holdout3/` | Third held-out set: 3 public PDFs (Federal Reserve, DOE, FDIC) and 6 generated files, chosen and answered blind the same way (`holdout3/SELECTION.md`; no document met the rule for a fourth, two-column kind). Development data since the list and side-heading change. |
 | `holdout4/` | Fourth held-out set: 3 public PDFs (FHFA, FAA, NCUA) and 6 generated files, chosen and answered blind by a reviewer who did not read earlier results (`holdout4/SELECTION.md`). Development data since the decimal-numbering change. |
-| `holdout5/` | Fifth held-out set: 3 public PDFs (Bureau of Reclamation, NASA, CFTC) and 6 generated files, chosen and answered blind the same way (`holdout5/SELECTION.md`; the Reclamation series was added by a recorded amendment, and again no document met the rule for the two-column kind). |
+| `holdout5/` | Fifth held-out set: 3 public PDFs (Bureau of Reclamation, NASA, CFTC) and 6 generated files, chosen and answered blind the same way (`holdout5/SELECTION.md`; the Reclamation series was added by a recorded amendment, and again no document met the rule for the two-column kind). Development data since the sixth run. |
+| `holdout6/` | Sixth held-out set: 2 public PDFs (Defense Health Agency MSMR, FEMA Disaster Relief Fund report) and 6 generated files, chosen and answered blind the same way (`holdout6/SELECTION.md`). No statistical release and no directive met the rule for October 2025, so the set has 8 files. |
 | `score.mjs` | The scorer (version 1.2.0). Rules and the reasons for every change are in `SCORING.md`. Tests: `node --test score.test.mjs`. |
 | `run_markitdown.py` | Runs MarkItDown on a folder (`MarkItDown(enable_plugins=False)`, no LLM, no Azure Document Intelligence). |
 | `run-packforai.mjs` | Runs PackForAI's production conversion code on a folder (free plan, OCR off, network blocked). The engine itself is not part of this kit; see "Reproducing the PackForAI side". |
-| `generate_corpus.py`, `holdout/generate_holdout.py`, `holdout2/generate_holdout2.py`, `holdout3/generate_holdout3.py`, `holdout4/generate_holdout4.py`, `holdout5/generate_holdout5.py` | Deterministic generators for the generated files and their answers. |
+| `generate_corpus.py`, `holdout/generate_holdout.py`, `holdout2/generate_holdout2.py`, `holdout3/generate_holdout3.py`, `holdout4/generate_holdout4.py`, `holdout5/generate_holdout5.py`, `holdout6/generate_holdout6.py` | Deterministic generators for the generated files and their answers. |
 | `results/run1-2026-11-24/` | First run, before PackForAI's fixes (scored again with 1.2.0: `results-scorer-1.2.0.json`, `summary-scorer-1.2.0.txt`). `verification.json` records the checks of surprising results. |
 | `results/run2-2026-11-24/` | First set again, after the fixes. Not a fair test: PackForAI was tuned on these files. |
 | `results/holdout-2026-11-24/` | First held-out set, each tool run once. `VERIFICATION.md` explains the protocol and the surprising results. |
@@ -27,8 +28,24 @@ held-out set was chosen and answered by a reviewer who never ran either tool, an
 | `results/holdout3-2026-11-24/` | Third held-out set, each tool run once, with its own `VERIFICATION.md`. |
 | `results/holdout4-2026-11-24/` | Fourth held-out set, each tool run once, with its own `VERIFICATION.md`. |
 | `results/holdout5-2026-11-24/` | Fifth held-out set, each tool run once, with its own `VERIFICATION.md`. |
+| `results/holdout6-2026-11-25/` | Sixth held-out set, each tool run once, with its own `VERIFICATION.md`. |
 
 ## Results
+
+Sixth held-out set (8 documents), scorer 1.2.0:
+
+```
+candidate             text  order  heads tblRec   spur  noise absent    tokens
+packforai.document   0.992  1.000  0.967  0.856   5462     12      0     51139
+packforai.compact    0.983  1.000  0.967  0.583   5460     12      0     50394
+markitdown           0.876  0.813  0.400  0.439   1679     13     14     50836
+```
+
+Seven of the FEMA report's pages are stored upright and shown turned; PackForAI now rebuilds their tables (the
+engine frozen for the fifth set recovered 0.21 of FEMA's table cells, this one 0.49), and most of its unmatched
+cells are rows of those tables that the answer file transcribes only in part. MarkItDown reads the three-column
+MSMR report across its columns. Both tools keep a running header that alternates between left and right pages on
+every page. See `results/holdout6-2026-11-25/VERIFICATION.md`.
 
 Fifth held-out set (9 documents), scorer 1.2.0:
 
@@ -125,15 +142,17 @@ MarkItDown outputs. The outputs in `results/holdout-2026-11-24/` were produced b
 `results/holdout2-2026-11-24/` by engine commit `fc6c6ed`, those in `results/holdout3-2026-11-24/` by engine commit `65dfcb0`
 (current PDF.js, with PDF.js 1.10 supplying the spacing of doubtful lines), those in `results/holdout4-2026-11-24/` by
 engine commit `e7e91a7` (lists with a hanging indent and side headings read as text), those in
-`results/holdout5-2026-11-24/` by engine commit `5284170` (decimal-numbered paragraphs and numbered titles).
+`results/holdout5-2026-11-24/` by engine commit `5284170` (decimal-numbered paragraphs and numbered titles), those in
+`results/holdout6-2026-11-25/` by engine commit `88d7fc4` (turned pages, appendix numbers, wrapped table cells,
+running headers that change with the section, table-of-contents entries without page numbers).
 
 ## Sources and licences
 
 - Public PDFs are works of the U.S. federal government (BEA, CDC, IRS, NIST, Census Bureau, Federal Register,
   U.S. Senate, Department of Labor, FDA, Treasury, USGS, Federal Reserve Board, Department of Energy, FDIC, FHFA, FAA, NCUA,
-  Bureau of Reclamation, NASA, CFTC), in the
+  Bureau of Reclamation, NASA, CFTC, Defense Health Agency, FEMA), in the
   public domain in the United States. Source URLs
-  are in each answer file and in the `SELECTION.md` of each held-out set. Two PDFs in each held-out set are page
+  are in each answer file and in the `SELECTION.md` of each held-out set. Some PDFs in each held-out set are page
   ranges cut from the published files.
 - Generated documents, answer files and outputs: CC0 1.0. Scripts: MIT.
 - MarkItDown is Microsoft's open-source project (MIT). Its outputs are included as produced.

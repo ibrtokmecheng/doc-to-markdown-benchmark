@@ -6,6 +6,24 @@ turn it into Markdown for language models. Write-up: https://packforai.com/blog/
 We make PackForAI. To keep the comparison checkable, the answer files were written before either tool ran, each
 held-out set was chosen and answered by a reviewer who never ran either tool, and every raw output is included.
 
+## Key findings
+
+Six held-out sets, 54 documents (public U.S. government PDFs and generated Office, CSV, JSON and PDF files), each
+blind when it was first run and each tool run on it once (PackForAI was worked on after each run). MarkItDown 0.1.9 with default settings; PackForAI with OCR off; scorer 1.2.0.
+
+- PackForAI found 68 to 99% of real headings in each set; MarkItDown found 29 to 40%.
+- PackForAI recovered 64 to 91% of checked table cells in each set; MarkItDown recovered 43 to 62%.
+- PDFs (24 files; headings counted on 23, table cells on 19): headings 0.82 against 0.00 (MarkItDown recovered none
+  of the real headings in any PDF), table cells 0.62 against 0.16, text kept 0.92 against 0.86.
+- Excel (6 workbooks): table cells 0.92 against 0.55. CSV (6 files): 1.00 against 0.67.
+- Word and PowerPoint (6 files each): the two tools were level.
+- Text kept was close: 0.90 to 1.00 per set for PackForAI, 0.85 to 0.98 for MarkItDown; MarkItDown was ahead on one
+  set (0.92 against 0.90).
+- Output size was not consistently smaller: PackForAI's full Markdown had 6 to 9% fewer tokens than MarkItDown's on
+  three sets, about the same on one, and 7 to 16% more on two sets with large statistical tables (o200k tokenizer).
+- On table-heavy reports PackForAI produced many more table cells that match no answer cell (6,909 in the third set).
+- Not measured here: LlamaParse, Docling, Marker, and OCR for either tool.
+
 ## What is here
 
 | Path | Contents |

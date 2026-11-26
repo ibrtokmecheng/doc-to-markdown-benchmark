@@ -2,6 +2,7 @@
 
 A small, reproducible benchmark of how well two converters keep a document's content and structure when they
 turn it into Markdown for language models. Write-up: https://packforai.com/blog/packforai-vs-markitdown-benchmark
+Also on Hugging Face: https://huggingface.co/datasets/packforai/doc-to-markdown-benchmark
 
 We make PackForAI. To keep the comparison checkable, the answer files were written before either tool ran, each
 held-out set was chosen and answered by a reviewer who never ran either tool, and every raw output is included.
